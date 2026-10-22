@@ -1,0 +1,6 @@
+{
+  "name": "Atelier Vortex - Enterprise Digital & Apparel Design",
+  "description": "Premium enterprise digital studio specializing in high-performance web development, brand identity, vector typography, and bespoke merchandise apparel systems.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
