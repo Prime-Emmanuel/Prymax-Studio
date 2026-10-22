@@ -53,3 +53,18 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #3F3F46;
 }
+
+/* Continuous glowing color flow animation for navbar border */
+@keyframes border-flow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-border-flow {
+  animation: border-flow 5s linear infinite;
+}
+

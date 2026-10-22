@@ -1,262 +1,211 @@
-import { ApparelItem, ServiceItem, ClientPartner, ScopeOption } from '../types';
-
-export const APPAREL_ITEMS: ApparelItem[] = [
-  {
-    id: 'px-tee-01',
-    code: 'PX-01',
-    title: 'T-Shirt Oversize PRYMAX',
-    category: 'T-Shirt',
-    image: '/src/assets/images/prymax_tee_showcase_1792593146600.jpg',
-    tagline: 'Coton lourd 310g très résistant avec logo P argenté et coupe moderne',
-    description: 'Un t-shirt haut de gamme conçu pour durer des années sans rétrécir ni déteindre. Flocage et broderie ultra-nets de notre logo P métallique sur la poitrine, avec étiquettes soignées.',
-    material: '100% Coton Peigné Épais (Qualité Supérieure)',
-    weightGsm: 310,
-    printTechnique: 'Sérigraphie Haute Définition + Finition Métallique',
-    colorways: [
-      { name: 'Noir Profond', hex: '#0D0E11' },
-      { name: 'Blanc Cassé', hex: '#E6E4DD' },
-      { name: 'Gris Béton', hex: '#484B52' }
-    ],
-    specs: [
-      { label: 'Grammage', value: '310 g/m² (Coton très épais)' },
-      { label: 'Coupe', value: 'Oversize confortable (épaules tombantes)' },
-      { label: 'Col', value: 'Col rond renforcé qui ne se détend pas' },
-      { label: 'Finition', value: 'Étiquette tissée PRYMAX sur le bas' }
-    ],
-    simpleDescription: 'Idéal pour le personnel de votre entreprise, vos événements ou lancer votre propre marque de vêtements.'
-  },
-  {
-    id: 'px-pullover-02',
-    code: 'PX-02',
-    title: 'Pull Crewneck PRYMAX',
-    category: 'Pull & Sweat',
-    image: '/src/assets/images/prymax_pullover_showcase_1792593162349.jpg',
-    tagline: 'Sweat sans capuche en molleton épais avec broderie soignée sur la poitrine',
-    description: 'Pull chaud et élégant en molleton 460g. Le logo métallique est brodé avec précision au fil résistant, pour un rendu classe qui passe aussi bien au bureau qu’en sortie.',
-    material: '100% Molleton Français Organique Doux',
-    weightGsm: 460,
-    printTechnique: 'Broderie en relief argentée haute précision',
-    colorways: [
-      { name: 'Gris Anthracite', hex: '#2B2D31' },
-      { name: 'Sable Clair', hex: '#D2CBBF' },
-      { name: 'Noir Nuit', hex: '#121316' }
-    ],
-    specs: [
-      { label: 'Tissu', value: 'Molleton gratté doux à l’intérieur' },
-      { label: 'Coutures', value: 'Doubles coutures renforcées' },
-      { label: 'Bords', value: 'Poignets et bas élastiques solides' },
-      { label: 'Toucher', value: 'Lavage adoucissant effet velours' }
-    ],
-    simpleDescription: 'Parfait pour donner une image professionnelle et moderne à vos équipes.'
-  },
-  {
-    id: 'px-hoodie-03',
-    code: 'PX-03',
-    title: 'Sweat à Capuche Épais (Hoodie)',
-    category: 'Hoodie',
-    image: '/src/assets/images/apparel_graphic_hoodie_1792588769879.jpg',
-    tagline: 'Sweat à capuche double épaisseur avec poche cachée et design géométrique',
-    description: 'Capuche doublée qui tient bien droite sans cordons gênants. Tissu 500g ultra-confortable avec impressions graphiques précises qui résistent aux lavages intensifs.',
-    material: '80% Coton / 20% Polyester Anti-Rétrécissement',
-    weightGsm: 500,
-    printTechnique: 'Impression textile thermique + Broderie ton sur ton',
-    colorways: [
-      { name: 'Craie Claire', hex: '#F0EFEA' },
-      { name: 'Onyx Fumé', hex: '#1A1B1E' },
-      { name: 'Gris Titane', hex: '#4B4F56' }
-    ],
-    specs: [
-      { label: 'Poids', value: '500 g/m² (Très chaud et robuste)' },
-      { label: 'Capuche', value: 'Double couche sans cordon traînant' },
-      { label: 'Poche', value: 'Poche kangourou intégrée' },
-      { label: 'Manches', value: 'Bords-côtes longs et ajustés' }
-    ],
-    simpleDescription: 'Le classique streetwear indispensable, personnalisé aux couleurs de votre projet.'
-  },
-  {
-    id: 'px-identity-04',
-    code: 'PX-04',
-    title: 'Packaging & Cartes de Visite de Luxe',
-    category: 'Packaging & Logo',
-    image: '/src/assets/images/branding_identity_mockup_1792588771026.jpg',
-    tagline: 'Boîtes rigides aimantées, cartes de visite gaufrées et guide complet de votre marque',
-    description: 'Tout ce qu’il faut pour que votre marque fasse une première impression inoubliable : cartes de visite texturées, dorure or ou argent, et emballages cadeaux rigides.',
-    material: 'Papier Coton Épais 600g & Carton Rigide Recyclable',
-    weightGsm: 600,
-    printTechnique: 'Gaufrage en creux + Dorure à chaud brillante',
-    colorways: [
-      { name: 'Noir Mat & Or', hex: '#161719' },
-      { name: 'Ivoire Naturel', hex: '#EBE5D8' },
-      { name: 'Gris Ardoise', hex: '#3C4048' }
-    ],
-    specs: [
-      { label: 'Support', value: 'Carton rigide 1800g recouvert de papier mat' },
-      { label: 'Cartes', value: 'Papier coton épais 600g au toucher soyeux' },
-      { label: 'Fermeture', value: 'Aimant invisible sécurisé' },
-      { label: 'Livrables', value: 'Fichiers vectoriels prêts pour impression' }
-    ],
-    simpleDescription: 'Pour présenter vos devis, produits ou cartes avec un standing haut de gamme.'
-  }
-];
+import { ServiceItem, ClientPartner, PricingModule } from '../types';
 
 export const SERVICES: ServiceItem[] = [
   {
-    id: 'srv-web',
+    id: 'srv-branding',
     number: '01',
-    title: 'Création de Sites Web & Applications',
-    tagline: 'Des sites ultra-rapides, magnifiques sur téléphone et ordinateur, qui transforment vos visiteurs en clients.',
-    summary: 'Nous créons des sites web sur-mesure (sites vitrines d’entreprise, boutiques e-commerce, plateformes de gestion). Vos pages se chargent en moins d’une seconde et s’affichent parfaitement sur tous les smartphones.',
+    title: 'Branding & Identité Visuelle',
+    tagline: 'Création de logos originaux, typographies sur-mesure et univers de marque complets.',
+    summary: 'Le branding est le cœur battant de votre business. Nous concevons une identité visuelle forte et intemporelle : logo principal, déclinaisons pour réseaux sociaux, charte graphique et papeterie professionnelle.',
     deliverables: [
-      'Site vitrine moderne adapté à 100% sur mobile',
-      'Boutique en ligne avec paiement sécurisé (Mobile Money, Carte)',
-      'Formulaire de contact et bouton WhatsApp direct',
-      'Vitesse de chargement ultra-rapide (pas d’attente)',
-      'Nom de domaine et adresse email professionnelle (.com / .ci / .sn)'
-    ],
-    technologies: ['React', 'Next.js', 'WordPress / Headless', 'Mobile First', 'WhatsApp API'],
-    idealFor: 'Entreprises, commerces et créateurs qui veulent un site professionnel qui inspire confiance et vend.'
-  },
-  {
-    id: 'srv-brand',
-    number: '02',
-    title: 'Design Graphique & Création de Logo',
-    tagline: 'Un logo unique et une identité visuelle marquante qui donne immédiatement une image sérieuse à votre entreprise.',
-    summary: 'Votre logo est la première chose que vos clients voient. Nous dessinons des logos modernes, mémorables et faciles à utiliser partout : sur vos affiches, vos réseaux sociaux, vos factures et vos enseignes.',
-    deliverables: [
-      'Création de logo original (fourni en haute résolution et vectoriel)',
-      'Déclinaisons pour profil WhatsApp, Instagram, Facebook et LinkedIn',
-      'Charte graphique (choix des couleurs officielles et des polices)',
+      'Logo original haute résolution (vectoriel HD sans perte de qualité)',
+      'Déclinaisons complètes (icônes profil, formats horizontaux et verticaux)',
+      'Palette de couleurs officielles et choix typographiques harmonieux',
       'Design de cartes de visite, papier en-tête et devis/factures',
-      'Fichiers sources complets (vous êtes 100% propriétaire)'
+      'Fichiers sources complets avec pleine cession de droits'
     ],
-    technologies: ['Adobe Illustrator', 'Photoshop', 'Figma', 'Vectoriel Haute Définition'],
-    idealFor: 'Nouvelles entreprises ou sociétés qui souhaitent moderniser leur image et se démarquer de la concurrence.'
+    technologies: ['Adobe Illustrator', 'Photoshop', 'Figma', 'Vectoriel Print & Digital'],
+    idealFor: 'Nouvelles entreprises ou marques souhaitant inspirer confiance immédiate et s’imposer sur leur marché.'
   },
   {
-    id: 'srv-apparel',
-    number: '03',
-    title: 'Conception de Vêtements & T-shirts / Pulls',
-    tagline: 'Design graphique et fabrication de t-shirts, polos, sweats et pulls personnalisés de haute qualité.',
-    summary: 'Ne faites plus de t-shirts basiques qui s’abîment au premier lavage. Nous réalisons le design graphique de vos vêtements et vous accompagnons sur le choix des meilleurs tissus, coupes et techniques d’impression.',
+    id: 'srv-web',
+    number: '02',
+    title: 'Développement Web & Sites Sur-Mesure',
+    tagline: 'Sites One-Page, vitrines professionnelles et plateformes sur-mesure rapides et 100% mobile-friendly.',
+    summary: 'Nous concevons des sites internet modernes et percutants qui captent l’attention de vos visiteurs et les incitent à vous contacter immédiatement via WhatsApp ou formulaire.',
     deliverables: [
-      'Design graphique original pour l’avant, le dos et les manches',
-      'Fiches techniques prêtes pour l’atelier d’impression ou de confection',
-      'Choix des tissus (coton lourd 250g-310g, molleton 400g+)',
-      'Conseils sur la technique (flocage, sérigraphie, broderie en relief)',
-      'Design de packaging et étiquettes personnalisées'
+      'Structure 100% adaptée et fluide sur tous les smartphones et ordinateurs',
+      'Bouton de contact WhatsApp direct et formulaires optimisés',
+      'Vitesse de chargement ultra-rapide (Core Web Vitals optimisés)',
+      'Nom de domaine sécurisé (HTTPS) et configuration emails professionnels',
+      'Mise en ligne soignée et assistance après livraison'
     ],
-    technologies: ['Design Textile', 'Mockups 3D Réalistes', 'Fiches Usine', 'Sérigraphie & Broderie'],
-    idealFor: 'Marques de streetwear, entreprises qui équipent leur personnel, ou organisateurs d’événements.'
+    technologies: ['React', 'Next.js', 'Tailwind CSS', 'Mobile First', 'WhatsApp Integration'],
+    idealFor: 'Professionnels, cabinets, PME et créateurs voulant une présence web prestigieuse et efficace.'
+  },
+  {
+    id: 'srv-ecom',
+    number: '03',
+    title: 'E-Commerce & Boutiques en Ligne',
+    tagline: 'Vendez vos produits 24h/24 avec paiement sécurisé (Mobile Money, Carte bancaire).',
+    summary: 'Une boutique en ligne élégante, simple à utiliser pour vos clients et facile à gérer pour vous. Gestion des stocks, notifications automatiques et parcours d’achat sans friction.',
+    deliverables: [
+      'Catalogue de produits avec photos en haute qualité, filtres et variantes',
+      'Paiement en ligne sécurisé (Orange Money, MTN MoMo, Wave, Cartes)',
+      'Panier d’achat intuitif et processus de commande rapide',
+      'Gestion des commandes et alertes instantanées',
+      'Formation claire pour ajouter vos futurs articles en toute autonomie'
+    ],
+    technologies: ['E-Commerce Engine', 'Stripe / Mobile Money Gateways', 'Stock Manager'],
+    idealFor: 'Commerçants et marques souhaitant automatiser leurs ventes et toucher des clients partout dans le monde.'
+  },
+  {
+    id: 'srv-textile',
+    number: '04',
+    title: 'Design Graphique & Mockups Textiles',
+    tagline: 'Conception visuelle de t-shirts, pulls et sweats présentés sur des mockups ultra-réalistes.',
+    summary: 'Nous réalisons le design graphique de vos vêtements avec une esthétique moderne. Vous recevez les visuels prêts pour impression sur mockups haute définition. Vous imprimez chez votre imprimeur habituel, ou nous pouvons vous orienter vers un tiers à vos frais.',
+    deliverables: [
+      'Création graphique originale pour l’avant, le dos et les manches',
+      'Présentation photo sur mockups 3D réalistes pour vos réseaux et précommandes',
+      'Fichiers d’impression haute définition prêts pour atelier de sérigraphie ou flocage',
+      'Conseils techniques sur le choix des tissus et techniques recommandées'
+    ],
+    technologies: ['Design Graphique', 'Mockups 3D Réalistes', 'Fichiers HD Print'],
+    idealFor: 'Marques de vêtements, entreprises équipant leur personnel, associations et événements.'
   },
   {
     id: 'srv-seo',
-    number: '04',
-    title: 'Solutions Digitales & Référencement Google',
-    tagline: 'Faites apparaître votre entreprise en tête des recherches Google et gagnez de nouveaux clients chaque semaine.',
-    summary: 'Un beau site ne sert à rien si personne ne le trouve. Nous configurons votre présence Google (Google Maps, Google My Business, mots-clés de votre ville) pour que les clients qui recherchent vos services tombent directement sur vous.',
+    number: '05',
+    title: 'Référencement & Visibilité Google (SEO)',
+    tagline: 'Positionnez votre entreprise en tête des recherches locales et attirez des clients qualifiés.',
+    summary: 'Soyez visible là où vos clients cherchent. Optimisation de votre présence sur Google Maps et Google My Business pour générer des appels et messages réguliers.',
     deliverables: [
-      'Configuration et optimisation de votre fiche Google My Business',
-      'Référencement local pour sortir en 1er sur les recherches de votre ville',
-      'Connexion avec WhatsApp Business et vos réseaux sociaux',
-      'Statistiques claires : voyez combien de personnes vous contactent',
-      'Formation simple pour mettre à jour vos contenus en toute autonomie'
+      'Création et optimisation complète de votre fiche Google My Business',
+      'Positionnement sur Google Maps pour les recherches locales',
+      'Structure sémantique et mots-clés stratégiques sur votre activité',
+      'Conseils pour collecter des avis clients positifs'
     ],
-    technologies: ['Google My Business', 'SEO Local', 'Google Maps', 'Analytics'],
-    idealFor: 'Toutes les entreprises locales qui veulent recevoir des appels et des messages WhatsApp réguliers.'
+    technologies: ['Google My Business', 'SEO Local', 'Google Maps'],
+    idealFor: 'Entreprises locales voulant capter les clients de leur ville en recherche active de services.'
   }
 ];
 
-export const INITIAL_CLIENTS: ClientPartner[] = [
+export const CLIENT_PARTNERS: ClientPartner[] = [
   {
-    id: 'cl-01',
-    name: 'Votre Entreprise Partenaire #1',
-    sector: 'Commerce / Distribution',
-    serviceProvided: 'Site Web & Identité Visuelle',
-    status: 'Partenaire',
-    highlight: 'Remplaçable facilement par vos vraies références'
+    id: 'cl-dg',
+    name: 'DG — Dieu Est Grand',
+    sector: 'Mode & Streetwear Textile',
+    serviceProvided: 'Identité Visuelle, Logo & Design Capsule Vêtements',
+    highlight: 'Planche de marque complète, logo emblème et mockups t-shirts/hoodies'
   },
   {
-    id: 'cl-02',
-    name: 'Votre Entreprise Partenaire #2',
-    sector: 'Mode & Habillement',
-    serviceProvided: 'Collection T-shirts & Merchandising',
-    status: 'Projet Livré',
-    highlight: 'Structure prête pour intégrer vos vrais clients'
-  },
-  {
-    id: 'cl-03',
-    name: 'Votre Entreprise Partenaire #3',
-    sector: 'Services & B2B',
-    serviceProvided: 'Logo, Cartes de Visite & Digital',
-    status: 'En Cours',
-    highlight: 'Ajoutez vos clients directement ci-dessous'
+    id: 'cl-corporate',
+    name: 'Partenaires & Entreprises Clientes',
+    sector: 'B2B & Commerce',
+    serviceProvided: 'Sites Web, Identités & Solutions Digitales',
+    highlight: 'Accompagnement continu sur mesure et projets livrés'
   }
 ];
 
-export const SCOPE_MODULES: ScopeOption[] = [
+export const PRICING_MODULES: PricingModule[] = [
   {
-    id: 'mod-logo',
-    name: 'Création de Logo & Identité Visuelle',
-    category: 'Design Graphique',
-    baseCostFcfa: 100000,
-    timeWeeks: 1,
+    id: 'price-logo',
+    name: 'Création de Logo',
+    category: 'Branding & Identité',
+    priceDisplay: '10 000 FCFA',
+    minPriceFcfa: 10000,
+    duration: '24 heures',
+    description: 'Logo original pour démarrer votre activité avec une image soignée.',
     deliverables: [
-      'Logo original en plusieurs formats',
-      'Formats profil réseaux sociaux & WhatsApp',
-      'Design carte de visite & papier en-tête',
-      'Fichiers sources HD imprimables'
+      'Logo original livré en haute définition',
+      'Format profil réseaux sociaux & WhatsApp',
+      'Fichiers avec fond transparent (PNG) et fond blanc/noir',
+      'Livraison express en 24h'
     ]
   },
   {
-    id: 'mod-web',
-    name: 'Site Web Professionnel (Mobile & PC)',
+    id: 'price-onepage',
+    name: 'Site Web One-Page (Single Page)',
     category: 'Développement Web',
-    baseCostFcfa: 350000,
-    timeWeeks: 3,
+    priceDisplay: '90 000 à 120 000 FCFA',
+    minPriceFcfa: 90000,
+    maxPriceFcfa: 120000,
+    duration: '1 à 3 jours',
+    description: 'Une page unique élégante et ultra-rapide qui présente l’essentiel de votre offre.',
     deliverables: [
-      'Design moderne 100% adapté smartphone',
-      'Bouton WhatsApp direct & formulaire',
-      'Présentation claire de vos services',
-      'Nom de domaine et emails pro inclus'
+      'Site one-page moderne 100% adapté aux smartphones',
+      'Section Présentation, Services, Témoignages & Contact',
+      'Bouton d’appel direct et lien WhatsApp',
+      'Nom de domaine et mise en ligne inclus'
     ]
   },
   {
-    id: 'mod-ecom',
-    name: 'Boutique en Ligne (E-Commerce)',
+    id: 'price-pro',
+    name: 'Site Web Professionnel (Vitrine)',
+    category: 'Développement Web',
+    priceDisplay: '150 000 à 350 000 FCFA',
+    minPriceFcfa: 150000,
+    maxPriceFcfa: 350000,
+    duration: '1 à 4 jours',
+    description: 'Site complet multi-pages pour valoriser votre entreprise et rassurer vos clients.',
+    deliverables: [
+      'Plusieurs pages dédiées (Accueil, Services détaillés, À propos, Contact)',
+      'Design sur-mesure aligné sur votre charte graphique',
+      'Formulaire de demande de devis intégré',
+      'Optimisation pour chargement instantané sur mobile'
+    ]
+  },
+  {
+    id: 'price-ecom',
+    name: 'Site E-Commerce (Boutique en Ligne)',
     category: 'Vente en Ligne',
-    baseCostFcfa: 550000,
-    timeWeeks: 4,
+    priceDisplay: '375 000 à 1 000 000 FCFA',
+    minPriceFcfa: 375000,
+    maxPriceFcfa: 100000,
+    duration: '1 à 7 jours',
+    description: 'Boutique en ligne complète avec panier d’achat et passerelles de paiement.',
     deliverables: [
-      'Catalogue de produits avec photos & prix',
-      'Paiement en ligne sécurisé (Mobile Money & Carte)',
-      'Gestion des commandes et notifications client',
-      'Formation pour ajouter vos produits'
+      'Catalogue de produits avec gestion des stocks',
+      'Intégration paiements (Mobile Money, Carte bancaire)',
+      'Espace gestionnaire simple pour gérer vos commandes',
+      'Formation d’utilisation incluse'
     ]
   },
   {
-    id: 'mod-apparel',
-    name: 'Ligne de Vêtements (T-Shirts / Pulls)',
-    category: 'Merchandising & Textile',
-    baseCostFcfa: 200000,
-    timeWeeks: 2,
+    id: 'price-custom',
+    name: 'Site Web Sur-Mesure (Personnalisé)',
+    category: 'Sur-Mesure',
+    priceDisplay: 'À partir de 500 000 FCFA',
+    minPriceFcfa: 500000,
+    duration: 'Délai à déterminer selon cahier des charges',
+    description: 'Plateforme web avancée avec fonctionnalités personnalisées selon vos besoins précis.',
     deliverables: [
-      'Design graphique des visuels (devant / dos)',
-      'Conseil sur le grammage tissu (250g à 500g)',
-      'Fiches de production pour l’imprimeur',
-      'Visualisations 3D réalistes avant fabrication'
+      'Architecture technique sur-mesure (portail, application web)',
+      'Fonctionnalités avancées sur spécifications',
+      'Accompagnement et suivi dédié de bout en bout'
     ]
   },
   {
-    id: 'mod-seo',
-    name: 'Visibilité Google & Référencement Local',
-    category: 'Solutions Digitales',
-    baseCostFcfa: 150000,
-    timeWeeks: 1,
+    id: 'price-textile',
+    name: 'Design Visuel Textile (T-Shirts, Pulls sur Mockups)',
+    category: 'Design Textile & Mockups',
+    priceDisplay: '10 000 à 50 000 FCFA',
+    minPriceFcfa: 10000,
+    maxPriceFcfa: 50000,
+    duration: '48 heures',
+    description: 'Design visuel et présentation sur mockups. Le client peut imprimer où il le souhaite, ou nous pouvons confier l’impression à un tiers aux frais du client.',
     deliverables: [
-      'Fiche Google My Business vérifiée et optimisée',
-      'Apparition sur Google Maps',
-      'Mots-clés ciblés sur votre ville',
-      'Rapport simple des appels et visites'
+      'Design visuel avant, arrière et/ou manches selon vos besoins',
+      'Rendus 3D ultra-réalistes sur mockups pour votre communication',
+      'Fichiers sources HD prêts pour impression textile',
+      'Orientation vers nos ateliers partenaires au besoin (frais d’impression à la charge du client)'
+    ],
+    note: 'Important : Nous réalisons uniquement le design visuel et la présentation sur mockups. L’impression physique peut être réalisée par vos soins ou confiée à un tiers à vos frais.'
+  },
+  {
+    id: 'price-seo',
+    name: 'Visibilité & Référencement Google (SEO)',
+    category: 'Marketing & Visibilité',
+    priceDisplay: '50 000 à 300 000 FCFA',
+    minPriceFcfa: 50000,
+    maxPriceFcfa: 300000,
+    duration: 'Variable (dépendant des algorithmes Google et de l’activité)',
+    description: 'Positionnement de votre fiche d’entreprise et optimisation des mots-clés pour capter des clients.',
+    deliverables: [
+      'Optimisation de fiche Google My Business et présence Google Maps',
+      'Ciblage des recherches locales dans votre secteur',
+      'Conseils stratégiques pour maximiser les prises de contact'
     ]
   }
 ];

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { SCOPE_MODULES } from '../data/agencyData';
-import { Check, Calculator, ArrowRight, ShieldCheck, Smartphone } from 'lucide-react';
+import { PRICING_MODULES } from '../data/agencyData';
+import { PricingModule } from '../types';
+import { Check, Clock, AlertCircle, FileText, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
+import { CustomQuoteModal } from './CustomQuoteModal';
 
 interface ScopeEstimatorProps {
   onPreloadBrief: (selectedModules: string[], totalFcfa: number, tier: string) => void;
 }
 
 export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }) => {
-  const [selectedIds, setSelectedIds] = useState<string[]>(['mod-logo', 'mod-web', 'mod-apparel']);
-  const [tier, setTier] = useState<'standard' | 'complete' | 'premium'>('complete');
-  const [timeline, setTimeline] = useState<'normal' | 'express'>('normal');
+  const [selectedIds, setSelectedIds] = useState<string[]>(['price-logo', 'price-pro']);
+  const [isCustomQuoteOpen, setIsCustomQuoteOpen] = useState(false);
 
   const toggleModule = (id: string) => {
     setSelectedIds(prev => 
@@ -19,223 +20,194 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
     );
   };
 
-  // Coefficients simples
-  const tierMultiplier = tier === 'standard' ? 1.0 : tier === 'complete' ? 1.3 : 1.7;
-  const speedMultiplier = timeline === 'express' ? 1.2 : 1.0;
-
-  const rawBaseSum = SCOPE_MODULES
-    .filter(m => selectedIds.includes(m.id))
-    .reduce((acc, m) => acc + m.baseCostFcfa, 0);
-
-  const estimatedTotalFcfa = Math.round((rawBaseSum * tierMultiplier * speedMultiplier) / 5000) * 5000;
-
-  const totalWeeks = Math.max(
-    ...SCOPE_MODULES.filter(m => selectedIds.includes(m.id)).map(m => m.timeWeeks),
-    2
-  ) + (tier === 'premium' ? 2 : tier === 'complete' ? 1 : 0);
-
-  const adjustedWeeks = timeline === 'express' ? Math.max(Math.round(totalWeeks * 0.7), 1) : totalWeeks;
+  const selectedModules = PRICING_MODULES.filter(m => selectedIds.includes(m.id));
+  const estimatedMinTotal = selectedModules.reduce((acc, m) => acc + m.minPriceFcfa, 0);
 
   return (
-    <section id="devis" className="py-16 sm:py-24 bg-[#090A0D] border-t border-white/[0.08] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
+    <section id="devis" className="py-20 sm:py-28 bg-[#090A0D] border-t border-white/[0.08] relative scroll-mt-20">
+      
+      {/* Halo subtil */}
+      <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#1E5EFF]/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
         
-        {/* En-tête simple et transparent */}
-        <div className="max-w-3xl mb-12 sm:mb-14">
-          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#E5B54F] mb-2.5">
-            <span>Transparence Totale</span>
+        {/* En-tête de la section */}
+        <div className="max-w-3xl mb-14">
+          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#1E5EFF] mb-2.5">
+            <span>Délais d'Exécution &amp; Devis</span>
             <span aria-hidden="true" className="text-zinc-600">·</span>
-            <span>Tarifs en FCFA</span>
+            <span>PRYMAX STUDIO</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight text-balance">
-            Estimez le prix de votre projet en FCFA
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight text-balance">
+            Des délais d'exécution maîtrisés et garantis
           </h2>
-          <p className="text-zinc-300 text-sm sm:text-base mt-2.5">
-            Cochez les services dont vous avez besoin pour obtenir instantanément une estimation claire, sans surprise, adaptée à votre budget.
+          <p className="text-zinc-300 text-sm sm:text-base mt-3 leading-relaxed">
+            Chez PRYMAX STUDIO, chaque prestation est exécutée avec rigueur selon des délais précis. Sélectionnez vos besoins pour obtenir directement votre devis personnalisé.
           </p>
         </div>
 
-        {/* Configuration interactive adaptée mobile */}
+        {/* Grille principale des modules */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           
-          {/* Colonne Gauche : Sélection des modules */}
-          <div className="lg:col-span-7 space-y-3.5">
-            <div className="text-xs font-semibold uppercase text-zinc-300 mb-2">
-              Choisissez vos prestations :
+          {/* Colonne Gauche : Sélection des prestations (7 colonnes) */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center justify-between text-xs text-zinc-400 mb-1">
+              <span className="font-semibold uppercase text-zinc-300">Sélectionnez vos besoins :</span>
+              <span className="text-[11px] font-mono text-[#1E5EFF]">{selectedIds.length} sélectionné(s)</span>
             </div>
 
-            {SCOPE_MODULES.map((module) => {
-              const isSelected = selectedIds.includes(module.id);
+            {PRICING_MODULES.map((item) => {
+              const isSelected = selectedIds.includes(item.id);
               return (
                 <div
-                  key={module.id}
-                  onClick={() => toggleModule(module.id)}
-                  className={`p-4 sm:p-5 rounded-xl border transition-all cursor-pointer flex items-start justify-between gap-3 select-none min-h-[56px] ${
+                  key={item.id}
+                  onClick={() => toggleModule(item.id)}
+                  className={`p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between gap-3 select-none ${
                     isSelected
-                      ? 'bg-[#121419] border-[#E5B54F] shadow-md'
-                      : 'bg-[#0E0F12] border-white/5 hover:border-white/15'
+                      ? 'bg-[#121419] border-[#1E5EFF] shadow-lg shadow-blue-900/10'
+                      : 'bg-[#0E0F13] border-white/5 hover:border-white/15'
                   }`}
                 >
-                  <div className="flex items-start gap-3.5">
-                    <div 
-                      className={`w-5 h-5 rounded mt-0.5 flex items-center justify-center border transition-colors shrink-0 ${
-                        isSelected 
-                          ? 'bg-[#E5B54F] border-[#E5B54F] text-[#08090B]' 
-                          : 'border-zinc-700 bg-zinc-900'
-                      }`}
-                    >
-                      {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                    </div>
-
-                    <div>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-sm sm:text-base font-bold text-white">{module.name}</span>
-                        <span className="text-[10px] font-mono uppercase text-[#E5B54F] px-1.5 py-0.2 bg-[#E5B54F]/10 rounded">
-                          {module.category}
-                        </span>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3.5">
+                      <div 
+                        className={`w-5 h-5 rounded-md mt-0.5 flex items-center justify-center border transition-colors shrink-0 ${
+                          isSelected 
+                            ? 'bg-[#1E5EFF] border-[#1E5EFF] text-white' 
+                            : 'border-zinc-700 bg-zinc-900'
+                        }`}
+                      >
+                        {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                       </div>
-                      
-                      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-zinc-300">
-                        {module.deliverables.map((deliv, idx) => (
-                          <span key={idx} className="flex items-center gap-1">
-                            <span className="text-[#E5B54F]">·</span>
-                            <span>{deliv}</span>
+
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-sm sm:text-base font-bold text-white leading-tight">
+                            {item.name}
+                          </h3>
+                          <span className="text-[10px] font-mono uppercase text-[#1E5EFF] px-2 py-0.5 bg-[#1E5EFF]/10 rounded-md">
+                            {item.category}
                           </span>
-                        ))}
+                        </div>
+                        <p className="text-xs text-zinc-400 mt-1 leading-snug">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Affichage du délai seul (pas de prix) */}
+                    <div className="text-right shrink-0">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#1E5EFF]/10 border border-[#1E5EFF]/25 text-[#1E5EFF] text-xs font-semibold font-mono">
+                        <Clock className="w-3.5 h-3.5 text-[#1E5EFF]" />
+                        <span>{item.duration}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="text-right shrink-0">
-                    <div className="text-sm sm:text-base font-bold font-mono text-[#E5B54F] tabular-nums">
-                      {module.baseCostFcfa.toLocaleString('fr-FR')} <span className="text-xs font-normal text-zinc-400">FCFA</span>
+                  {/* Note spécifique au textile si applicable */}
+                  {item.note && (
+                    <div className="pt-2.5 border-t border-white/5 text-[11px] text-zinc-400 leading-relaxed italic bg-black/20 p-2.5 rounded-xl">
+                      {item.note}
                     </div>
-                    <div className="text-[10px] text-zinc-400">
-                      ~{module.timeWeeks} sem.
-                    </div>
-                  </div>
+                  )}
                 </div>
               );
             })}
 
-            {/* Options de Formule et Rapidité */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-3">
-              {/* Formule */}
-              <div className="p-3.5 bg-zinc-900/60 rounded-xl border border-white/5">
-                <span className="text-xs font-semibold text-zinc-300 block mb-2">
-                  Niveau d'accompagnement :
-                </span>
-                <div className="grid grid-cols-3 gap-1 p-1 bg-black/60 rounded-lg">
-                  {(['standard', 'complete', 'premium'] as const).map(t => (
-                    <button
-                      key={t}
-                      onClick={() => setTier(t)}
-                      className={`min-h-[36px] py-1 text-xs font-semibold capitalize rounded-md transition-colors cursor-pointer ${
-                        tier === t 
-                          ? 'bg-[#E5B54F] text-[#08090B]' 
-                          : 'text-zinc-400 hover:text-white'
-                      }`}
-                    >
-                      {t === 'standard' ? 'Essentiel' : t === 'complete' ? 'Complet' : 'Sur-Mesure'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Vitesse */}
-              <div className="p-3.5 bg-zinc-900/60 rounded-xl border border-white/5">
-                <span className="text-xs font-semibold text-zinc-300 block mb-2">
-                  Délai souhaité :
-                </span>
-                <div className="grid grid-cols-2 gap-1 p-1 bg-black/60 rounded-lg">
-                  {(['normal', 'express'] as const).map(vel => (
-                    <button
-                      key={vel}
-                      onClick={() => setTimeline(vel)}
-                      className={`min-h-[36px] py-1 text-xs font-semibold capitalize rounded-md transition-colors cursor-pointer ${
-                        timeline === vel 
-                          ? 'bg-[#E5B54F] text-[#08090B]' 
-                          : 'text-zinc-400 hover:text-white'
-                      }`}
-                    >
-                      {vel === 'normal' ? 'Normal' : 'Express (+20%)'}
-                    </button>
-                  ))}
-                </div>
+            {/* Avertissement important sur les durées et les éléments */}
+            <div className="p-4 sm:p-5 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-amber-200 text-xs flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <div className="leading-relaxed">
+                <span className="font-bold block mb-0.5">Note importante sur les délais :</span>
+                Toutes ces durées sont basées sur le fait que le client fournisse l'ensemble des éléments nécessaires à la réalisation du travail (textes, photos, logos existants, validations).
               </div>
             </div>
 
           </div>
 
-          {/* Colonne Droite : Récapitulatif clair du devis estimatif */}
-          <div className="lg:col-span-5 lg:sticky lg:top-24">
-            <div className="bg-[#121419] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl">
+          {/* Colonne Droite : Récapitulatif & Bouton Devis Personnalisé vers WhatsApp */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28">
+            <div className="bg-[#101217] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
               
-              <div className="flex items-center justify-between pb-3.5 border-b border-white/10 mb-5">
+              <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
                 <div className="flex items-center gap-2">
-                  <Calculator className="w-4 h-4 text-[#E5B54F]" />
-                  <span className="text-xs font-semibold uppercase tracking-wider text-white">Estimation Totale</span>
+                  <Sparkles className="w-4 h-4 text-[#1E5EFF]" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-white">
+                    Devis Personnalisé
+                  </span>
                 </div>
-                <span className="text-[10px] font-mono text-[#E5B54F] uppercase px-2 py-0.5 border border-[#E5B54F]/30 rounded">
-                  {tier === 'standard' ? 'Pack Essentiel' : tier === 'complete' ? 'Pack Complet' : 'Pack Sur-Mesure'}
+                <span className="text-[10px] font-mono text-[#1E5EFF] uppercase px-2.5 py-1 bg-[#1E5EFF]/10 rounded-full border border-[#1E5EFF]/20">
+                  Direct WhatsApp
                 </span>
               </div>
 
-              {/* Affichage du Prix en FCFA avec séparateurs de milliers */}
-              <div className="mb-6">
-                <div className="text-xs text-zinc-400 uppercase font-mono">
-                  Montant Estimatif du Devis
-                </div>
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-white tabular-nums tracking-tight mt-1">
-                  {estimatedTotalFcfa.toLocaleString('fr-FR')}
-                  <span className="text-sm font-bold text-[#E5B54F] ml-2 font-sans">FCFA</span>
-                </div>
-                <p className="text-xs text-zinc-300 mt-2">
-                  *Comprend la livraison des fichiers complets, la mise en ligne et l'assistance technique.
+              <div>
+                <h3 className="text-xl font-bold text-white tracking-tight">
+                  Votre Demande Sur-Mesure
+                </h3>
+                <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed">
+                  Obtenez une proposition détaillée ajustée à vos objectifs, votre secteur et vos délais.
                 </p>
               </div>
 
-              {/* Indicateurs de délai et nombre de prestations */}
-              <div className="grid grid-cols-2 gap-3 p-3.5 bg-zinc-900/80 rounded-xl border border-white/5 mb-6">
-                <div>
-                  <div className="text-[10px] uppercase font-mono text-zinc-400">Délai estimé</div>
-                  <div className="text-base sm:text-lg font-bold font-mono text-white tabular-nums">
-                    {adjustedWeeks} <span className="text-xs font-normal text-zinc-400">Semaines</span>
-                  </div>
+              {/* Prestations sélectionnées avec délais */}
+              <div className="p-4 bg-zinc-900/80 rounded-2xl border border-white/5 space-y-2.5">
+                <div className="text-[11px] font-mono text-zinc-400 uppercase flex items-center justify-between">
+                  <span>Prestations cochées ({selectedModules.length})</span>
+                  <span className="text-[#1E5EFF]">Délais garantis</span>
                 </div>
-
-                <div>
-                  <div className="text-[10px] uppercase font-mono text-zinc-400">Services choisis</div>
-                  <div className="text-base sm:text-lg font-bold font-mono text-[#E5B54F] tabular-nums">
-                    {selectedIds.length} <span className="text-xs font-normal text-zinc-400">Prestations</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Garanties simples */}
-              <div className="space-y-2 mb-6 text-xs text-zinc-300">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-[#E5B54F] shrink-0" />
-                  <span>Devis gratuit sans aucun engagement</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Smartphone className="w-4 h-4 text-[#E5B54F] shrink-0" />
-                  <span>Échange direct et facile sur WhatsApp</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-[#E5B54F] shrink-0" />
-                  <span>Vous êtes 100% propriétaire de vos créations</span>
+                <div className="space-y-2 text-xs text-zinc-300">
+                  {selectedModules.map(m => (
+                    <div key={m.id} className="flex items-center justify-between gap-2 py-0.5">
+                      <span className="truncate font-medium text-white">· {m.name}</span>
+                      <span className="font-mono text-[#1E5EFF] text-[11px] shrink-0 bg-[#1E5EFF]/10 px-2 py-0.5 rounded">
+                        {m.duration}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Bouton d'action pour envoyer la demande */}
-              <button
-                onClick={() => onPreloadBrief(selectedIds, estimatedTotalFcfa, tier)}
-                className="w-full min-h-[48px] flex items-center justify-center gap-2 py-3.5 text-xs font-bold uppercase tracking-wider bg-[#E5B54F] hover:bg-[#F2C768] text-[#08090B] rounded-lg transition-all shadow-lg cursor-pointer"
-              >
-                <span>Envoyer ce Devis &amp; Être Recontacté</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              {/* Garanties Studio */}
+              <div className="space-y-2 text-xs text-zinc-400">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-[#1E5EFF]" />
+                  <span>Cession 100% des droits et fichiers sources HD</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-[#1E5EFF]" />
+                  <span>Respect strict des délais annoncés</span>
+                </div>
+              </div>
+
+              {/* LE BOUTON UNIQUE : DEVIS PERSONNALISÉ QUI ENVOIE SUR WHATSAPP */}
+              <div className="space-y-3 pt-2">
+                <button
+                  onClick={() => {
+                    const selectedList = selectedModules.map(m => `• ${m.name} (Délai : ${m.duration})`).join('\n');
+                    const message = encodeURIComponent(
+                      `*DEMANDE DE DEVIS PERSONNALISÉ — PRYMAX STUDIO*\n\n` +
+                      `Bonjour PRYMAX STUDIO, je souhaite un devis personnalisé pour les prestations suivantes :\n\n` +
+                      `${selectedList}\n\n` +
+                      `Merci de me recontacter pour échanger sur mon projet.`
+                    );
+                    window.open(`https://wa.me/237681078004?text=${message}`, '_blank');
+                  }}
+                  className="w-full min-h-[50px] py-3.5 bg-[#1E5EFF] hover:bg-[#184FD8] active:bg-[#1340B5] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(30,94,255,0.45)] cursor-pointer group"
+                >
+                  <FileText className="w-4 h-4 transition-transform group-hover:scale-110" />
+                  <span>Devis Personnalisé (WhatsApp)</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </button>
+
+                {/* Option alternative discrète pour formulaire complet */}
+                <button
+                  onClick={() => setIsCustomQuoteOpen(true)}
+                  className="w-full py-2 text-center text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  Ou remplir notre formulaire détaillé avec cahier des charges ↗
+                </button>
+              </div>
 
             </div>
           </div>
@@ -243,6 +215,13 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
         </div>
 
       </div>
+
+      {/* Modale de Devis Personnalisé Approfondi */}
+      <CustomQuoteModal
+        isOpen={isCustomQuoteOpen}
+        onClose={() => setIsCustomQuoteOpen(false)}
+      />
+
     </section>
   );
 };
