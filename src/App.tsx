@@ -27,7 +27,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#08090D] text-[#F5F7FA] flex flex-col selection:bg-[#1E5EFF] selection:text-white">
+    <div className="min-h-screen bg-[#08090D] text-[#F5F7FA] flex flex-col selection:bg-white selection:text-black">
       {/* Navigation Flottante & Détachée avec Extrémités Arrondies */}
       <Navbar onOpenContact={handleOpenContact} />
 

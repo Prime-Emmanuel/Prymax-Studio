@@ -217,7 +217,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                       >
                         <span>{service}</span>
                         <div className={`w-4 h-4 rounded flex items-center justify-center border text-[10px] ${
-                          isChecked ? 'bg-[#1E5EFF] border-[#1E5EFF] text-white font-bold' : 'border-zinc-700'
+                          isChecked ? 'bg-white border-white text-zinc-950 font-bold' : 'border-zinc-700'
                         }`}>
                           {isChecked && '✓'}
                         </div>
@@ -235,7 +235,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                 <select
                   value={budgetRangeFcfa}
                   onChange={(e) => setBudgetRangeFcfa(e.target.value)}
-                  className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#1E5EFF]"
+                  className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-white"
                 >
                   <option value="Moins de 150 000 FCFA">Moins de 150 000 FCFA (Logo ou projet d'amorçage)</option>
                   <option value="150 000 – 350 000 FCFA">150 000 – 350 000 FCFA</option>
@@ -255,13 +255,13 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                   value={brief}
                   onChange={(e) => setBrief(e.target.value)}
                   placeholder="ex: Je souhaite concevoir un site web moderne pour mon entreprise avec une identité visuelle marquante..."
-                  className="w-full bg-zinc-900 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#1E5EFF]"
+                  className="w-full bg-zinc-900 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full min-h-[48px] py-3.5 bg-[#1E5EFF] hover:bg-[#184FD8] active:bg-[#1340B5] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(30,94,255,0.4)] cursor-pointer"
+                className="w-full min-h-[48px] py-3.5 bg-white hover:bg-zinc-200 active:bg-zinc-300 text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(255,255,255,0.2)] cursor-pointer"
               >
                 <Send className="w-4 h-4" />
                 <span>Envoyer ma Demande de Devis</span>

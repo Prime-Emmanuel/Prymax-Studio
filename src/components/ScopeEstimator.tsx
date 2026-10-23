@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { PRICING_MODULES } from '../data/agencyData';
-import { PricingModule } from '../types';
 import { Check, Clock, AlertCircle, FileText, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
 import { CustomQuoteModal } from './CustomQuoteModal';
 
@@ -8,7 +7,7 @@ interface ScopeEstimatorProps {
   onPreloadBrief: (selectedModules: string[], totalFcfa: number, tier: string) => void;
 }
 
-export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }) => {
+export const ScopeEstimator: React.FC<ScopeEstimatorProps> = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>(['price-logo', 'price-pro']);
   const [isCustomQuoteOpen, setIsCustomQuoteOpen] = useState(false);
 
@@ -21,19 +20,18 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
   };
 
   const selectedModules = PRICING_MODULES.filter(m => selectedIds.includes(m.id));
-  const estimatedMinTotal = selectedModules.reduce((acc, m) => acc + m.minPriceFcfa, 0);
 
   return (
     <section id="devis" className="py-20 sm:py-28 bg-[#090A0D] border-t border-white/[0.08] relative scroll-mt-20">
       
-      {/* Halo subtil */}
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#1E5EFF]/5 blur-[120px] rounded-full pointer-events-none" />
+      {/* Halo subtil monochrome */}
+      <div className="absolute top-1/4 right-0 w-96 h-96 bg-white/[0.02] blur-[140px] rounded-full pointer-events-none" />
 
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
         
         {/* En-tête de la section */}
         <div className="max-w-3xl mb-14">
-          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#1E5EFF] mb-2.5">
+          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-white mb-2.5">
             <span>Délais d'Exécution &amp; Devis</span>
             <span aria-hidden="true" className="text-zinc-600">·</span>
             <span>PRYMAX STUDIO</span>
@@ -53,7 +51,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
           <div className="lg:col-span-7 space-y-4">
             <div className="flex items-center justify-between text-xs text-zinc-400 mb-1">
               <span className="font-semibold uppercase text-zinc-300">Sélectionnez vos besoins :</span>
-              <span className="text-[11px] font-mono text-[#1E5EFF]">{selectedIds.length} sélectionné(s)</span>
+              <span className="text-[11px] font-mono text-white font-semibold">{selectedIds.length} sélectionné(s)</span>
             </div>
 
             {PRICING_MODULES.map((item) => {
@@ -64,7 +62,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
                   onClick={() => toggleModule(item.id)}
                   className={`p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between gap-3 select-none ${
                     isSelected
-                      ? 'bg-[#121419] border-[#1E5EFF] shadow-lg shadow-blue-900/10'
+                      ? 'bg-[#121419] border-white shadow-lg shadow-white/5'
                       : 'bg-[#0E0F13] border-white/5 hover:border-white/15'
                   }`}
                 >
@@ -73,7 +71,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
                       <div 
                         className={`w-5 h-5 rounded-md mt-0.5 flex items-center justify-center border transition-colors shrink-0 ${
                           isSelected 
-                            ? 'bg-[#1E5EFF] border-[#1E5EFF] text-white' 
+                            ? 'bg-white border-white text-zinc-950' 
                             : 'border-zinc-700 bg-zinc-900'
                         }`}
                       >
@@ -85,7 +83,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
                           <h3 className="text-sm sm:text-base font-bold text-white leading-tight">
                             {item.name}
                           </h3>
-                          <span className="text-[10px] font-mono uppercase text-[#1E5EFF] px-2 py-0.5 bg-[#1E5EFF]/10 rounded-md">
+                          <span className="text-[10px] font-mono uppercase text-zinc-300 px-2 py-0.5 bg-white/10 rounded-md">
                             {item.category}
                           </span>
                         </div>
@@ -95,10 +93,10 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
                       </div>
                     </div>
 
-                    {/* Affichage du délai seul (pas de prix) */}
+                    {/* Affichage du délai seul */}
                     <div className="text-right shrink-0">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#1E5EFF]/10 border border-[#1E5EFF]/25 text-[#1E5EFF] text-xs font-semibold font-mono">
-                        <Clock className="w-3.5 h-3.5 text-[#1E5EFF]" />
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/10 border border-white/20 text-white text-xs font-semibold font-mono">
+                        <Clock className="w-3.5 h-3.5 text-white" />
                         <span>{item.duration}</span>
                       </div>
                     </div>
@@ -115,10 +113,10 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
             })}
 
             {/* Avertissement important sur les durées et les éléments */}
-            <div className="p-4 sm:p-5 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-amber-200 text-xs flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+            <div className="p-4 sm:p-5 bg-zinc-900/90 border border-white/10 rounded-2xl text-zinc-300 text-xs flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-white shrink-0 mt-0.5" />
               <div className="leading-relaxed">
-                <span className="font-bold block mb-0.5">Note importante sur les délais :</span>
+                <span className="font-bold text-white block mb-0.5">Note importante sur les délais :</span>
                 Toutes ces durées sont basées sur le fait que le client fournisse l'ensemble des éléments nécessaires à la réalisation du travail (textes, photos, logos existants, validations).
               </div>
             </div>
@@ -131,12 +129,12 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
               
               <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#1E5EFF]" />
+                  <Sparkles className="w-4 h-4 text-white" />
                   <span className="text-xs font-semibold uppercase tracking-wider text-white">
                     Devis Personnalisé
                   </span>
                 </div>
-                <span className="text-[10px] font-mono text-[#1E5EFF] uppercase px-2.5 py-1 bg-[#1E5EFF]/10 rounded-full border border-[#1E5EFF]/20">
+                <span className="text-[10px] font-mono text-white uppercase px-2.5 py-1 bg-white/10 rounded-full border border-white/20">
                   Direct WhatsApp
                 </span>
               </div>
@@ -154,13 +152,13 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
               <div className="p-4 bg-zinc-900/80 rounded-2xl border border-white/5 space-y-2.5">
                 <div className="text-[11px] font-mono text-zinc-400 uppercase flex items-center justify-between">
                   <span>Prestations cochées ({selectedModules.length})</span>
-                  <span className="text-[#1E5EFF]">Délais garantis</span>
+                  <span className="text-white font-semibold">Délais garantis</span>
                 </div>
                 <div className="space-y-2 text-xs text-zinc-300">
                   {selectedModules.map(m => (
                     <div key={m.id} className="flex items-center justify-between gap-2 py-0.5">
                       <span className="truncate font-medium text-white">· {m.name}</span>
-                      <span className="font-mono text-[#1E5EFF] text-[11px] shrink-0 bg-[#1E5EFF]/10 px-2 py-0.5 rounded">
+                      <span className="font-mono text-white text-[11px] shrink-0 bg-white/10 px-2 py-0.5 rounded">
                         {m.duration}
                       </span>
                     </div>
@@ -171,11 +169,11 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
               {/* Garanties Studio */}
               <div className="space-y-2 text-xs text-zinc-400">
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-[#1E5EFF]" />
+                  <ShieldCheck className="w-4 h-4 text-white" />
                   <span>Cession 100% des droits et fichiers sources HD</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-[#1E5EFF]" />
+                  <ShieldCheck className="w-4 h-4 text-white" />
                   <span>Respect strict des délais annoncés</span>
                 </div>
               </div>
@@ -193,7 +191,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onPreloadBrief }
                     );
                     window.open(`https://wa.me/237681078004?text=${message}`, '_blank');
                   }}
-                  className="w-full min-h-[50px] py-3.5 bg-[#1E5EFF] hover:bg-[#184FD8] active:bg-[#1340B5] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(30,94,255,0.45)] cursor-pointer group"
+                  className="w-full min-h-[50px] py-3.5 bg-white hover:bg-zinc-200 active:bg-zinc-300 text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(255,255,255,0.2)] cursor-pointer group"
                 >
                   <FileText className="w-4 h-4 transition-transform group-hover:scale-110" />
                   <span>Devis Personnalisé (WhatsApp)</span>

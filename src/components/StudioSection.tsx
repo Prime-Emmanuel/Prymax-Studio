@@ -1,18 +1,18 @@
 import React from 'react';
-import { Target, Zap, Shield, HeartHandshake, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Target, Zap, Shield, HeartHandshake, CheckCircle2 } from 'lucide-react';
 
 export const StudioSection: React.FC = () => {
   return (
     <section id="studio" className="py-20 sm:py-28 bg-[#08090D] relative border-t border-white/[0.08] scroll-mt-20">
       
-      {/* Halo subtil */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#1E5EFF]/5 blur-[120px] rounded-full pointer-events-none" />
+      {/* Halo subtil monochrome */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-white/[0.02] blur-[140px] rounded-full pointer-events-none" />
 
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         
         {/* En-tête */}
         <div className="max-w-3xl mb-16">
-          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#1E5EFF] mb-3">
+          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-white mb-3">
             <span>Qui Sommes-Nous</span>
             <span aria-hidden="true" className="text-zinc-600">·</span>
             <span>L'ADN PRYMAX STUDIO</span>
@@ -28,10 +28,10 @@ export const StudioSection: React.FC = () => {
         {/* Les 3 Piliers de Notre Approche */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-16">
           
-          <div className="p-7 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-[#1E5EFF]/40 transition-all duration-200 flex flex-col justify-between">
+          <div className="p-7 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-200 flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#1E5EFF]/10 border border-[#1E5EFF]/20 flex items-center justify-center text-[#1E5EFF] mb-6">
-                <Target className="w-6 h-6" />
+              <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6">
+                <Target className="w-6 h-6 text-white" />
               </div>
               <div className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-1.5">
                 Pilier 01
@@ -44,15 +44,15 @@ export const StudioSection: React.FC = () => {
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-white/5 text-xs text-zinc-300 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#1E5EFF]" />
+              <CheckCircle2 className="w-4 h-4 text-white" />
               <span>Communication directe &amp; fluide</span>
             </div>
           </div>
 
-          <div className="p-7 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-[#1E5EFF]/40 transition-all duration-200 flex flex-col justify-between">
+          <div className="p-7 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-200 flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#1E5EFF]/10 border border-[#1E5EFF]/20 flex items-center justify-center text-[#1E5EFF] mb-6">
-                <Zap className="w-6 h-6" />
+              <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6">
+                <Zap className="w-6 h-6 text-white" />
               </div>
               <div className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-1.5">
                 Pilier 02
@@ -65,15 +65,15 @@ export const StudioSection: React.FC = () => {
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-white/5 text-xs text-zinc-300 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#1E5EFF]" />
+              <CheckCircle2 className="w-4 h-4 text-white" />
               <span>Optimisation mobile garantie</span>
             </div>
           </div>
 
-          <div className="p-7 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-[#1E5EFF]/40 transition-all duration-200 flex flex-col justify-between">
+          <div className="p-7 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-200 flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#1E5EFF]/10 border border-[#1E5EFF]/20 flex items-center justify-center text-[#1E5EFF] mb-6">
-                <HeartHandshake className="w-6 h-6" />
+              <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6">
+                <HeartHandshake className="w-6 h-6 text-white" />
               </div>
               <div className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-1.5">
                 Pilier 03
@@ -86,7 +86,7 @@ export const StudioSection: React.FC = () => {
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-white/5 text-xs text-zinc-300 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#1E5EFF]" />
+              <CheckCircle2 className="w-4 h-4 text-white" />
               <span>Accompagnement après livraison</span>
             </div>
           </div>
@@ -96,7 +96,7 @@ export const StudioSection: React.FC = () => {
         {/* Encadré d'engagement moral et éthique */}
         <div className="p-8 sm:p-10 bg-gradient-to-r from-[#101217] via-zinc-900/60 to-[#101217] rounded-2xl border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="max-w-2xl">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-[#1E5EFF] block mb-2">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-white block mb-2">
               Notre Promesse
             </span>
             <h4 className="text-xl sm:text-2xl font-bold text-white mb-2">
@@ -108,12 +108,12 @@ export const StudioSection: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <div className="w-12 h-12 rounded-full bg-[#1E5EFF]/10 border border-[#1E5EFF]/30 flex items-center justify-center text-[#1E5EFF]">
-              <Shield className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white">
+              <Shield className="w-6 h-6 text-white" />
             </div>
             <div className="text-xs font-semibold text-white">
               Garantie Studio<br />
-              <span className="text-zinc-500 font-normal">Sans engagement</span>
+              <span className="text-zinc-400 font-normal">Sans engagement</span>
             </div>
           </div>
         </div>

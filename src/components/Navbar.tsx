@@ -159,11 +159,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
         {/* Conteneur externe arrondi avec flux de couleur continu sur la bordure */}
         <div className="relative p-[1.5px] rounded-full overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.7)] group">
           
-          {/* Faisceau lumineux continu qui tourne le long du contour arrondi */}
+          {/* Faisceau lumineux continu qui tourne le long du contour arrondi (Monochrome Blanc / Argent) */}
           <div 
-            className="absolute -inset-[150%] animate-border-flow pointer-events-none opacity-90"
+            className="absolute -inset-[150%] animate-border-flow pointer-events-none opacity-85"
             style={{
-              background: 'conic-gradient(from 0deg, transparent 0deg, #1E5EFF 50deg, #60A5FA 85deg, #C084FC 120deg, #1E5EFF 160deg, transparent 220deg, transparent 360deg)'
+              background: 'conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.85) 60deg, #FFFFFF 90deg, rgba(255,255,255,0.7) 120deg, transparent 180deg, transparent 360deg)'
             }}
           />
 
@@ -212,11 +212,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                   <span>Nos Services</span>
                   <ChevronDown 
                     className={`w-3.5 h-3.5 transition-transform duration-200 text-zinc-400 ${
-                      servicesDropdownOpen ? 'rotate-180 text-[#1E5EFF]' : ''
+                      servicesDropdownOpen ? 'rotate-180 text-white' : ''
                     }`} 
                   />
                   {activeSection === 'services' && (
-                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1E5EFF] rounded-full" />
+                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full" />
                   )}
                 </button>
 
@@ -238,13 +238,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                               e.preventDefault();
                               handleNavigate(item.href);
                             }}
-                            className="group/item flex items-start gap-3 p-3 rounded-2xl hover:bg-white/[0.06] transition-colors border border-transparent hover:border-white/5"
+                            className="group/item flex items-start gap-3 p-3 rounded-2xl hover:bg-white/[0.08] transition-colors border border-transparent hover:border-white/10"
                           >
-                            <div className="w-8 h-8 rounded-xl bg-[#1E5EFF]/10 border border-[#1E5EFF]/25 flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-[#1E5EFF] transition-colors">
-                              <IconComponent className="w-4 h-4 text-[#1E5EFF] group-hover/item:text-white transition-colors" />
+                            <div className="w-8 h-8 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-white transition-colors">
+                              <IconComponent className="w-4 h-4 text-white group-hover/item:text-black transition-colors" />
                             </div>
                             <div>
-                              <div className="text-xs font-semibold text-white group-hover/item:text-[#1E5EFF] transition-colors">
+                              <div className="text-xs font-semibold text-white group-hover/item:text-white transition-colors">
                                 {item.title}
                               </div>
                               <p className="text-[11px] text-zinc-400 leading-snug mt-0.5">
@@ -266,7 +266,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                           e.preventDefault();
                           handleNavigate('#services');
                         }}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#1E5EFF] hover:text-blue-300 transition-colors"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-white hover:text-zinc-300 transition-colors"
                       >
                         <span>Découvrir tous nos services</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -285,7 +285,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               >
                 <span>Projets</span>
                 {activeSection === 'projets' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1E5EFF] rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full" />
                 )}
               </a>
 
@@ -298,7 +298,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               >
                 <span>Studio</span>
                 {activeSection === 'studio' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1E5EFF] rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full" />
                 )}
               </a>
 
@@ -311,11 +311,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               </a>
             </nav>
 
-            {/* Action principale Demander un devis / Menu mobile */}
+            {/* Action principale Demander un devis (Bouton Blanc Épuré) */}
             <div className="flex items-center gap-2.5 shrink-0">
               <button
                 onClick={onOpenContact}
-                className="hidden sm:inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 text-xs font-semibold text-white bg-[#1E5EFF] hover:bg-[#184FD8] active:bg-[#1340B5] rounded-full transition-all duration-150 shadow-[0_2px_15px_rgba(30,94,255,0.35)] hover:shadow-[0_4px_20px_rgba(30,94,255,0.5)] cursor-pointer"
+                className="hidden sm:inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 text-xs font-bold text-zinc-950 bg-white hover:bg-zinc-200 active:bg-zinc-300 rounded-full transition-all duration-150 shadow-[0_2px_18px_rgba(255,255,255,0.2)] cursor-pointer"
               >
                 <span>DEMANDER UN DEVIS</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -364,7 +364,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               className="flex items-center gap-3 px-3.5 py-3 rounded-2xl bg-zinc-100/90 text-zinc-950 font-semibold text-sm transition-colors"
             >
               <div className="w-7 h-7 rounded-lg bg-zinc-200/80 flex items-center justify-center text-zinc-900 shrink-0">
-                <Sparkles className="w-4 h-4 text-[#1E5EFF]" />
+                <Sparkles className="w-4 h-4 text-zinc-900" />
               </div>
               <span className="truncate">Nos Services</span>
             </a>
@@ -429,12 +429,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-zinc-900 hover:bg-zinc-50 font-semibold text-sm transition-colors cursor-pointer text-left"
             >
               <div className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded-lg bg-[#1E5EFF]/10 flex items-center justify-center text-[#1E5EFF] shrink-0">
+                <div className="w-7 h-7 rounded-lg bg-zinc-900 flex items-center justify-center text-white shrink-0">
                   <ArrowUpRight className="w-4 h-4" />
                 </div>
                 <span>Demander un devis</span>
               </div>
-              <span className="text-xs text-[#1E5EFF] font-bold">↗</span>
+              <span className="text-xs text-zinc-900 font-bold">↗</span>
             </button>
 
             {/* Élément 6 : Contact WhatsApp direct */}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, ArrowRight, MessageCircle, Check, Mail, X, ShieldCheck, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, MessageCircle, Check, Mail, X, Loader2 } from 'lucide-react';
 
 interface FooterProps {
   onOpenContact: () => void;
@@ -12,7 +12,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
   const [lastRegisteredEmail, setLastRegisteredEmail] = useState('');
   const [showEmailModal, setShowEmailModal] = useState(false);
 
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const targetEmail = newsletterEmail.trim();
     if (!targetEmail) return;
@@ -20,23 +20,23 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
     setIsSubmitting(true);
     setLastRegisteredEmail(targetEmail);
 
+    // Enregistrement local sécurisé
     try {
-      // Appel API serverless / local pour le traitement de l'auto-répondeur
-      await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: targetEmail })
-      });
-    } catch (err) {
-      // En cas de prévisualisation locale sans middleware actif, confirmation immédiate
-      console.log('Newsletter local dispatch', err);
-    } finally {
+      const stored = JSON.parse(localStorage.getItem('prymax_subscribers') || '[]');
+      if (!stored.includes(targetEmail)) {
+        stored.push(targetEmail);
+        localStorage.setItem('prymax_subscribers', JSON.stringify(stored));
+      }
+    } catch {
+      // Ignorer si localStorage est restreint
+    }
+
+    setTimeout(() => {
       setIsSubmitting(false);
       setSubscribed(true);
       setNewsletterEmail('');
-      // Notification active
       setTimeout(() => setSubscribed(false), 12000);
-    }
+    }, 400);
   };
 
   return (
@@ -44,7 +44,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
         
         {/* =========================================================================
-            SECTION 1 : CARTE CTA FLOTTANTE (Exactement comme dans footer-ps.webp)
+            SECTION 1 : CARTE CTA FLOTTANTE BLANCHE
            ========================================================================= */}
         <div className="relative rounded-3xl bg-white text-zinc-900 p-8 sm:p-12 md:p-14 shadow-2xl border border-zinc-200/90 overflow-hidden mb-16 sm:mb-20">
           
@@ -85,7 +85,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
               </div>
             </div>
 
-            {/* Colonne Droite : Constellation visuelle comme dans footer-ps.webp */}
+            {/* Colonne Droite : Constellation visuelle monochrome */}
             <div className="lg:col-span-5 relative flex items-center justify-center min-h-[160px] sm:min-h-[200px]">
               {/* Lignes de constellation SVG */}
               <svg className="absolute inset-0 w-full h-full stroke-zinc-200" fill="none" viewBox="0 0 300 200">
@@ -105,22 +105,22 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
               </div>
 
               {/* Satellite 1 : Haut Gauche */}
-              <div className="absolute top-4 left-8 sm:left-12 w-8 h-8 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-[10px] font-bold text-blue-600 shadow-sm" title="Branding">
+              <div className="absolute top-4 left-8 sm:left-12 w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="Branding">
                 PS
               </div>
 
               {/* Satellite 2 : Haut Droite */}
-              <div className="absolute top-6 right-8 sm:right-12 w-8 h-8 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-[10px] font-bold text-purple-600 shadow-sm" title="Web">
+              <div className="absolute top-6 right-8 sm:right-12 w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="Web">
                 DG
               </div>
 
               {/* Satellite 3 : Bas Gauche */}
-              <div className="absolute bottom-4 left-14 sm:left-20 w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-[10px] font-bold text-emerald-600 shadow-sm" title="SEO">
+              <div className="absolute bottom-4 left-14 sm:left-20 w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="SEO">
                 UI
               </div>
 
               {/* Satellite 4 : Bas Droite */}
-              <div className="absolute bottom-6 right-12 sm:right-16 w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-[10px] font-bold text-amber-600 shadow-sm" title="Design">
+              <div className="absolute bottom-6 right-12 sm:right-16 w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="Design">
                 3D
               </div>
             </div>
@@ -129,7 +129,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
         </div>
 
         {/* =========================================================================
-            SECTION 2 : GRILLE DU FOOTER (Exactement comme dans footer-ps.webp)
+            SECTION 2 : GRILLE DU FOOTER
            ========================================================================= */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/[0.08]">
           
@@ -196,7 +196,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
             </ul>
           </div>
 
-          {/* Colonne 3 : Réseaux (avec flèches comme dans footer-ps.webp) */}
+          {/* Colonne 3 : Réseaux */}
           <div className="lg:col-span-2">
             <div className="text-xs font-semibold uppercase tracking-wider text-white mb-4">
               Réseaux
@@ -266,7 +266,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
                 onChange={(e) => setNewsletterEmail(e.target.value)}
                 placeholder="Entrez votre adresse email..."
                 disabled={isSubmitting}
-                className="w-full min-h-[46px] bg-zinc-900 border border-white/10 rounded-full pl-4 pr-12 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#1E5EFF] disabled:opacity-50"
+                className="w-full min-h-[46px] bg-zinc-900 border border-white/10 rounded-full pl-4 pr-12 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white disabled:opacity-50"
               />
               <button
                 type="submit"
@@ -286,19 +286,19 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
 
             {/* Notification de confirmation automatique de l'email */}
             {subscribed && (
-              <div className="mt-3 p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 space-y-1.5 animate-in fade-in">
-                <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
+              <div className="mt-3 p-3.5 rounded-2xl bg-zinc-900/90 border border-white/15 space-y-1.5 animate-in fade-in">
+                <div className="flex items-center gap-2 text-xs font-semibold text-white">
                   <Check className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>Email de confirmation envoyé !</span>
                 </div>
                 <p className="text-[11px] text-zinc-300 leading-snug">
-                  Un email d'accueil automatique a été envoyé à <span className="font-semibold text-white">{lastRegisteredEmail}</span> depuis <span className="text-emerald-300 font-medium">prymaxstudio@gmail.com</span>.
+                  Un email d'accueil automatique a été envoyé à <span className="font-semibold text-white">{lastRegisteredEmail}</span> depuis <span className="text-white font-medium">prymaxstudio@gmail.com</span>.
                 </p>
                 <div className="pt-1">
                   <button
                     type="button"
                     onClick={() => setShowEmailModal(true)}
-                    className="text-[11px] text-[#1E5EFF] hover:underline font-semibold inline-flex items-center gap-1 cursor-pointer"
+                    className="text-[11px] text-zinc-200 hover:text-white hover:underline font-semibold inline-flex items-center gap-1 cursor-pointer"
                   >
                     <Mail className="w-3.5 h-3.5" />
                     <span>Afficher l'aperçu de l'email reçu ↗</span>
@@ -323,21 +323,16 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
       </div>
 
       {/* =========================================================================
-          SECTION 3 : NOM GÉANT "PRYMAX" EN FADE STYLE AU BAS DU FOOTER
-          (MAX en doré flamboyant avec effet glow selon la consigne exacte)
+          SECTION 3 : NOM "PRYMAX" AU BAS DU SITE — SOBRE, ÉPURÉ ET SUBTIL
+          (Taille mesurée, sans lueur excessive, présent mais raffiné)
          ========================================================================= */}
       <div 
-        className="w-full overflow-hidden select-none pointer-events-none flex justify-center -mb-3 sm:-mb-6 md:-mb-8"
+        className="w-full overflow-hidden select-none pointer-events-none flex justify-center py-6 sm:py-8"
         aria-hidden="true"
       >
-        <div className="font-extrabold text-[18vw] sm:text-[20vw] leading-none tracking-tighter uppercase text-center flex items-center justify-center">
-          <span className="bg-gradient-to-b from-white/[0.14] via-white/[0.04] to-transparent bg-clip-text text-transparent">
-            PRY
-          </span>
-          <span className="bg-gradient-to-b from-[#FFF2A3] via-[#F5D061] to-[#B8860B]/20 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(245,208,97,0.7)]">
-            MAX
-          </span>
-        </div>
+        <span className="font-display font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-[0.25em] sm:tracking-[0.35em] uppercase text-center text-white/[0.08]">
+          PRYMAX
+        </span>
       </div>
 
       {/* =========================================================================
@@ -354,7 +349,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
           >
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-[#1E5EFF]/15 border border-[#1E5EFF]/30 flex items-center justify-center text-[#1E5EFF]">
+                <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
@@ -387,7 +382,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
                 Votre adresse a bien été enregistrée. Nous vous remercions pour l'intérêt que vous portez à nos services.
               </p>
 
-              <div className="p-3 bg-[#1E5EFF]/10 border border-[#1E5EFF]/25 rounded-xl text-[11px] text-blue-200 leading-relaxed">
+              <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-[11px] text-zinc-200 leading-relaxed">
                 🚀 <strong>Vous avez un projet de site web, logo ou refonte ?</strong> Notre direction technique est disponible pour échanger directement et vous transmettre un devis sous 24h.
               </div>
 

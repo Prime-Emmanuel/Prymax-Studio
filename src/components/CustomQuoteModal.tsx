@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, ShieldCheck, Send, Sparkles, HelpCircle, MessageCircle, FileText } from 'lucide-react';
+import { X, CheckCircle2, ShieldCheck, Send, Sparkles, MessageCircle } from 'lucide-react';
 
 interface CustomQuoteModalProps {
   isOpen: boolean;
@@ -12,7 +12,6 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
   const [email, setEmail] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [businessActivity, setBusinessActivity] = useState('');
-  const [targetAudience, setTargetAudience] = useState('');
   const [selectedNeeds, setSelectedNeeds] = useState<string[]>([]);
   const [contentStatus, setContentStatus] = useState('Textes et photos en cours de préparation');
   const [budgetFcfa, setBudgetFcfa] = useState('150 000 – 350 000 FCFA');
@@ -68,7 +67,6 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
     setEmail('');
     setBusinessName('');
     setBusinessActivity('');
-    setTargetAudience('');
     setSelectedNeeds([]);
     setInspirations('');
     setDetailedNotes('');
@@ -98,24 +96,23 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
       >
         
         {/* En-tête */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-5 mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#1E5EFF]/10 border border-[#1E5EFF]/30 flex items-center justify-center text-[#1E5EFF]">
-              <FileText className="w-5 h-5" />
+        <div className="flex items-start justify-between border-b border-white/10 pb-5 mb-6">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white mb-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-white" />
+              <span>Formulaire de Devis Personnalisé</span>
             </div>
-            <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#1E5EFF]">
-                Questionnaire Approfondi
-              </span>
-              <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                Demande de Devis Personnalisé
-              </h2>
-            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+              Parlez-nous de votre projet &amp; de vos ambitions
+            </h2>
+            <p className="text-xs text-zinc-400 mt-1">
+              Remplissez ce questionnaire rapide pour nous aider à comprendre vos objectifs et vous proposer l'offre la plus adaptée.
+            </p>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 text-zinc-400 hover:text-white rounded-xl hover:bg-white/10 transition-colors"
+            className="p-2 text-zinc-400 hover:text-white rounded-xl bg-white/5 hover:bg-white/10 transition-colors shrink-0 ml-4 cursor-pointer"
             aria-label="Fermer"
           >
             <X className="w-5 h-5" />
@@ -124,26 +121,23 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
 
         {!submitted ? (
           <form onSubmit={handleSubmit} className="space-y-6">
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-              Pour vous fournir un devis juste, précis et adapté à la réalité de votre entreprise, merci de remplir ces quelques détails essentiels. Nous prenons le temps d’étudier chaque réponse.
-            </p>
-
+            
             {errorMsg && (
-              <div className="p-3 bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs rounded-xl">
+              <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-300 text-xs font-medium">
                 {errorMsg}
               </div>
             )}
 
-            {/* SECTION 1 : Coordonnées de contact */}
+            {/* SECTION 1 : Coordonnées & Entreprise */}
             <div className="p-4 sm:p-5 bg-zinc-900/40 rounded-2xl border border-white/5 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#1E5EFF]">
-                1. Vos coordonnées &amp; Votre Entreprise
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-white">
+                1. Vos coordonnées &amp; Votre entreprise
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-zinc-300 mb-1">
-                    Votre Nom complet *
+                    Votre nom complet *
                   </label>
                   <input
                     type="text"
@@ -151,7 +145,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                     placeholder="ex: Emmanuel Primz"
-                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#1E5EFF]"
+                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
                   />
                 </div>
 
@@ -165,7 +159,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
                     placeholder="ex: +237 6XX XX XX XX"
-                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#1E5EFF]"
+                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
                   />
                 </div>
               </div>
@@ -180,7 +174,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
                     placeholder="ex: DG - Dieu Est Grand"
-                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#1E5EFF]"
+                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
                   />
                 </div>
 
@@ -193,7 +187,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="contact@entreprise.com"
-                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#1E5EFF]"
+                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
                   />
                 </div>
               </div>
@@ -207,14 +201,14 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                   value={businessActivity}
                   onChange={(e) => setBusinessActivity(e.target.value)}
                   placeholder="ex: Vente de vêtements streetwear, cabinet de conseil, salon de beauté..."
-                  className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#1E5EFF]"
+                  className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
                 />
               </div>
             </div>
 
             {/* SECTION 2 : Prestations souhaitées */}
             <div className="p-4 sm:p-5 bg-zinc-900/40 rounded-2xl border border-white/5 space-y-3">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#1E5EFF]">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-white">
                 2. Quels sont les services recherchés ? (Sélectionnez ceux qui s'appliquent)
               </h3>
 
@@ -227,13 +221,13 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                       onClick={() => toggleNeed(need)}
                       className={`p-3 rounded-xl border text-xs cursor-pointer flex items-center justify-between transition-colors ${
                         isChecked
-                          ? 'bg-[#1E5EFF]/15 border-[#1E5EFF] text-white font-medium'
+                          ? 'bg-zinc-800 border-white text-white font-medium'
                           : 'bg-zinc-900/60 border-white/5 text-zinc-400 hover:border-white/15'
                       }`}
                     >
                       <span className="leading-snug">{need}</span>
                       <div className={`w-4 h-4 rounded-md flex items-center justify-center border text-[10px] shrink-0 ml-2 ${
-                        isChecked ? 'bg-[#1E5EFF] border-[#1E5EFF] text-white font-bold' : 'border-zinc-700'
+                        isChecked ? 'bg-white border-white text-zinc-950 font-bold' : 'border-zinc-700'
                       }`}>
                         {isChecked && '✓'}
                       </div>
@@ -245,7 +239,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
 
             {/* SECTION 3 : Budget en FCFA & Délais */}
             <div className="p-4 sm:p-5 bg-zinc-900/40 rounded-2xl border border-white/5 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#1E5EFF]">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-white">
                 3. Budget indicatif &amp; Échéance
               </h3>
 
@@ -257,7 +251,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                   <select
                     value={budgetFcfa}
                     onChange={(e) => setBudgetFcfa(e.target.value)}
-                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#1E5EFF]"
+                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-white"
                   >
                     <option value="10 000 – 50 000 FCFA">10 000 – 50 000 FCFA (Logo ou Mockup Textile)</option>
                     <option value="90 000 – 150 000 FCFA">90 000 – 150 000 FCFA (Site One-Page)</option>
@@ -275,7 +269,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                   <select
                     value={deadline}
                     onChange={(e) => setDeadline(e.target.value)}
-                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#1E5EFF]"
+                    className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-white"
                   >
                     <option value="Immédiatement (cette semaine)">Immédiatement (cette semaine)</option>
                     <option value="Dans les 1 à 2 semaines">Dans les 1 à 2 semaines</option>
@@ -293,7 +287,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                 <select
                   value={contentStatus}
                   onChange={(e) => setContentStatus(e.target.value)}
-                  className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#1E5EFF]"
+                  className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-white"
                 >
                   <option value="Oui, tous mes éléments sont prêts">Oui, tous mes éléments sont prêts</option>
                   <option value="Textes et photos en cours de préparation">Textes et photos en cours de préparation</option>
@@ -304,7 +298,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
 
             {/* SECTION 4 : Précisions et inspirations */}
             <div className="p-4 sm:p-5 bg-zinc-900/40 rounded-2xl border border-white/5 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#1E5EFF]">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-white">
                 4. Exemples &amp; Remarques particulières
               </h3>
 
@@ -317,7 +311,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                   value={inspirations}
                   onChange={(e) => setInspirations(e.target.value)}
                   placeholder="ex: j'aime le style minimaliste de Nike, ce site concurrent..."
-                  className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#1E5EFF]"
+                  className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
                 />
               </div>
 
@@ -330,15 +324,15 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
                   value={detailedNotes}
                   onChange={(e) => setDetailedNotes(e.target.value)}
                   placeholder="Expliquez-nous vos objectifs spécifiques, vos fonctionnalités souhaitées ou toute précision utile..."
-                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#1E5EFF]"
+                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
                 />
               </div>
             </div>
 
-            {/* Bouton de soumission principal */}
+            {/* Bouton de soumission principal Blanc Épuré */}
             <button
               type="submit"
-              className="w-full min-h-[50px] py-3.5 bg-[#1E5EFF] hover:bg-[#184FD8] active:bg-[#1340B5] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(30,94,255,0.4)] cursor-pointer"
+              className="w-full min-h-[50px] py-3.5 bg-white hover:bg-zinc-200 active:bg-zinc-300 text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(255,255,255,0.2)] cursor-pointer"
             >
               <Send className="w-4 h-4" />
               <span>Transmettre Mon Questionnaire de Devis</span>
@@ -347,11 +341,11 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
         ) : (
           /* Confirmation personnalisée avec option WhatsApp direct */
           <div className="py-8 flex flex-col items-center text-center">
-            <div className="w-16 h-16 rounded-full bg-[#1E5EFF]/10 border border-[#1E5EFF]/30 flex items-center justify-center mb-5 text-[#1E5EFF]">
-              <CheckCircle2 className="w-9 h-9" />
+            <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mb-5 text-white">
+              <CheckCircle2 className="w-9 h-9 text-white" />
             </div>
 
-            <div className="text-xs font-mono uppercase text-[#1E5EFF] mb-1.5">
+            <div className="text-xs font-mono uppercase text-white mb-1.5 font-bold">
               DOSSIER DE DEVIS ENREGISTRÉ
             </div>
             <h3 className="text-2xl font-bold text-white mb-2">
@@ -364,7 +358,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
             {/* Option d'envoi direct sur WhatsApp pour un traitement instantané */}
             <div className="w-full max-w-md p-4 bg-zinc-900 rounded-2xl border border-white/10 mb-6 text-left">
               <div className="text-xs font-semibold text-white mb-2 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#1E5EFF]" />
+                <Sparkles className="w-4 h-4 text-white" />
                 <span>Traitement Prioritaire via WhatsApp</span>
               </div>
               <p className="text-xs text-zinc-400 mb-4 leading-relaxed">
