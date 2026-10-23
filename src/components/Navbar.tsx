@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import iconPrymax from '../assets/branding/icon_prymax.png';
 import { 
   Menu, 
   X, 
@@ -182,7 +183,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               aria-label="Accueil PRYMAX STUDIO"
             >
               <img 
-                src="/src/assets/branding/icon_prymax.png" 
+                src={iconPrymax} 
                 alt="Logo PRYMAX STUDIO" 
                 className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded-md shadow-sm group-hover/logo:scale-105 transition-transform"
               />

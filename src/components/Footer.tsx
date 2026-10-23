@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, ArrowRight, MessageCircle, Check, Mail, X, Loader2 } from 'lucide-react';
+import iconPrymax from '../assets/branding/icon_prymax.png';
 
 interface FooterProps {
   onOpenContact: () => void;
@@ -98,7 +99,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
               {/* Nœud Central : Logo PRYMAX STUDIO */}
               <div className="relative z-10 w-12 h-12 rounded-2xl bg-zinc-950 text-white flex items-center justify-center shadow-xl border border-zinc-800">
                 <img 
-                  src="/src/assets/branding/icon_prymax.png" 
+                  src={iconPrymax} 
                   alt="PRYMAX Logo" 
                   className="w-7 h-7 object-contain"
                 />
@@ -137,7 +138,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
               <img 
-                src="/src/assets/branding/icon_prymax.png" 
+                src={iconPrymax} 
                 alt="PRYMAX STUDIO" 
                 className="w-8 h-8 object-contain rounded-md"
               />

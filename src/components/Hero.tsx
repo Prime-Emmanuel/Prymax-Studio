@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight, Star, CheckCircle, Sparkles, Code, Palette } from 'lucide-react';
+import heroPlancheMarque from '../assets/branding/hero_planche_marque.png';
 
 interface HeroProps {
   onOpenContact: () => void;
@@ -123,7 +124,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
             <div className="relative w-full max-w-[420px] sm:max-w-[460px] aspect-[4/5] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-[#480004] flex items-center justify-center p-2.5 sm:p-3.5">
               
               <img
-                src="/src/assets/branding/hero_planche_marque.png"
+                src={heroPlancheMarque}
                 alt="Planche de marque DG créée par PRYMAX STUDIO"
                 className="w-full h-full object-contain object-center drop-shadow-xl"
               />

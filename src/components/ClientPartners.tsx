@@ -1,6 +1,7 @@
 import React from 'react';
 import { CLIENT_PARTNERS } from '../data/agencyData';
 import { ShieldCheck, CheckCircle2 } from 'lucide-react';
+import heroPlancheMarque from '../assets/branding/hero_planche_marque.png';
 
 export const ClientPartners: React.FC = () => {
   return (
@@ -47,7 +48,7 @@ export const ClientPartners: React.FC = () => {
 
               <div className="aspect-[16/10] rounded-2xl overflow-hidden mb-6 border border-white/10 bg-black">
                 <img 
-                  src="/src/assets/branding/hero_planche_marque.png" 
+                  src={heroPlancheMarque} 
                   alt="Planche de marque DG par Prymax Studio" 
                   className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
                 />
