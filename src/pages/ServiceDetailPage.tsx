@@ -47,7 +47,6 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 {service.badge}
               </span>
             )}
-            <span className="text-xs text-zinc-500">· Douala, Cameroun</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
@@ -72,15 +71,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
 
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold transition-all shadow-lg flex items-center gap-2"
+            <button
+              onClick={onOpenContact}
+              className="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition-all shadow-lg flex items-center gap-2 cursor-pointer"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>Échanger sur WhatsApp</span>
-            </a>
+              <span>Contacter le studio</span>
+            </button>
           </div>
         </div>
 
@@ -97,7 +94,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-black/70 backdrop-blur-md border border-white/10 flex items-center justify-between">
               <div>
                 <div className="text-xs font-bold text-white">Accompagnement PRYMAX STUDIO</div>
-                <div className="text-[11px] text-zinc-400">Freelance haut de gamme · Douala, Cameroun</div>
+                <div className="text-[11px] text-zinc-400">Conception Digitale &amp; Sur-Mesure</div>
               </div>
               <Star className="w-4 h-4 text-[#E5B54F] fill-[#E5B54F]" />
             </div>

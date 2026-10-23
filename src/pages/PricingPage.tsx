@@ -30,7 +30,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
 
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300 mb-4">
           <Sparkles className="w-3.5 h-3.5 text-[#E5B54F]" />
-          <span>Transparence Totale · Tarifs FCFA &amp; Délais Maîtrisés · Douala, Cameroun</span>
+          <span>Transparence Totale · Tarifs FCFA &amp; Délais Maîtrisés</span>
         </div>
 
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight text-balance">

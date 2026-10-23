@@ -2,6 +2,8 @@ import { ServiceItem, ClientPartner, PricingModule } from '../types';
 import brandingMockup from '../assets/images/branding_identity_mockup_1792588771026.jpg';
 import enterpriseHero from '../assets/images/digital_enterprise_hero_1792588771383.jpg';
 import apparelMockup from '../assets/images/apparel_graphic_tshirt_1792588752439.jpg';
+import ecommerceMockup from '../assets/images/ecommerce_shop_mockup_1792768581525.jpg';
+import seoMockup from '../assets/images/seo_analytics_mockup_1792768595308.jpg';
 import iconPrymax from '../assets/branding/icon_prymax.png';
 
 export const PRYMAX_PLACEHOLDER_LOGO = iconPrymax;
@@ -12,16 +14,16 @@ export const SERVICES: ServiceItem[] = [
     number: '01',
     title: 'Création de Sites Web pour Entreprises',
     tagline: 'Sites vitrines d\'exception, One-Page percutants et plateformes sur-mesure ultra-rapides et 100% responsives.',
-    summary: 'Nous concevons des sites internet modernes, sécurisés et performants, pensés dès la première seconde pour inspirer une confiance absolue, valoriser vos services d\'entreprise et convertir les visiteurs en clients qualifiés via WhatsApp ou formulaire.',
+    summary: 'Nous concevons des sites internet modernes, sécurisés et performants, pensés dès la première seconde pour inspirer une confiance absolue, valoriser vos services d\'entreprise et convertir les visiteurs en clients qualifiés.',
     deliverables: [
       'Structure 100% adaptée et fluide sur tous les smartphones, tablettes et ordinateurs',
-      'Bouton de contact direct WhatsApp et formulaires de devis interactifs',
+      'Boutons d\'action directs et formulaires de devis interactifs',
       'Vitesse de chargement ultra-rapide (Core Web Vitals optimisés)',
       'Nom de domaine sécurisé (HTTPS) et configuration d\'emails professionnels',
       'Architecture technique moderne, référencement naturel et sécurité renforcée',
       'Mise en ligne soignée et assistance après livraison'
     ],
-    technologies: ['React', 'Next.js', 'Tailwind CSS', 'Mobile First', 'WhatsApp Integration', 'SEO Schema'],
+    technologies: ['React', 'Next.js', 'Tailwind CSS', 'Mobile First', 'API Integration', 'SEO Schema'],
     idealFor: 'Entreprises, cabinets d\'ingénierie, PME, commerces, agences et professionnels exigeants.',
     image: enterpriseHero,
     badge: 'Cœur de Métier · Business',
@@ -50,20 +52,20 @@ export const SERVICES: ServiceItem[] = [
     id: 'srv-ecom',
     number: '03',
     title: 'E-Commerce & Boutiques en Ligne',
-    tagline: 'Vendez vos produits 24h/24 avec encaissement sécurisé par Mobile Money (Orange, MTN) et Cartes bancaires.',
+    tagline: 'Vendez vos produits 24h/24 avec encaissement sécurisé par Mobile Money et Cartes bancaires.',
     summary: 'Une boutique en ligne élégante, simple à utiliser pour vos acheteurs et intuitive à administrer pour vous. Gestion des stocks en direct, notifications instantanées de commande et tunnel d\'achat sans la moindre friction.',
     deliverables: [
       'Catalogue de produits avec photos en haute qualité, filtres, variantes et fiches détaillées',
       'Paiement en ligne sécurisé (Orange Money, MTN MoMo, Wave, Cartes Visa / Mastercard)',
       'Panier d\'achat intuitif et processus de commande rapide en un clic',
-      'Gestion des commandes, alertes WhatsApp/Email et suivi automatique des stocks',
+      'Gestion des commandes, alertes instantanées et suivi automatique des stocks',
       'Formation claire pour ajouter vos futurs articles en toute autonomie'
     ],
     technologies: ['E-Commerce Engine', 'Stripe / Mobile Money Gateways', 'Inventory Sync', 'Mobile Checkout'],
     idealFor: 'Commerçants, marques de prêt-à-porter, boutiques spécialisées voulant vendre partout.',
-    image: 'https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80',
+    image: ecommerceMockup,
     badge: 'Vente 24h/24',
-    stats: 'MTN & Orange Money Intégrés'
+    stats: 'Paiements Sécurisés Intégrés'
   },
   {
     id: 'srv-textile',
@@ -88,7 +90,7 @@ export const SERVICES: ServiceItem[] = [
     number: '05',
     title: 'Référencement & Visibilité Google (SEO)',
     tagline: 'Positionnez votre entreprise en tête des recherches locales et attirez des clients qualifiés chaque jour.',
-    summary: 'Soyez visible exactement là où vos clients cherchent. Optimisation de votre fiche d\'établissement Google Maps et Google My Business à Douala et à l\'échelle nationale pour générer des appels et messages réguliers.',
+    summary: 'Soyez visible exactement là où vos clients cherchent. Optimisation de votre fiche d\'établissement Google Maps et Google My Business pour générer des appels et demandes régulières.',
     deliverables: [
       'Création et optimisation complète de votre fiche Google My Business',
       'Positionnement sur Google Maps pour les recherches locales stratégiques',
@@ -97,7 +99,7 @@ export const SERVICES: ServiceItem[] = [
     ],
     technologies: ['Google My Business', 'SEO Local Google Maps', 'Schema.org JSON-LD', 'Analytics'],
     idealFor: 'Entreprises locales voulant capter les clients en recherche active de leurs services.',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    image: seoMockup,
     badge: 'Acquisition Locale',
     stats: 'Top Résultats Google Maps'
   }

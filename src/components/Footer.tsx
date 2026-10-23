@@ -81,15 +81,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
                   <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </button>
 
-                <a
-                  href="https://wa.me/237681078004?text=Bonjour%20PRYMAX%20STUDIO%2C%20je%20souhaite%20un%20devis."
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={onOpenContact}
                   className="px-5 py-3 rounded-full border border-zinc-300 hover:border-zinc-400 text-zinc-800 text-xs font-semibold transition-colors flex items-center gap-2 cursor-pointer min-h-[44px]"
                 >
-                  <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>WhatsApp</span>
-                </a>
+                  <span>Nous contacter</span>
+                </button>
               </div>
             </div>
 
@@ -235,26 +232,26 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
           {/* Colonne 3 : Réseaux */}
           <div className="lg:col-span-2">
             <div className="text-xs font-semibold uppercase tracking-wider text-white mb-4">
-              Réseaux
+              Réseaux Officiels
             </div>
             <ul className="space-y-2.5 text-xs text-zinc-400">
               <li>
                 <a 
-                  href="https://wa.me/237681078004" 
+                  href="https://tiktok.com/@prymaxstudio" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors inline-flex items-center gap-1"
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5"
                 >
-                  <span>WhatsApp</span>
+                  <span>TikTok</span>
                   <span className="text-zinc-600">↗</span>
                 </a>
               </li>
               <li>
                 <a 
-                  href="https://instagram.com" 
+                  href="https://instagram.com/prymaxstudio" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors inline-flex items-center gap-1"
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5"
                 >
                   <span>Instagram</span>
                   <span className="text-zinc-600">↗</span>
@@ -262,23 +259,23 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               </li>
               <li>
                 <a 
-                  href="https://linkedin.com" 
+                  href="https://wa.me/237681078004" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors inline-flex items-center gap-1"
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5"
                 >
-                  <span>LinkedIn</span>
+                  <span>WhatsApp</span>
                   <span className="text-zinc-600">↗</span>
                 </a>
               </li>
               <li>
                 <a 
-                  href="https://x.com" 
+                  href="https://facebook.com/prymaxstudio" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors inline-flex items-center gap-1"
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5"
                 >
-                  <span>Twitter / X</span>
+                  <span>Facebook</span>
                   <span className="text-zinc-600">↗</span>
                 </a>
               </li>
@@ -352,7 +349,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
             &copy; {new Date().getFullYear()} PRYMAX STUDIO. Tous droits réservés.
           </div>
           <div className="text-zinc-500 text-[11px]">
-            Douala, Cameroun
+            Conception Digitale &amp; Web Haute Performance
           </div>
         </div>
 
@@ -435,7 +432,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               </div>
 
               <div className="pt-3 border-t border-white/5 text-[10px] text-zinc-500">
-                PRYMAX STUDIO · Douala &amp; Yaoundé, Cameroun · prymaxstudio@gmail.com
+                PRYMAX STUDIO · Direction Technique &amp; Relation Client · prymaxstudio@gmail.com
               </div>
             </div>
 

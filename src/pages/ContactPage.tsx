@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageCircle, Mail, MapPin, Send, CheckCircle2, ShieldCheck, Sparkles, Phone, ArrowUpRight } from 'lucide-react';
+import { MessageCircle, Mail, Clock, Send, CheckCircle2, ShieldCheck, Sparkles, Phone, ArrowUpRight } from 'lucide-react';
 
 interface ContactPageProps {
   onNavigate: (route: string) => void;
@@ -40,7 +40,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300 mb-4">
           <Sparkles className="w-3.5 h-3.5 text-[#E5B54F]" />
-          <span>Douala, Cameroun · Disponible pour projets partout dans le monde</span>
+          <span>Disponible pour vos projets digitaux et de marque</span>
         </div>
 
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight text-balance">
@@ -54,12 +54,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         {/* Colonne Coordonnées directes */}
         <div className="lg:col-span-5 space-y-6">
-          {/* Carte WhatsApp Direct */}
+          {/* Carte Contact Direct */}
           <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#0e1a14] to-[#0A0D0B] border border-emerald-500/20 shadow-xl">
             <div className="w-12 h-12 rounded-2xl bg-[#25D366]/20 border border-[#25D366]/40 flex items-center justify-center text-[#25D366] mb-4">
               <MessageCircle className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Canal le plus rapide : WhatsApp</h3>
+            <h3 className="text-xl font-bold text-white mb-2">Canal le plus réactif</h3>
             <p className="text-xs sm:text-sm text-zinc-300 mb-6 leading-relaxed">
               Discutez directement en direct, envoyez vos maquettes ou vos références pour un premier avis technique gratuit.
             </p>
@@ -69,21 +69,21 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
               rel="noopener noreferrer"
               className="w-full py-3.5 px-6 rounded-2xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
             >
-              <span>Écrire sur WhatsApp (+237 681 078 004)</span>
+              <span>Échanger en direct</span>
               <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>
 
-          {/* Carte Localisation & Email */}
+          {/* Carte Coordonnées & Email */}
           <div className="p-6 sm:p-8 rounded-3xl bg-[#0F1015] border border-white/10 space-y-5">
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0">
-                <MapPin className="w-5 h-5 text-[#E5B54F]" />
+                <Clock className="w-5 h-5 text-[#E5B54F]" />
               </div>
               <div>
-                <h4 className="text-xs font-mono uppercase text-zinc-400">Localisation</h4>
-                <div className="text-sm sm:text-base font-bold text-white mt-0.5">Douala, Cameroun</div>
-                <div className="text-xs text-zinc-400 mt-1">Interventions à distance et sur site professionnel</div>
+                <h4 className="text-xs font-mono uppercase text-zinc-400">Disponibilité</h4>
+                <div className="text-sm sm:text-base font-bold text-white mt-0.5">Lundi au Samedi · 8h00 – 19h00</div>
+                <div className="text-xs text-zinc-400 mt-1">Interventions et suivi de projet continu</div>
               </div>
             </div>
 
@@ -189,7 +189,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   <option value="Branding & Logo Original">Branding, Logo Original &amp; Charte Graphique</option>
                   <option value="Boutique en Ligne E-Commerce">Boutique en Ligne E-Commerce (Paiements Mobile Money)</option>
                   <option value="Design Graphique & Mockups Textiles">Design Graphique &amp; Mockups Textiles 3D</option>
-                  <option value="Référencement SEO & Google Maps">Référencement SEO &amp; Google Maps Douala</option>
+                  <option value="Référencement SEO & Google Maps">Référencement SEO &amp; Google Maps</option>
                 </select>
               </div>
 
@@ -226,7 +226,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
               </div>
               <h3 className="text-2xl font-bold text-white">Message bien reçu, {fullName} !</h3>
               <p className="text-xs sm:text-sm text-zinc-300 max-w-md mx-auto leading-relaxed">
-                Votre demande a été transmise avec succès à l'équipe PRYMAX STUDIO à Douala. Nous reprenons contact avec vous dans la journée au <span className="text-white font-bold">{phone}</span>.
+                Votre demande a été transmise avec succès à l'équipe PRYMAX STUDIO. Nous reprenons contact avec vous dans la journée au <span className="text-white font-bold">{phone}</span>.
               </p>
               <button
                 onClick={() => setSubmitted(false)}

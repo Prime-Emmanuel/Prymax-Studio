@@ -25,14 +25,14 @@ export const StudioPage: React.FC<StudioPageProps> = ({ onOpenContact, onNavigat
 
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300 mb-4">
           <Sparkles className="w-3.5 h-3.5 text-[#E5B54F]" />
-          <span>Freelance Studio Indépendant · Douala, Cameroun</span>
+          <span>Studio Digital Indépendant d'Élite</span>
         </div>
 
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight text-balance">
           L'exigence du sur-mesure, l'agilité d'un studio indépendant
         </h1>
         <p className="text-zinc-300 text-sm sm:text-lg max-w-2xl mt-4 leading-relaxed">
-          Chez PRYMAX STUDIO, nous travaillons en freelance avec un niveau d'exigence sans compromis. Pas d'intermédiaire, pas de bureaucratie : vous échangez directement avec le créateur de votre produit.
+          Chez PRYMAX STUDIO, nous travaillons avec un niveau d'exigence sans compromis. Pas d'intermédiaire, pas de bureaucratie : vous échangez directement avec les créateurs de votre produit.
         </p>
       </div>
 
@@ -51,7 +51,7 @@ export const StudioPage: React.FC<StudioPageProps> = ({ onOpenContact, onNavigat
           </h2>
 
           <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
-            Dans un monde numérique saturé de templates génériques et de sites lents, PRYMAX STUDIO a été fondé pour apporter une alternative haut de gamme aux entreprises du Cameroun et d'ailleurs. Nous concevons chaque site, chaque logo et chaque détail comme une pièce unique d'artisanat digital.
+            Dans un monde numérique saturé de templates génériques et de sites lents, PRYMAX STUDIO a été fondé pour apporter une alternative haut de gamme aux entreprises exigeantes. Nous concevons chaque site, chaque logo et chaque détail comme une pièce unique d'artisanat digital.
           </p>
 
           <div className="pt-3 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 text-xs">
@@ -60,12 +60,12 @@ export const StudioPage: React.FC<StudioPageProps> = ({ onOpenContact, onNavigat
               <div className="text-zinc-400 mt-0.5">Sur-mesure &amp; Mobile-First</div>
             </div>
             <div>
-              <div className="font-mono text-xl sm:text-2xl font-extrabold text-white">Douala</div>
-              <div className="text-zinc-400 mt-0.5">Base d'opérations principale</div>
+              <div className="font-mono text-xl sm:text-2xl font-extrabold text-white">Sur-Mesure</div>
+              <div className="text-zinc-400 mt-0.5">Architecture dédiée &amp; épurée</div>
             </div>
             <div>
               <div className="font-mono text-xl sm:text-2xl font-extrabold text-white">Direct</div>
-              <div className="text-zinc-400 mt-0.5">Contact WhatsApp réactif</div>
+              <div className="text-zinc-400 mt-0.5">Échanges réactifs &amp; continus</div>
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@ export const StudioPage: React.FC<StudioPageProps> = ({ onOpenContact, onNavigat
                 Performance 100% Mobile
               </h3>
               <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
-                Au Cameroun et en Afrique, la majorité de vos clients naviguent sur smartphone. Chaque site est optimisé pour charger instantanément même en connexion modeste.
+                La majorité de vos clients naviguent sur smartphone. Chaque site est optimisé pour charger instantanément même en connexion modeste.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-white/5 text-xs text-zinc-400 flex items-center gap-2">
@@ -168,7 +168,7 @@ export const StudioPage: React.FC<StudioPageProps> = ({ onOpenContact, onNavigat
           <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2">
             <span className="font-mono text-xs text-emerald-400 font-bold">03 · Développement &amp; Tests</span>
             <h4 className="text-sm font-bold text-white">Codage &amp; Optimisation</h4>
-            <p className="text-xs text-zinc-400">Intégration responsive, sécurisation HTTPS, tests vitesse et intégration WhatsApp.</p>
+            <p className="text-xs text-zinc-400">Intégration responsive, sécurisation HTTPS, tests de vitesse et formulaires interactifs.</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2">
@@ -185,13 +185,13 @@ export const StudioPage: React.FC<StudioPageProps> = ({ onOpenContact, onNavigat
           Prêt à collaborer avec PRYMAX STUDIO ?
         </h3>
         <p className="text-xs sm:text-sm text-zinc-400 max-w-lg mb-6">
-          Nous sommes basés à Douala, Cameroun et disponibles pour vos projets partout dans le monde.
+          Notre équipe est à votre écoute pour concevoir votre futur projet digital.
         </p>
         <button
           onClick={onOpenContact}
           className="px-8 py-3.5 rounded-full bg-white hover:bg-zinc-200 text-zinc-950 font-bold text-xs uppercase tracking-wider transition-all shadow-xl cursor-pointer"
         >
-          Demander un devis sans engagement
+          Demander un devis
         </button>
       </div>
     </div>

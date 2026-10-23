@@ -6,17 +6,17 @@ import {
   ChevronDown, 
   ArrowUpRight, 
   Layout, 
-  Smartphone, 
   Sparkles, 
   Palette, 
   TrendingUp, 
   Compass,
   ArrowRight,
   Phone,
-  MessageCircle,
   Briefcase,
+  KeyRound,
+  Info,
   Layers,
-  MapPin
+  Home
 } from 'lucide-react';
 import { PageRoute } from '../types';
 
@@ -45,7 +45,7 @@ const SERVICE_ITEMS: ServiceDropdownItem[] = [
   },
   {
     title: 'E-Commerce & Vente en Ligne',
-    description: 'Boutiques sécurisées avec paiement Orange Money, MTN et Carte.',
+    description: 'Boutiques sécurisées avec paiement Mobile Money et Carte.',
     icon: TrendingUp
   },
   {
@@ -55,7 +55,7 @@ const SERVICE_ITEMS: ServiceDropdownItem[] = [
   },
   {
     title: 'SEO & Visibilité Google Maps',
-    description: 'Positionnement local à Douala et acquisition de clients qualifiés.',
+    description: 'Positionnement local et acquisition de clients qualifiés.',
     icon: Compass
   }
 ];
@@ -128,16 +128,35 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
   return (
     <>
       {/* =========================================================================
-          NAVBAR FLOTTANTE DÉTACHÉE AVEC BORDURE ANIMÉE EN 3 COULEURS (OR, BLEU, BLANC)
+          NAVBAR FLOTTANTE AVEC FAISCEAUX LUMINEUX 3 COULEURS EN FONDU ENCHAÎNÉ PARFAIT
          ========================================================================= */}
       <header className="fixed top-3 sm:top-5 inset-x-3 sm:inset-x-6 md:inset-x-8 max-w-[1240px] mx-auto z-40 transition-all duration-300">
         
-        {/* Conteneur externe arrondi avec faisceau lumineux rotatif 3 couleurs */}
+        {/* Conteneur externe avec 3 couches rotatives de couleur en fondu enchaîné continu */}
         <div className="relative p-[1.5px] rounded-full overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.7)] group">
           
-          {/* Faisceau lumineux qui alterne cycliquement : Or -> Bleu -> Blanc */}
+          {/* Faisceau 1 : Or (#E5B54F) */}
           <div 
-            className="absolute -inset-[150%] animate-navbar-beam pointer-events-none opacity-90"
+            className="absolute -inset-[150%] animate-beam-gold pointer-events-none"
+            style={{
+              background: 'conic-gradient(from 0deg, transparent 0deg, rgba(229,181,79,0.15) 30deg, #E5B54F 75deg, #FFF0B3 95deg, rgba(229,181,79,0.6) 120deg, transparent 180deg, transparent 360deg)'
+            }}
+          />
+
+          {/* Faisceau 2 : Bleu (#3B82F6) */}
+          <div 
+            className="absolute -inset-[150%] animate-beam-blue pointer-events-none"
+            style={{
+              background: 'conic-gradient(from 0deg, transparent 0deg, rgba(59,130,246,0.15) 30deg, #3B82F6 75deg, #93C5FD 95deg, rgba(59,130,246,0.6) 120deg, transparent 180deg, transparent 360deg)'
+            }}
+          />
+
+          {/* Faisceau 3 : Blanc (#FFFFFF) */}
+          <div 
+            className="absolute -inset-[150%] animate-beam-white pointer-events-none"
+            style={{
+              background: 'conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.15) 30deg, #FFFFFF 75deg, #E4E4E7 95deg, rgba(255,255,255,0.6) 120deg, transparent 180deg, transparent 360deg)'
+            }}
           />
 
           {/* Intérieur de la Navbar */}
@@ -169,7 +188,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               className="hidden md:flex items-center gap-6 lg:gap-8 text-xs font-semibold text-zinc-300"
               aria-label="Navigation principale"
             >
-              {/* Dropdown Services -> Ouvre la page dédiée /services */}
+              {/* Dropdown Services */}
               <div className="relative">
                 <button
                   ref={dropdownButtonRef}
@@ -248,34 +267,34 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                   currentRoute === 'projets' ? 'text-white font-bold' : 'hover:text-white'
                 }`}
               >
-                <span>Projets</span>
+                <span>Projets et entreprises</span>
                 {currentRoute === 'projets' && (
                   <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full shadow-[0_0_8px_white]" />
                 )}
               </button>
 
-              {/* Page dédiée Studio */}
+              {/* Page Portail client */}
+              <button 
+                onClick={() => handleRouteClick('portail')}
+                className={`relative py-1.5 transition-colors cursor-pointer ${
+                  currentRoute === 'portail' ? 'text-white font-bold' : 'hover:text-white'
+                }`}
+              >
+                <span>Portail client</span>
+                {currentRoute === 'portail' && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full shadow-[0_0_8px_white]" />
+                )}
+              </button>
+
+              {/* Page À propos / Studio */}
               <button 
                 onClick={() => handleRouteClick('studio')}
                 className={`relative py-1.5 transition-colors cursor-pointer ${
                   currentRoute === 'studio' ? 'text-white font-bold' : 'hover:text-white'
                 }`}
               >
-                <span>Studio</span>
+                <span>À propos</span>
                 {currentRoute === 'studio' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full shadow-[0_0_8px_white]" />
-                )}
-              </button>
-
-              {/* Page dédiée Délais & Devis */}
-              <button 
-                onClick={() => handleRouteClick('devis')}
-                className={`relative py-1.5 transition-colors cursor-pointer ${
-                  currentRoute === 'devis' ? 'text-white font-bold' : 'hover:text-white'
-                }`}
-              >
-                <span>Délais &amp; Devis</span>
-                {currentRoute === 'devis' && (
                   <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full shadow-[0_0_8px_white]" />
                 )}
               </button>
@@ -300,7 +319,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                 onClick={onOpenContact}
                 className="hidden sm:inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 text-xs font-bold text-zinc-950 bg-white hover:bg-zinc-200 active:bg-zinc-300 rounded-full transition-all duration-150 shadow-[0_2px_18px_rgba(255,255,255,0.2)] cursor-pointer"
               >
-                <span>DEMANDER UN DEVIS</span>
+                <span>Demander un devis</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
 
@@ -319,172 +338,157 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
       </header>
 
       {/* =========================================================================
-          MENU MOBILE AVEC PAGES DÉDIÉES ET BOUTON FERMER (X) TRÈS ÉLÉGANT
+          MENU MOBILE REDESSINÉ : ACCUEIL, PROJETS ET ENTREPRISES, PORTAIL CLIENT,
+          A PROPOS, CONTACT — AVEC ICÔNES ÉLÉGANTES ET ANIMATION SOIGNÉE
          ========================================================================= */}
       {mobileMenuOpen && (
         <>
           {/* Arrière-plan flouté pour fermer au clic extérieur */}
           <div 
-            className="md:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+            className="md:hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-md animate-in fade-in duration-200"
             onClick={() => setMobileMenuOpen(false)}
           />
 
-          {/* Carte flottante du menu mobile */}
+          {/* Tiroir élégant du menu mobile */}
           <div 
-            className="md:hidden fixed top-16 sm:top-20 left-3 right-3 sm:left-auto sm:right-6 sm:w-[340px] max-w-[calc(100vw-24px)] z-50 bg-[#0E1015] text-zinc-100 rounded-3xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)] border border-white/15 animate-in zoom-in-95 fade-in duration-150 select-none max-h-[85vh] overflow-y-auto"
+            className="md:hidden fixed top-16 sm:top-20 left-3 right-3 sm:left-auto sm:right-6 sm:w-[350px] max-w-[calc(100vw-24px)] z-50 bg-[#0E1015]/95 backdrop-blur-2xl text-zinc-100 rounded-[28px] p-5 shadow-[0_25px_70px_rgba(0,0,0,0.9)] border border-white/15 animate-in zoom-in-95 fade-in duration-200 select-none max-h-[85vh] overflow-y-auto"
             role="menu"
             aria-label="Menu mobile PRYMAX STUDIO"
           >
-            {/* Barre supérieure avec bouton Fermer (X) stylé */}
-            <div className="flex items-center justify-between pb-3 mb-2 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <img src={iconPrymax} alt="Logo" className="w-6 h-6 object-contain rounded" />
-                <span className="text-xs font-extrabold tracking-wider text-white">
-                  PRYMAX STUDIO
+            {/* Barre d'en-tête du menu mobile avec bouton (X) stylé */}
+            <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-white/10">
+              <div className="flex items-center gap-2.5">
+                <img src={iconPrymax} alt="Logo" className="w-6 h-6 object-contain rounded-md" />
+                <span className="font-display font-extrabold text-sm tracking-wider text-white">
+                  PRYMAX <span className="text-zinc-400 font-light">STUDIO</span>
                 </span>
               </div>
 
-              {/* Bouton (X) très soigné et tactile */}
+              {/* Bouton de fermeture stylé */}
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/20 flex items-center justify-center text-zinc-300 hover:text-white transition-all cursor-pointer"
-                aria-label="Fermer le menu mobile"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/20 flex items-center justify-center text-zinc-300 hover:text-white transition-all cursor-pointer shadow-sm"
+                aria-label="Fermer le menu"
               >
                 <X className="w-4 h-4 stroke-[2.5]" />
               </button>
             </div>
 
-            {/* Élément 1 : Accueil */}
-            <button
-              role="menuitem"
-              onClick={() => handleRouteClick('home')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-medium text-sm transition-colors text-left cursor-pointer min-h-[44px] ${
-                currentRoute === 'home'
-                  ? 'bg-white/10 text-white font-bold border border-white/15'
-                  : 'text-zinc-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-white shrink-0">
-                <Layers className="w-4 h-4" />
-              </div>
-              <span className="truncate">Accueil</span>
-            </button>
+            {/* LISTE DES 5 ÉLÉMENTS DEMANDÉS PAR L'UTILISATEUR */}
+            <div className="space-y-1.5">
+              {/* 1. Accueil */}
+              <button
+                role="menuitem"
+                onClick={() => handleRouteClick('home')}
+                className={`w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl text-sm font-semibold transition-all text-left cursor-pointer min-h-[46px] ${
+                  currentRoute === 'home'
+                    ? 'bg-white text-zinc-950 shadow-md font-bold'
+                    : 'text-zinc-200 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                  currentRoute === 'home' ? 'bg-zinc-900 text-white' : 'bg-white/10 text-zinc-300'
+                }`}>
+                  <Home className="w-4 h-4" />
+                </div>
+                <span className="truncate">Accueil</span>
+              </button>
 
-            {/* Élément 2 : Nos Services */}
-            <button
-              role="menuitem"
-              onClick={() => handleRouteClick('services')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-medium text-sm transition-colors text-left cursor-pointer mt-1 min-h-[44px] ${
-                currentRoute === 'services' || currentRoute === 'service-detail'
-                  ? 'bg-white/10 text-white font-bold border border-white/15'
-                  : 'text-zinc-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <div className="w-8 h-8 rounded-xl bg-[#E5B54F]/20 text-[#E5B54F] flex items-center justify-center shrink-0">
-                <Sparkles className="w-4 h-4" />
-              </div>
-              <span className="truncate">Nos Services Dédiés</span>
-            </button>
+              {/* 2. Projets et entreprises */}
+              <button
+                role="menuitem"
+                onClick={() => handleRouteClick('projets')}
+                className={`w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl text-sm font-semibold transition-all text-left cursor-pointer min-h-[46px] ${
+                  currentRoute === 'projets'
+                    ? 'bg-white text-zinc-950 shadow-md font-bold'
+                    : 'text-zinc-200 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                  currentRoute === 'projets' ? 'bg-zinc-900 text-white' : 'bg-white/10 text-zinc-300'
+                }`}>
+                  <Briefcase className="w-4 h-4" />
+                </div>
+                <span className="truncate">Projets et entreprises</span>
+              </button>
 
-            {/* Élément 3 : Projets & Entreprises */}
-            <button
-              role="menuitem"
-              onClick={() => handleRouteClick('projets')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-medium text-sm transition-colors text-left cursor-pointer mt-1 min-h-[44px] ${
-                currentRoute === 'projets'
-                  ? 'bg-white/10 text-white font-bold border border-white/15'
-                  : 'text-zinc-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <div className="w-8 h-8 rounded-xl bg-white/10 text-zinc-300 flex items-center justify-center shrink-0">
-                <Briefcase className="w-4 h-4" />
-              </div>
-              <span className="truncate">Projets &amp; Entreprises</span>
-            </button>
+              {/* 3. Portail client */}
+              <button
+                role="menuitem"
+                onClick={() => handleRouteClick('portail')}
+                className={`w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl text-sm font-semibold transition-all text-left cursor-pointer min-h-[46px] ${
+                  currentRoute === 'portail'
+                    ? 'bg-white text-zinc-950 shadow-md font-bold'
+                    : 'text-zinc-200 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                  currentRoute === 'portail' ? 'bg-zinc-900 text-white' : 'bg-white/10 text-zinc-300'
+                }`}>
+                  <KeyRound className="w-4 h-4 text-[#E5B54F]" />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="truncate">Portail client</span>
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#E5B54F]/20 text-[#E5B54F] border border-[#E5B54F]/30">Espace</span>
+                </div>
+              </button>
 
-            {/* Élément 4 : Le Studio */}
-            <button
-              role="menuitem"
-              onClick={() => handleRouteClick('studio')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-medium text-sm transition-colors text-left cursor-pointer mt-1 min-h-[44px] ${
-                currentRoute === 'studio'
-                  ? 'bg-white/10 text-white font-bold border border-white/15'
-                  : 'text-zinc-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <div className="w-8 h-8 rounded-xl bg-white/10 text-zinc-300 flex items-center justify-center shrink-0">
-                <Compass className="w-4 h-4" />
-              </div>
-              <span className="truncate">Le Studio (Approche)</span>
-            </button>
+              {/* 4. À propos */}
+              <button
+                role="menuitem"
+                onClick={() => handleRouteClick('studio')}
+                className={`w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl text-sm font-semibold transition-all text-left cursor-pointer min-h-[46px] ${
+                  currentRoute === 'studio'
+                    ? 'bg-white text-zinc-950 shadow-md font-bold'
+                    : 'text-zinc-200 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                  currentRoute === 'studio' ? 'bg-zinc-900 text-white' : 'bg-white/10 text-zinc-300'
+                }`}>
+                  <Info className="w-4 h-4" />
+                </div>
+                <span className="truncate">À propos</span>
+              </button>
 
-            {/* Élément 5 : Délais & Devis */}
-            <button
-              role="menuitem"
-              onClick={() => handleRouteClick('devis')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-medium text-sm transition-colors text-left cursor-pointer mt-1 min-h-[44px] ${
-                currentRoute === 'devis'
-                  ? 'bg-white/10 text-white font-bold border border-white/15'
-                  : 'text-zinc-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <div className="w-8 h-8 rounded-xl bg-white/10 text-zinc-300 flex items-center justify-center shrink-0">
-                <Palette className="w-4 h-4" />
-              </div>
-              <span className="truncate">Délais &amp; Devis FCFA</span>
-            </button>
+              {/* 5. Contact */}
+              <button
+                role="menuitem"
+                onClick={() => handleRouteClick('contact')}
+                className={`w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl text-sm font-semibold transition-all text-left cursor-pointer min-h-[46px] ${
+                  currentRoute === 'contact'
+                    ? 'bg-white text-zinc-950 shadow-md font-bold'
+                    : 'text-zinc-200 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                  currentRoute === 'contact' ? 'bg-zinc-900 text-white' : 'bg-white/10 text-zinc-300'
+                }`}>
+                  <Phone className="w-4 h-4" />
+                </div>
+                <span className="truncate">Contact</span>
+              </button>
+            </div>
 
-            {/* Élément 6 : Contact */}
-            <button
-              role="menuitem"
-              onClick={() => handleRouteClick('contact')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-medium text-sm transition-colors text-left cursor-pointer mt-1 min-h-[44px] ${
-                currentRoute === 'contact'
-                  ? 'bg-white/10 text-white font-bold border border-white/15'
-                  : 'text-zinc-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <div className="w-8 h-8 rounded-xl bg-white/10 text-zinc-300 flex items-center justify-center shrink-0">
-                <Phone className="w-4 h-4" />
-              </div>
-              <span className="truncate">Contact Direct</span>
-            </button>
+            {/* Séparateur */}
+            <div className="my-3 border-t border-white/10" />
 
-            {/* Ligne de séparation */}
-            <div className="my-2 border-t border-white/10" />
-
-            {/* Bouton CTA Demande de Devis */}
+            {/* Bouton d'action principal propre */}
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenContact();
               }}
-              className="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-zinc-950 bg-white hover:bg-zinc-200 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-left min-h-[46px] shadow-lg"
+              className="w-full flex items-center justify-between px-4 py-3 rounded-2xl text-zinc-950 bg-white hover:bg-zinc-200 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-left min-h-[46px] shadow-lg"
             >
               <span>Demander un devis</span>
               <ArrowUpRight className="w-4 h-4 text-zinc-950" />
             </button>
 
-            {/* Contact WhatsApp */}
-            <a
-              href="https://wa.me/237681078004?text=Bonjour%20PRYMAX%20STUDIO%2C%20je%20souhaite%20un%20devis%20pour%20mon%20projet."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-emerald-400 hover:bg-emerald-500/10 font-semibold text-xs transition-colors mt-1.5 min-h-[44px]"
-            >
-              <div className="w-7 h-7 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
-                <MessageCircle className="w-4 h-4" />
-              </div>
-              <span className="truncate">WhatsApp : +237 681 078 004</span>
-            </a>
-
-            {/* Localisation strictly Douala, Cameroun */}
-            <div className="pt-2.5 mt-2 border-t border-white/10 text-[11px] text-zinc-400 px-3 flex items-center justify-between">
-              <span className="truncate">prymaxstudio@gmail.com</span>
-              <span className="flex items-center gap-1 text-white font-medium">
-                <MapPin className="w-3 h-3 text-[#E5B54F]" />
-                <span>Douala, Cameroun</span>
-              </span>
+            {/* Email de contact direct propre */}
+            <div className="pt-3 mt-2 border-t border-white/10 text-[11px] text-zinc-400 px-2 flex items-center justify-between">
+              <span>prymaxstudio@gmail.com</span>
+              <span className="text-zinc-300 font-medium">Studio Digital</span>
             </div>
 
           </div>

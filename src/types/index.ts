@@ -45,4 +45,5 @@ export type PageRoute =
   | 'projets'
   | 'studio'
   | 'devis'
-  | 'contact';
+  | 'contact'
+  | 'portail';

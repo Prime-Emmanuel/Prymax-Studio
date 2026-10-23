@@ -16,6 +16,8 @@ import { ProjectsPage } from './pages/ProjectsPage';
 import { StudioPage } from './pages/StudioPage';
 import { PricingPage } from './pages/PricingPage';
 import { ContactPage } from './pages/ContactPage';
+import { ClientPortalPage } from './pages/ClientPortalPage';
+import { ScrollToTop } from './components/ScrollToTop';
 
 import { PageRoute, ServiceItem } from './types';
 import { SERVICES } from './data/agencyData';
@@ -176,6 +178,13 @@ export default function App() {
             onNavigate={navigate}
           />
         )}
+
+        {currentRoute === 'portail' && (
+          <ClientPortalPage 
+            onNavigate={navigate}
+            onOpenContact={handleOpenContact}
+          />
+        )}
       </main>
 
       {/* Tiroir de Brief et Devis Rapide */}
@@ -187,10 +196,13 @@ export default function App() {
         preloadedTier={preloadedTier}
       />
 
-      {/* Bouton Flottant WhatsApp Authentique (Véritable Icône Officielle) */}
+      {/* Bouton Flottant WhatsApp Authentique */}
       <FloatingWhatsApp />
 
-      {/* Pied de Page Épuré (Douala, Cameroun) */}
+      {/* Bouton Élégant Retour en Haut de Page */}
+      <ScrollToTop />
+
+      {/* Pied de Page Épuré */}
       <Footer 
         onOpenContact={handleOpenContact} 
         onNavigate={navigate}

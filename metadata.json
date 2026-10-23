@@ -1,6 +1,6 @@
 {
   "name": "PRYMAX STUDIO — Sites Web pour Entreprises & Branding",
-  "description": "Studio digital indépendant d'élite basé à Douala, Cameroun. Création de sites web professionnels pour entreprises, identités de marque, logos et solutions digitales.",
+  "description": "Studio digital indépendant d'élite. Création de sites web professionnels pour entreprises, identités de marque, logos et solutions digitales.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

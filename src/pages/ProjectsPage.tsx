@@ -26,7 +26,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onOpenContact, onNav
 
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300 mb-4">
           <Sparkles className="w-3.5 h-3.5 text-[#E5B54F]" />
-          <span>Entreprises Accompagnées · Douala, Cameroun</span>
+          <span>Entreprises Accompagnées · Références Officielles</span>
         </div>
 
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight text-balance">
@@ -73,7 +73,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onOpenContact, onNav
             <div className="pt-4 flex items-center gap-3">
               <span className="text-xs font-mono text-zinc-400">Statut : Déployé avec succès</span>
               <span className="text-zinc-600">·</span>
-              <span className="text-xs text-white font-semibold">Douala, Cameroun</span>
+              <span className="text-xs text-white font-semibold">Référence Officielle</span>
             </div>
           </div>
 
@@ -222,7 +222,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onOpenContact, onNav
           Votre entreprise mérite un site web et une image de marque d'exception
         </h3>
         <p className="text-xs sm:text-sm text-zinc-400 max-w-xl mx-auto mb-6">
-          Nous collaborons avec les entreprises de Douala, du Cameroun et de la diaspora pour créer des plateformes digitales qui font la différence.
+          Nous collaborons avec les entreprises ambitieuses pour créer des plateformes digitales qui font la différence.
         </p>
         <button
           onClick={onOpenContact}

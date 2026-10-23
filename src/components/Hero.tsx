@@ -40,19 +40,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
             className="lg:col-span-7 flex flex-col justify-center"
           >
             
-            {/* Badge Avis & Localisation Douala, Cameroun */}
-            <div className="self-start inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.06] backdrop-blur-md border border-white/10 text-xs text-zinc-300 mb-6 shadow-sm">
+            {/* Badge Avis & Expertise */}
+            <div className="self-start inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] backdrop-blur-md border border-white/10 text-xs text-zinc-300 mb-6 shadow-sm">
               <div className="w-4 h-4 rounded-full bg-[#E5B54F] flex items-center justify-center text-zinc-950 text-[10px] font-bold">
                 <Star className="w-2.5 h-2.5 fill-current" />
               </div>
               <span className="font-bold text-white">4.9 / 5</span>
               <span className="text-zinc-500">·</span>
-              <span className="text-zinc-200">Freelance Studio</span>
-              <span className="text-zinc-500">·</span>
-              <span className="flex items-center gap-1 text-[#E5B54F] font-semibold">
-                <MapPin className="w-3 h-3 text-[#E5B54F]" />
-                <span>Douala, Cameroun</span>
-              </span>
+              <span className="text-zinc-200">Design Web &amp; Solutions Digitales d'Élite</span>
             </div>
 
             {/* Titre principal : Sites Web d'exception pour les Entreprises */}
@@ -92,7 +87,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
                   onClick={onOpenContact}
                   className="w-full sm:w-auto min-h-[52px] px-8 py-3.5 text-sm font-bold text-zinc-950 bg-white hover:bg-zinc-200 active:bg-zinc-300 rounded-xl transition-all duration-150 shadow-[0_4px_25px_rgba(255,255,255,0.25)] hover:shadow-[0_6px_30px_rgba(255,255,255,0.35)] flex items-center justify-center gap-2 cursor-pointer group"
                 >
-                  <span>Démarrer un projet — Gratuit</span>
+                  <span>Démarrer un projet</span>
                   <ArrowUpRight className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </button>
 
@@ -123,7 +118,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
                 </div>
               </motion.div>
 
-              {/* Stat 2 : Expérience (exactement ce que l'utilisateur a demandé) */}
+              {/* Stat 2 : Expérience */}
               <motion.div 
                 whileHover={{ y: -2 }}
                 className="p-2 sm:p-3 rounded-2xl bg-white/[0.02] border border-white/5"
@@ -175,12 +170,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
               <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-semibold text-white flex items-center gap-1.5 shadow-md">
                 <Sparkles className="w-3 h-3 text-[#E5B54F]" />
                 <span>Identité Visuelle Officielle DG</span>
-              </div>
-
-              {/* Tag localisation Douala */}
-              <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-[10px] font-mono text-zinc-300 flex items-center gap-1 shadow-md">
-                <MapPin className="w-3 h-3 text-[#E5B54F]" />
-                <span>Douala, Cameroun</span>
               </div>
             </div>
 

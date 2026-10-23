@@ -61,7 +61,7 @@
   background: #3F3F46;
 }
 
-/* Continuous glowing 3-color flow animation for navbar border (Gold -> Blue -> White) */
+/* Continuous rotating border beam */
 @keyframes border-flow-rotate {
   0% {
     transform: rotate(0deg);
@@ -71,39 +71,65 @@
   }
 }
 
-@keyframes border-color-cycle {
+/* Seamless infinite crossfading between 3 colors without any break or jump */
+@keyframes crossfade-gold {
   0%, 100% {
-    filter: hue-rotate(0deg);
     opacity: 0.95;
   }
-  33% {
-    filter: hue-rotate(180deg) saturate(1.4);
+  25% {
     opacity: 0.95;
   }
-  66% {
-    filter: saturate(0) brightness(1.7);
+  38% {
+    opacity: 0;
+  }
+  88% {
+    opacity: 0;
+  }
+}
+
+@keyframes crossfade-blue {
+  0%, 100% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  38% {
+    opacity: 0.95;
+  }
+  58% {
+    opacity: 0.95;
+  }
+  71% {
+    opacity: 0;
+  }
+}
+
+@keyframes crossfade-white {
+  0%, 100% {
+    opacity: 0;
+  }
+  58% {
+    opacity: 0;
+  }
+  71% {
+    opacity: 0.95;
+  }
+  88% {
     opacity: 0.95;
   }
 }
 
-/* 3-Cycle Navbar Beam: Gold -> Blue -> White */
-@keyframes navbar-beam-cycle {
-  0%, 30% {
-    /* Gold phase */
-    background: conic-gradient(from 0deg, transparent 0deg, rgba(229, 181, 79, 0.2) 40deg, #E5B54F 80deg, #FFF0B3 100deg, rgba(229, 181, 79, 0.6) 130deg, transparent 180deg, transparent 360deg);
-  }
-  33%, 63% {
-    /* Blue phase */
-    background: conic-gradient(from 0deg, transparent 0deg, rgba(59, 130, 246, 0.2) 40deg, #3B82F6 80deg, #93C5FD 100deg, rgba(59, 130, 246, 0.6) 130deg, transparent 180deg, transparent 360deg);
-  }
-  66%, 97% {
-    /* White phase */
-    background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 255, 255, 0.2) 40deg, #FFFFFF 80deg, #E4E4E7 100deg, rgba(255, 255, 255, 0.6) 130deg, transparent 180deg, transparent 360deg);
-  }
+.animate-beam-gold {
+  animation: border-flow-rotate 4.5s linear infinite, crossfade-gold 12s ease-in-out infinite;
 }
 
-.animate-navbar-beam {
-  animation: border-flow-rotate 4s linear infinite, navbar-beam-cycle 12s ease-in-out infinite;
+.animate-beam-blue {
+  animation: border-flow-rotate 4.5s linear infinite, crossfade-blue 12s ease-in-out infinite;
+}
+
+.animate-beam-white {
+  animation: border-flow-rotate 4.5s linear infinite, crossfade-white 12s ease-in-out infinite;
 }
 
 /* Running Light Gold Border Pattern for Service & Company Cards */

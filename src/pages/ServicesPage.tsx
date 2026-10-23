@@ -31,7 +31,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300 mb-4">
           <Sparkles className="w-3.5 h-3.5 text-[#E5B54F]" />
-          <span>Expertises Digitales &amp; Créatives · Douala, Cameroun</span>
+          <span>Expertises Digitales &amp; Créatives d'Élite</span>
         </div>
 
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight text-balance">
@@ -129,7 +129,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                   onClick={onOpenContact}
                   className="px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 text-xs font-bold transition-all shadow-md cursor-pointer flex items-center gap-1.5"
                 >
-                  <span>Inquire / Devis</span>
+                  <span>Demander un devis</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -149,7 +149,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             Discutons directement de vos objectifs d'entreprise
           </h3>
           <p className="text-xs sm:text-sm text-zinc-400 mt-2">
-            Basé à Douala, Cameroun — Nous intervenons rapidement pour concevoir votre site web et votre image de marque.
+            Nous intervenons rapidement et avec rigueur pour concevoir votre site web et votre image de marque.
           </p>
         </div>
 
@@ -158,17 +158,15 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             onClick={onOpenContact}
             className="px-6 py-3 rounded-full bg-white hover:bg-zinc-200 text-zinc-950 text-xs font-bold transition-all cursor-pointer shadow-lg"
           >
-            Demander un devis gratuit
+            Demander un devis
           </button>
-          <a
-            href="https://wa.me/237681078004?text=Bonjour%20PRYMAX%20STUDIO%2C%20je%20souhaite%20des%20informations%20sur%20vos%20services."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-3 rounded-full bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 text-[#25D366] text-xs font-bold transition-all inline-flex items-center gap-2"
+          <button
+            onClick={onOpenContact}
+            className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-bold transition-all inline-flex items-center gap-2 cursor-pointer"
           >
             <MessageCircle className="w-4 h-4" />
-            <span>WhatsApp Direct</span>
-          </a>
+            <span>Nous contacter</span>
+          </button>
         </div>
       </div>
     </div>
