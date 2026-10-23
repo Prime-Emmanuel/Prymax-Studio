@@ -348,13 +348,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
             onClick={() => setMobileMenuOpen(false)}
           />
 
-          {/* Carte flottante du menu mobile (style exact de mobile-menu-ps.webp) */}
+          {/* Carte flottante du menu mobile responsive (style premium) */}
           <div 
-            className="md:hidden fixed top-18 sm:top-20 right-3 sm:right-6 z-50 w-[275px] sm:w-[300px] bg-white text-zinc-800 rounded-3xl p-3 shadow-[0_20px_60px_rgba(0,0,0,0.45)] border border-zinc-200/90 animate-in zoom-in-95 fade-in duration-150 select-none"
+            className="md:hidden fixed top-18 sm:top-20 left-3 right-3 sm:left-auto sm:right-6 sm:w-[320px] max-w-[calc(100vw-24px)] z-50 bg-white text-zinc-800 rounded-3xl p-3 sm:p-4 shadow-[0_20px_60px_rgba(0,0,0,0.5)] border border-zinc-200/90 animate-in zoom-in-95 fade-in duration-150 select-none"
             role="menu"
             aria-label="Menu mobile"
           >
-            {/* Élément 1 : Highlighted/Pill style (comme 'Profile' dans la référence) */}
+            {/* Élément 1 : Highlighted/Pill style */}
             <a
               href="#services"
               role="menuitem"
@@ -362,9 +362,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                 e.preventDefault();
                 handleNavigate('#services');
               }}
-              className="flex items-center gap-3 px-3.5 py-3 rounded-2xl bg-zinc-100/90 text-zinc-950 font-semibold text-sm transition-colors"
+              className="flex items-center gap-3 px-3.5 py-3 rounded-2xl bg-zinc-100/90 text-zinc-950 font-semibold text-sm transition-colors min-h-[46px]"
             >
-              <div className="w-7 h-7 rounded-lg bg-zinc-200/80 flex items-center justify-center text-zinc-900 shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-zinc-200/80 flex items-center justify-center text-zinc-900 shrink-0">
                 <Sparkles className="w-4 h-4 text-zinc-900" />
               </div>
               <span className="truncate">Nos Services</span>
@@ -378,9 +378,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                 e.preventDefault();
                 handleNavigate('#projets');
               }}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 font-medium text-sm transition-colors mt-1"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 font-medium text-sm transition-colors mt-1 min-h-[44px]"
             >
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-zinc-500 shrink-0">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center text-zinc-500 shrink-0">
                 <Layout className="w-4 h-4" />
               </div>
               <span className="truncate">Projets &amp; Travaux</span>
@@ -394,9 +394,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                 e.preventDefault();
                 handleNavigate('#studio');
               }}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 font-medium text-sm transition-colors"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 font-medium text-sm transition-colors min-h-[44px]"
             >
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-zinc-500 shrink-0">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center text-zinc-500 shrink-0">
                 <Compass className="w-4 h-4" />
               </div>
               <span className="truncate">Le Studio (Approche)</span>
@@ -410,15 +410,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                 e.preventDefault();
                 handleNavigate('#devis');
               }}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 font-medium text-sm transition-colors"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 font-medium text-sm transition-colors min-h-[44px]"
             >
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-zinc-500 shrink-0">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center text-zinc-500 shrink-0">
                 <Palette className="w-4 h-4" />
               </div>
               <span className="truncate">Délais &amp; Devis</span>
             </a>
 
-            {/* Ligne de séparation subtile (comme au-dessus de 'Sign out' dans la référence) */}
+            {/* Ligne de séparation subtile */}
             <div className="my-2 border-t border-zinc-100" />
 
             {/* Élément 5 : Bouton Devis / CTA */}
@@ -427,10 +427,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                 setMobileMenuOpen(false);
                 onOpenContact();
               }}
-              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-zinc-900 hover:bg-zinc-50 font-semibold text-sm transition-colors cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-zinc-900 bg-zinc-50 hover:bg-zinc-100 font-bold text-sm transition-colors cursor-pointer text-left min-h-[46px]"
             >
               <div className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded-lg bg-zinc-900 flex items-center justify-center text-white shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-zinc-900 flex items-center justify-center text-white shrink-0">
                   <ArrowUpRight className="w-4 h-4" />
                 </div>
                 <span>Demander un devis</span>
@@ -438,18 +438,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               <span className="text-xs text-zinc-900 font-bold">↗</span>
             </button>
 
-            {/* Élément 6 : Contact WhatsApp direct */}
+            {/* Élément 6 : Contact WhatsApp simple */}
             <a
               href="https://wa.me/237681078004?text=Bonjour%20PRYMAX%20STUDIO%2C%20je%20souhaite%20un%20devis%20pour%20mon%20projet."
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-3.5 py-2 rounded-2xl text-emerald-700 hover:bg-emerald-50 font-medium text-xs transition-colors mt-0.5"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-emerald-700 hover:bg-emerald-50 font-semibold text-xs transition-colors mt-1 min-h-[44px]"
             >
-              <div className="w-7 h-7 rounded-lg bg-emerald-100/80 flex items-center justify-center text-emerald-600 shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-emerald-100/80 flex items-center justify-center text-emerald-600 shrink-0">
                 <MessageCircle className="w-4 h-4" />
               </div>
               <span className="truncate">WhatsApp</span>
             </a>
+
+            {/* Coordonnées discrètes */}
+            <div className="pt-2.5 mt-2 border-t border-zinc-100 text-[10px] text-zinc-400 px-3.5 flex items-center justify-between">
+              <span>prymaxstudio@gmail.com</span>
+              <span>Douala &middot; Yaoundé</span>
+            </div>
 
           </div>
         </>

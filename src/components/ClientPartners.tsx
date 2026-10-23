@@ -5,18 +5,18 @@ import heroPlancheMarque from '../assets/branding/hero_planche_marque.png';
 
 export const ClientPartners: React.FC = () => {
   return (
-    <section id="projets" className="py-20 sm:py-28 bg-[#090A0D] relative scroll-mt-20 border-t border-white/[0.08]">
+    <section id="projets" className="py-16 sm:py-24 md:py-28 bg-[#090A0D] relative scroll-mt-20 border-t border-white/[0.08]">
       <div id="clients" className="sr-only" />
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
         
         {/* En-tête de section sobre et prestigieux */}
-        <div className="max-w-3xl mb-14">
+        <div className="max-w-3xl mb-12 sm:mb-14">
           <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-white mb-2.5">
             <span>Références &amp; Collaborations</span>
             <span aria-hidden="true" className="text-zinc-600">·</span>
             <span>PRYMAX STUDIO</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight text-balance">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight text-balance">
             Des marques et projets accompagnés avec succès
           </h2>
           <p className="text-zinc-300 text-sm sm:text-base mt-3 leading-relaxed">
@@ -28,7 +28,7 @@ export const ClientPartners: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           
           {/* Projet réel DG - Dieu Est Grand */}
-          <div className="bg-[#101217] border border-white/10 hover:border-white/30 rounded-3xl p-6 sm:p-8 transition-all duration-200 flex flex-col justify-between">
+          <div className="bg-[#101217] border border-white/10 hover:border-white/30 rounded-3xl p-5 sm:p-8 transition-all duration-200 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[11px] font-mono uppercase text-white px-2.5 py-0.5 bg-white/10 rounded-md border border-white/15">
@@ -77,7 +77,7 @@ export const ClientPartners: React.FC = () => {
           </div>
 
           {/* Espace prêt pour les prochains partenaires */}
-          <div className="bg-[#101217] border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+          <div className="bg-[#101217] border border-white/10 rounded-3xl p-5 sm:p-8 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[11px] font-mono uppercase text-zinc-400 px-2.5 py-0.5 bg-white/5 rounded-md">

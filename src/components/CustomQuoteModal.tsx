@@ -91,7 +91,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({ isOpen, onCl
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-3xl bg-[#0D0E12] border border-white/10 rounded-3xl p-6 sm:p-10 text-white shadow-2xl my-auto max-h-[92vh] overflow-y-auto"
+        className="relative w-full max-w-3xl bg-[#0D0E12] border border-white/10 rounded-3xl p-5 sm:p-8 md:p-10 text-white shadow-2xl my-auto max-h-[92vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         

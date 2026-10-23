@@ -7,17 +7,17 @@ export const Disciplines: React.FC = () => {
   const [activeModalService, setActiveModalService] = useState<ServiceItem | null>(null);
 
   return (
-    <section id="services" className="py-20 sm:py-28 bg-[#08090D] relative scroll-mt-20">
+    <section id="services" className="py-16 sm:py-24 md:py-28 bg-[#08090D] relative scroll-mt-20">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
         
         {/* En-tête simple et clair */}
-        <div className="max-w-3xl mb-14">
+        <div className="max-w-3xl mb-12 sm:mb-14">
           <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-white mb-2.5">
             <span>Services PRYMAX STUDIO</span>
             <span aria-hidden="true" className="text-zinc-600">·</span>
             <span>Branding, Web &amp; Solutions</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight text-balance">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight text-balance">
             Des expertises pointues pour donner du relief à votre marque
           </h2>
           <p className="text-zinc-300 text-sm sm:text-base mt-3 leading-relaxed">
@@ -26,13 +26,13 @@ export const Disciplines: React.FC = () => {
         </div>
 
         {/* Grille des services avec Branding en tête */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {SERVICES.map((service) => {
             const isBranding = service.id === 'srv-branding';
             return (
               <div
                 key={service.id}
-                className={`group bg-[#101217] border rounded-2xl p-6 sm:p-7 transition-all duration-200 flex flex-col justify-between ${
+                className={`group bg-[#101217] border rounded-2xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between ${
                   isBranding 
                     ? 'border-white/30 shadow-xl shadow-white/5 md:col-span-2 lg:col-span-1' 
                     : 'border-white/10 hover:border-white/25'

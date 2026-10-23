@@ -3,7 +3,7 @@ import { Target, Zap, Shield, HeartHandshake, CheckCircle2 } from 'lucide-react'
 
 export const StudioSection: React.FC = () => {
   return (
-    <section id="studio" className="py-20 sm:py-28 bg-[#08090D] relative border-t border-white/[0.08] scroll-mt-20">
+    <section id="studio" className="py-16 sm:py-24 md:py-28 bg-[#08090D] relative border-t border-white/[0.08] scroll-mt-20">
       
       {/* Halo subtil monochrome */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-white/[0.02] blur-[140px] rounded-full pointer-events-none" />
@@ -11,24 +11,24 @@ export const StudioSection: React.FC = () => {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         
         {/* En-tête */}
-        <div className="max-w-3xl mb-16">
-          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-white mb-3">
+        <div className="max-w-3xl mb-12 sm:mb-16">
+          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-white mb-2.5">
             <span>Qui Sommes-Nous</span>
             <span aria-hidden="true" className="text-zinc-600">·</span>
             <span>L'ADN PRYMAX STUDIO</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight text-balance">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight text-balance">
             Un studio digital guidé par la précision, l'écoute et le résultat
           </h2>
-          <p className="text-zinc-300 text-base sm:text-lg mt-4 leading-relaxed">
+          <p className="text-zinc-300 text-sm sm:text-base mt-3 leading-relaxed">
             Chez PRYMAX STUDIO, nous refusons les sites génériques et les promesses creuses. Nous allions rigueur technique et sensibilité esthétique pour concevoir des produits digitaux qui marquent durablement les esprits.
           </p>
         </div>
 
         {/* Les 3 Piliers de Notre Approche */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 mb-14 sm:mb-16">
           
-          <div className="p-7 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-200 flex flex-col justify-between">
+          <div className="p-5 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-200 flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6">
                 <Target className="w-6 h-6 text-white" />
@@ -49,7 +49,7 @@ export const StudioSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-7 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-200 flex flex-col justify-between">
+          <div className="p-5 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-200 flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6">
                 <Zap className="w-6 h-6 text-white" />
@@ -70,7 +70,7 @@ export const StudioSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-7 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-200 flex flex-col justify-between">
+          <div className="p-5 sm:p-8 bg-[#101217] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-200 flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6">
                 <HeartHandshake className="w-6 h-6 text-white" />
@@ -94,7 +94,7 @@ export const StudioSection: React.FC = () => {
         </div>
 
         {/* Encadré d'engagement moral et éthique */}
-        <div className="p-8 sm:p-10 bg-gradient-to-r from-[#101217] via-zinc-900/60 to-[#101217] rounded-2xl border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="p-6 sm:p-10 bg-gradient-to-r from-[#101217] via-zinc-900/60 to-[#101217] rounded-2xl border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="max-w-2xl">
             <span className="text-[11px] font-mono uppercase tracking-wider text-white block mb-2">
               Notre Promesse

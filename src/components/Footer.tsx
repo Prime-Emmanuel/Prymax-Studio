@@ -47,7 +47,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
         {/* =========================================================================
             SECTION 1 : CARTE CTA FLOTTANTE BLANCHE
            ========================================================================= */}
-        <div className="relative rounded-3xl bg-white text-zinc-900 p-8 sm:p-12 md:p-14 shadow-2xl border border-zinc-200/90 overflow-hidden mb-16 sm:mb-20">
+        <div className="relative rounded-3xl bg-white text-zinc-900 p-6 sm:p-10 md:p-14 shadow-2xl border border-zinc-200/90 overflow-hidden mb-14 sm:mb-20">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             
@@ -65,10 +65,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
                 Obtenez un site web ultra-rapide, une identité visuelle marquante et une visibilité locale renforcée. Échangeons dès aujourd'hui sur votre projet.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
                 <button
                   onClick={onOpenContact}
-                  className="px-6 py-3.5 rounded-full bg-zinc-950 hover:bg-black active:scale-95 text-white text-xs font-bold tracking-wide transition-all shadow-lg flex items-center gap-2.5 cursor-pointer group"
+                  className="px-6 py-3.5 rounded-full bg-zinc-950 hover:bg-black active:scale-95 text-white text-xs font-bold tracking-wide transition-all shadow-lg flex items-center gap-2.5 cursor-pointer group min-h-[44px]"
                 >
                   <span>Demander un devis</span>
                   <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -78,7 +78,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
                   href="https://wa.me/237681078004?text=Bonjour%20PRYMAX%20STUDIO%2C%20je%20souhaite%20un%20devis."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-3 rounded-full border border-zinc-300 hover:border-zinc-400 text-zinc-800 text-xs font-semibold transition-colors flex items-center gap-2 cursor-pointer"
+                  className="px-5 py-3 rounded-full border border-zinc-300 hover:border-zinc-400 text-zinc-800 text-xs font-semibold transition-colors flex items-center gap-2 cursor-pointer min-h-[44px]"
                 >
                   <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
                   <span>WhatsApp</span>
@@ -86,10 +86,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
               </div>
             </div>
 
-            {/* Colonne Droite : Constellation visuelle monochrome */}
-            <div className="lg:col-span-5 relative flex items-center justify-center min-h-[160px] sm:min-h-[200px]">
-              {/* Lignes de constellation SVG */}
-              <svg className="absolute inset-0 w-full h-full stroke-zinc-200" fill="none" viewBox="0 0 300 200">
+            {/* Colonne Droite : Constellation visuelle monochrome responsive */}
+            <div className="lg:col-span-5 relative flex items-center justify-center w-full max-w-[280px] sm:max-w-[320px] mx-auto aspect-[3/2] py-4">
+              {/* Lignes de constellation SVG adaptatives */}
+              <svg className="absolute inset-0 w-full h-full stroke-zinc-200 pointer-events-none" fill="none" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid meet">
                 <line x1="150" y1="100" x2="60" y2="50" strokeWidth="1" strokeDasharray="3 3" />
                 <line x1="150" y1="100" x2="240" y2="60" strokeWidth="1" strokeDasharray="3 3" />
                 <line x1="150" y1="100" x2="90" y2="160" strokeWidth="1" strokeDasharray="3 3" />
@@ -106,22 +106,22 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
               </div>
 
               {/* Satellite 1 : Haut Gauche */}
-              <div className="absolute top-4 left-8 sm:left-12 w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="Branding">
+              <div className="absolute top-[12%] left-[10%] w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="Branding">
                 PS
               </div>
 
               {/* Satellite 2 : Haut Droite */}
-              <div className="absolute top-6 right-8 sm:right-12 w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="Web">
+              <div className="absolute top-[15%] right-[10%] w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="Web">
                 DG
               </div>
 
               {/* Satellite 3 : Bas Gauche */}
-              <div className="absolute bottom-4 left-14 sm:left-20 w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="SEO">
+              <div className="absolute bottom-[12%] left-[16%] w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="SEO">
                 UI
               </div>
 
               {/* Satellite 4 : Bas Droite */}
-              <div className="absolute bottom-6 right-12 sm:right-16 w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="Design">
+              <div className="absolute bottom-[15%] right-[14%] w-8 h-8 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center text-[10px] font-bold text-zinc-800 shadow-sm" title="Design">
                 3D
               </div>
             </div>
@@ -328,10 +328,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
           (Taille mesurée, sans lueur excessive, présent mais raffiné)
          ========================================================================= */}
       <div 
-        className="w-full overflow-hidden select-none pointer-events-none flex justify-center py-6 sm:py-8"
+        className="w-full overflow-hidden select-none pointer-events-none flex justify-center py-6 sm:py-8 px-4"
         aria-hidden="true"
       >
-        <span className="font-display font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-[0.25em] sm:tracking-[0.35em] uppercase text-center text-white/[0.08]">
+        <span className="font-display font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-[0.18em] sm:tracking-[0.3em] uppercase text-center text-white/[0.08] max-w-full">
           PRYMAX
         </span>
       </div>

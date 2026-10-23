@@ -66,8 +66,8 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = () => {
                       : 'bg-[#0E0F13] border-white/5 hover:border-white/15'
                   }`}
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-3.5">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">
+                    <div className="flex items-start gap-3">
                       <div 
                         className={`w-5 h-5 rounded-md mt-0.5 flex items-center justify-center border transition-colors shrink-0 ${
                           isSelected 
@@ -78,8 +78,8 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = () => {
                         {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                       </div>
 
-                      <div>
-                        <div className="flex flex-wrap items-center gap-2">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                           <h3 className="text-sm sm:text-base font-bold text-white leading-tight">
                             {item.name}
                           </h3>
@@ -94,8 +94,8 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = () => {
                     </div>
 
                     {/* Affichage du délai seul */}
-                    <div className="text-right shrink-0">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/10 border border-white/20 text-white text-xs font-semibold font-mono">
+                    <div className="sm:text-right shrink-0 self-start sm:self-auto pl-8 sm:pl-0">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white/10 border border-white/20 text-white text-xs font-semibold font-mono">
                         <Clock className="w-3.5 h-3.5 text-white" />
                         <span>{item.duration}</span>
                       </div>
@@ -125,7 +125,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = () => {
 
           {/* Colonne Droite : Récapitulatif & Bouton Devis Personnalisé vers WhatsApp */}
           <div className="lg:col-span-5 lg:sticky lg:top-28">
-            <div className="bg-[#101217] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+            <div className="bg-[#101217] border border-white/10 rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6">
               
               <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
                 <div className="flex items-center gap-2">

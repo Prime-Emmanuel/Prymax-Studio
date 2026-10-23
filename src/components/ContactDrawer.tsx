@@ -107,7 +107,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
           {/* En-tête */}
           <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs uppercase tracking-wider text-[#E5B54F]">
+              <span className="font-mono text-xs uppercase tracking-wider text-white font-semibold">
                 PRYMAX STUDIO · Contact &amp; Devis
               </span>
             </div>
@@ -211,7 +211,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                         onClick={() => toggleService(service)}
                         className={`p-2.5 sm:p-3 rounded-lg border text-xs cursor-pointer flex items-center justify-between transition-colors min-h-[42px] ${
                           isChecked
-                            ? 'bg-zinc-800 border-[#E5B54F] text-white'
+                            ? 'bg-zinc-800 border-white text-white font-medium'
                             : 'bg-zinc-900/60 border-white/5 text-zinc-400 hover:border-white/20'
                         }`}
                       >
@@ -274,7 +274,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                 <CheckCircle2 className="w-7 h-7 text-emerald-400" />
               </div>
 
-              <div className="text-xs font-mono uppercase text-[#E5B54F] mb-1.5">
+              <div className="text-xs font-mono uppercase text-white mb-1.5 font-bold">
                 DEMANDE ENVOYÉE AVEC SUCCÈS
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">
@@ -295,7 +295,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                 </div>
                 <div className="flex justify-between text-zinc-400">
                   <span>Budget estimé :</span>
-                  <span className="font-mono text-[#E5B54F] font-bold">{budgetRangeFcfa}</span>
+                  <span className="font-mono text-white font-bold">{budgetRangeFcfa}</span>
                 </div>
               </div>
 
@@ -311,7 +311,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
 
         {/* Pied de formulaire rassurant */}
         <div className="pt-4 border-t border-white/10 flex items-center gap-2.5 text-[11px] text-zinc-400">
-          <ShieldCheck className="w-4 h-4 text-[#E5B54F] shrink-0" />
+          <ShieldCheck className="w-4 h-4 text-white shrink-0" />
           <span>Vos informations restent 100% confidentielles. Pas de spam.</span>
         </div>
 
