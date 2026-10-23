@@ -7,6 +7,9 @@ export interface ServiceItem {
   deliverables: string[];
   technologies: string[];
   idealFor: string;
+  image: string;
+  badge?: string;
+  stats?: string;
 }
 
 export interface ClientPartner {
@@ -15,6 +18,11 @@ export interface ClientPartner {
   sector: string;
   serviceProvided: string;
   highlight: string;
+  logo: string;
+  image?: string;
+  website?: string;
+  status?: string;
+  tag?: string;
 }
 
 export interface PricingModule {
@@ -29,3 +37,12 @@ export interface PricingModule {
   deliverables: string[];
   note?: string;
 }
+
+export type PageRoute = 
+  | 'home'
+  | 'services'
+  | 'service-detail'
+  | 'projets'
+  | 'studio'
+  | 'devis'
+  | 'contact';

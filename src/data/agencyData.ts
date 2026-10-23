@@ -1,100 +1,174 @@
 import { ServiceItem, ClientPartner, PricingModule } from '../types';
+import brandingMockup from '../assets/images/branding_identity_mockup_1792588771026.jpg';
+import enterpriseHero from '../assets/images/digital_enterprise_hero_1792588771383.jpg';
+import apparelMockup from '../assets/images/apparel_graphic_tshirt_1792588752439.jpg';
+import iconPrymax from '../assets/branding/icon_prymax.png';
+
+export const PRYMAX_PLACEHOLDER_LOGO = iconPrymax;
 
 export const SERVICES: ServiceItem[] = [
   {
-    id: 'srv-branding',
-    number: '01',
-    title: 'Branding & Identité Visuelle',
-    tagline: 'Création de logos originaux, typographies sur-mesure et univers de marque complets.',
-    summary: 'Le branding est le cœur battant de votre business. Nous concevons une identité visuelle forte et intemporelle : logo principal, déclinaisons pour réseaux sociaux, charte graphique et papeterie professionnelle.',
-    deliverables: [
-      'Logo original haute résolution (vectoriel HD sans perte de qualité)',
-      'Déclinaisons complètes (icônes profil, formats horizontaux et verticaux)',
-      'Palette de couleurs officielles et choix typographiques harmonieux',
-      'Design de cartes de visite, papier en-tête et devis/factures',
-      'Fichiers sources complets avec pleine cession de droits'
-    ],
-    technologies: ['Adobe Illustrator', 'Photoshop', 'Figma', 'Vectoriel Print & Digital'],
-    idealFor: 'Nouvelles entreprises ou marques souhaitant inspirer confiance immédiate et s’imposer sur leur marché.'
-  },
-  {
     id: 'srv-web',
-    number: '02',
-    title: 'Développement Web & Sites Sur-Mesure',
-    tagline: 'Sites One-Page, vitrines professionnelles et plateformes sur-mesure rapides et 100% mobile-friendly.',
-    summary: 'Nous concevons des sites internet modernes et percutants qui captent l’attention de vos visiteurs et les incitent à vous contacter immédiatement via WhatsApp ou formulaire.',
+    number: '01',
+    title: 'Création de Sites Web pour Entreprises',
+    tagline: 'Sites vitrines d\'exception, One-Page percutants et plateformes sur-mesure ultra-rapides et 100% responsives.',
+    summary: 'Nous concevons des sites internet modernes, sécurisés et performants, pensés dès la première seconde pour inspirer une confiance absolue, valoriser vos services d\'entreprise et convertir les visiteurs en clients qualifiés via WhatsApp ou formulaire.',
     deliverables: [
-      'Structure 100% adaptée et fluide sur tous les smartphones et ordinateurs',
-      'Bouton de contact WhatsApp direct et formulaires optimisés',
+      'Structure 100% adaptée et fluide sur tous les smartphones, tablettes et ordinateurs',
+      'Bouton de contact direct WhatsApp et formulaires de devis interactifs',
       'Vitesse de chargement ultra-rapide (Core Web Vitals optimisés)',
-      'Nom de domaine sécurisé (HTTPS) et configuration emails professionnels',
+      'Nom de domaine sécurisé (HTTPS) et configuration d\'emails professionnels',
+      'Architecture technique moderne, référencement naturel et sécurité renforcée',
       'Mise en ligne soignée et assistance après livraison'
     ],
-    technologies: ['React', 'Next.js', 'Tailwind CSS', 'Mobile First', 'WhatsApp Integration'],
-    idealFor: 'Professionnels, cabinets, PME et créateurs voulant une présence web prestigieuse et efficace.'
+    technologies: ['React', 'Next.js', 'Tailwind CSS', 'Mobile First', 'WhatsApp Integration', 'SEO Schema'],
+    idealFor: 'Entreprises, cabinets d\'ingénierie, PME, commerces, agences et professionnels exigeants.',
+    image: enterpriseHero,
+    badge: 'Cœur de Métier · Business',
+    stats: '100% Mobile & Ultra-Rapide'
+  },
+  {
+    id: 'srv-branding',
+    number: '02',
+    title: 'Branding & Identité Visuelle de Marque',
+    tagline: 'Logos originaux haut de gamme, chartes graphiques complètes et univers de marque intemporels.',
+    summary: 'Le branding est le socle de toute entreprise prospère. Nous sculptons votre identité visuelle complète : logo principal, déclinaisons pour réseaux sociaux, palettes harmonieuses, choix typographiques et supports de marque professionnels.',
+    deliverables: [
+      'Logo original haute résolution vectoriel (HD sans aucune perte de qualité)',
+      'Déclinaisons complètes (icônes profil, formats horizontaux, verticaux et monochromes)',
+      'Palette de couleurs officielles et guide typographique de prestige',
+      'Design de cartes de visite, papier en-tête, factures et devis professionnels',
+      'Fichiers sources complets avec pleine cession de droits d\'exploitation commerciale'
+    ],
+    technologies: ['Adobe Illustrator', 'Photoshop', 'Figma', 'Vectoriel Print & Digital HD'],
+    idealFor: 'Nouvelles marques ou entreprises en quête d\'une image forte et immédiatement mémorable.',
+    image: brandingMockup,
+    badge: 'Identité Pure',
+    stats: 'Livraison HD vectorielle'
   },
   {
     id: 'srv-ecom',
     number: '03',
     title: 'E-Commerce & Boutiques en Ligne',
-    tagline: 'Vendez vos produits 24h/24 avec paiement sécurisé (Mobile Money, Carte bancaire).',
-    summary: 'Une boutique en ligne élégante, simple à utiliser pour vos clients et facile à gérer pour vous. Gestion des stocks, notifications automatiques et parcours d’achat sans friction.',
+    tagline: 'Vendez vos produits 24h/24 avec encaissement sécurisé par Mobile Money (Orange, MTN) et Cartes bancaires.',
+    summary: 'Une boutique en ligne élégante, simple à utiliser pour vos acheteurs et intuitive à administrer pour vous. Gestion des stocks en direct, notifications instantanées de commande et tunnel d\'achat sans la moindre friction.',
     deliverables: [
-      'Catalogue de produits avec photos en haute qualité, filtres et variantes',
-      'Paiement en ligne sécurisé (Orange Money, MTN MoMo, Wave, Cartes)',
-      'Panier d’achat intuitif et processus de commande rapide',
-      'Gestion des commandes et alertes instantanées',
+      'Catalogue de produits avec photos en haute qualité, filtres, variantes et fiches détaillées',
+      'Paiement en ligne sécurisé (Orange Money, MTN MoMo, Wave, Cartes Visa / Mastercard)',
+      'Panier d\'achat intuitif et processus de commande rapide en un clic',
+      'Gestion des commandes, alertes WhatsApp/Email et suivi automatique des stocks',
       'Formation claire pour ajouter vos futurs articles en toute autonomie'
     ],
-    technologies: ['E-Commerce Engine', 'Stripe / Mobile Money Gateways', 'Stock Manager'],
-    idealFor: 'Commerçants et marques souhaitant automatiser leurs ventes et toucher des clients partout dans le monde.'
+    technologies: ['E-Commerce Engine', 'Stripe / Mobile Money Gateways', 'Inventory Sync', 'Mobile Checkout'],
+    idealFor: 'Commerçants, marques de prêt-à-porter, boutiques spécialisées voulant vendre partout.',
+    image: 'https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80',
+    badge: 'Vente 24h/24',
+    stats: 'MTN & Orange Money Intégrés'
   },
   {
     id: 'srv-textile',
     number: '04',
-    title: 'Design Graphique & Mockups Textiles',
-    tagline: 'Conception visuelle de t-shirts, pulls et sweats présentés sur des mockups ultra-réalistes.',
-    summary: 'Nous réalisons le design graphique de vos vêtements avec une esthétique moderne. Vous recevez les visuels prêts pour impression sur mockups haute définition. Vous imprimez chez votre imprimeur habituel, ou nous pouvons vous orienter vers un tiers à vos frais.',
+    title: 'Design Graphique & Mockups Textiles 3D',
+    tagline: 'Conception visuelle de t-shirts, pulls et sweats présentés sur des mockups photoréalistes d\'élite.',
+    summary: 'Nous réalisons le design graphique de vos vêtements avec une esthétique moderne et percutante. Vous recevez les visuels prêts pour l\'atelier sur des mockups haute définition. Vous imprimez chez votre atelier partenaire, ou nous pouvons vous orienter vers un tiers à vos frais.',
     deliverables: [
-      'Création graphique originale pour l’avant, le dos et les manches',
-      'Présentation photo sur mockups 3D réalistes pour vos réseaux et précommandes',
-      'Fichiers d’impression haute définition prêts pour atelier de sérigraphie ou flocage',
-      'Conseils techniques sur le choix des tissus et techniques recommandées'
+      'Création graphique originale pour l\'avant, le dos et les manches',
+      'Présentation photo sur mockups 3D ultra-réalistes pour vos réseaux et précommandes',
+      'Fichiers d\'impression haute définition prêts pour sérigraphie, DTF ou flocage',
+      'Conseils techniques sur le placement, dimensions et choix des contrastes textiles'
     ],
-    technologies: ['Design Graphique', 'Mockups 3D Réalistes', 'Fichiers HD Print'],
-    idealFor: 'Marques de vêtements, entreprises équipant leur personnel, associations et événements.'
+    technologies: ['Design Graphique', 'Rendu 3D Photoréaliste', 'Fichiers HD Print Ateliers'],
+    idealFor: 'Marques de streetwear, entreprises équipant leur personnel, associations et événements.',
+    image: apparelMockup,
+    badge: 'Rendu Photoréaliste',
+    stats: 'Fichiers HD prêts atelier'
   },
   {
     id: 'srv-seo',
     number: '05',
     title: 'Référencement & Visibilité Google (SEO)',
-    tagline: 'Positionnez votre entreprise en tête des recherches locales et attirez des clients qualifiés.',
-    summary: 'Soyez visible là où vos clients cherchent. Optimisation de votre présence sur Google Maps et Google My Business pour générer des appels et messages réguliers.',
+    tagline: 'Positionnez votre entreprise en tête des recherches locales et attirez des clients qualifiés chaque jour.',
+    summary: 'Soyez visible exactement là où vos clients cherchent. Optimisation de votre fiche d\'établissement Google Maps et Google My Business à Douala et à l\'échelle nationale pour générer des appels et messages réguliers.',
     deliverables: [
       'Création et optimisation complète de votre fiche Google My Business',
-      'Positionnement sur Google Maps pour les recherches locales',
-      'Structure sémantique et mots-clés stratégiques sur votre activité',
-      'Conseils pour collecter des avis clients positifs'
+      'Positionnement sur Google Maps pour les recherches locales stratégiques',
+      'Structure sémantique et balises Schema.org adaptées à votre activité',
+      'Conseils et gabarits pour collecter des avis clients élogieux et constants'
     ],
-    technologies: ['Google My Business', 'SEO Local', 'Google Maps'],
-    idealFor: 'Entreprises locales voulant capter les clients de leur ville en recherche active de services.'
+    technologies: ['Google My Business', 'SEO Local Google Maps', 'Schema.org JSON-LD', 'Analytics'],
+    idealFor: 'Entreprises locales voulant capter les clients en recherche active de leurs services.',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    badge: 'Acquisition Locale',
+    stats: 'Top Résultats Google Maps'
   }
 ];
 
 export const CLIENT_PARTNERS: ClientPartner[] = [
   {
-    id: 'cl-dg',
-    name: 'DG — Dieu Est Grand',
-    sector: 'Mode & Streetwear Textile',
-    serviceProvided: 'Identité Visuelle, Logo & Design Capsule Vêtements',
-    highlight: 'Planche de marque complète, logo emblème et mockups t-shirts/hoodies'
+    id: 'cl-tpi',
+    name: 'TPI Engineering Group',
+    sector: 'Ingénierie & Infrastructures',
+    serviceProvided: 'Identité Visuelle, Présentation Corporate & Présence Digitale',
+    highlight: 'Accompagnement d\'un groupe d\'ingénierie civile d\'envergure moderne et technique.',
+    logo: 'https://i.ibb.co/BHPNWGMM/logo-tpi.jpg',
+    image: 'https://i.ibb.co/chbhpJsn/R-ception-moderne-TP1-Engineering-Group.png',
+    tag: 'Ingénierie BTP'
   },
   {
-    id: 'cl-corporate',
-    name: 'Partenaires & Entreprises Clientes',
-    sector: 'B2B & Commerce',
-    serviceProvided: 'Sites Web, Identités & Solutions Digitales',
-    highlight: 'Accompagnement continu sur mesure et projets livrés'
+    id: 'cl-kribi',
+    name: 'Kribi Paradise',
+    sector: 'Hôtellerie, Tourisme & Séjour Balnéaire',
+    serviceProvided: 'Conception Web & Expérience Visuelle',
+    highlight: 'Plateforme d\'hébergement et villégiature côtière de standing à Kribi.',
+    logo: 'https://i.ibb.co/Cpq7d0T6/logo-kp.png',
+    website: 'https://kribiparadise.com',
+    status: 'En ligne',
+    tag: 'Tourisme & Luxe'
+  },
+  {
+    id: 'cl-south',
+    name: 'South Estates and Houses',
+    sector: 'Immobilier & Résidences de Prestige',
+    serviceProvided: 'Développement Web Immobilier & Catalogue de Biens',
+    highlight: 'Vitrine digitale pour investissements immobiliers et locations haut de gamme.',
+    logo: 'https://i.ibb.co/Kxwtmysx/logo-south.png',
+    website: 'https://southestatescmr.vercel.app/',
+    status: 'En ligne',
+    tag: 'Immobilier'
+  },
+  {
+    id: 'cl-pasy',
+    name: 'Pasy Phones',
+    sector: 'Smartphones & High-Tech Mobile',
+    serviceProvided: 'Boutique E-Commerce & Catalogue Produits Connectés',
+    highlight: 'Boutique digitale dédiée aux smartphones dernière génération et accessoires.',
+    logo: 'https://i.ibb.co/dswkW45g/logo-pasy.png',
+    website: 'https://pasyphones.store',
+    status: 'En ligne',
+    tag: 'E-Commerce Tech'
+  },
+  {
+    id: 'cl-den',
+    name: 'D.E.N Autocare',
+    sector: 'Automobile, Detailing & Mécanique de Précision',
+    serviceProvided: 'Site Web Professionnel & Image de Marque Premium',
+    highlight: 'Plateforme digitale pour centre d\'entretien automobile d\'élite et esthétique carrosserie.',
+    logo: 'https://i.ibb.co/RpF37gBb/logo-den.png',
+    image: 'https://i.ibb.co/BVdcwXW5/image-den.png',
+    website: 'https://den-autocare.com',
+    status: 'En ligne',
+    tag: 'Auto & Detailing'
+  },
+  {
+    id: 'cl-apo',
+    name: 'APO GROUP',
+    sector: 'Communication Stratégique & Relations Publiques',
+    serviceProvided: 'Architecture Web & Plateforme Panafricaine',
+    highlight: 'Conception et refonte d\'une interface moderne pour groupe de communication international.',
+    logo: 'https://i.ibb.co/1GGvpb6P/logo-apo.png',
+    website: 'in development',
+    status: 'En cours de développement',
+    tag: 'Médias & RP'
   }
 ];
 

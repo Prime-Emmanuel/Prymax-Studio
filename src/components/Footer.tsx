@@ -4,14 +4,21 @@ import iconPrymax from '../assets/branding/icon_prymax.png';
 
 interface FooterProps {
   onOpenContact: () => void;
+  onNavigate?: (route: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastRegisteredEmail, setLastRegisteredEmail] = useState('');
   const [showEmailModal, setShowEmailModal] = useState(false);
+
+  const handleFooterNav = (route: string) => {
+    if (onNavigate) {
+      onNavigate(route);
+    }
+  };
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -183,16 +190,44 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
             </div>
             <ul className="space-y-2.5 text-xs text-zinc-400">
               <li>
-                <a href="#services" className="hover:text-white transition-colors">Nos Services</a>
+                <button 
+                  onClick={() => handleFooterNav('services')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Nos Services
+                </button>
               </li>
               <li>
-                <a href="#projets" className="hover:text-white transition-colors">Projets &amp; Travaux</a>
+                <button 
+                  onClick={() => handleFooterNav('projets')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Projets &amp; Travaux
+                </button>
               </li>
               <li>
-                <a href="#studio" className="hover:text-white transition-colors">Le Studio</a>
+                <button 
+                  onClick={() => handleFooterNav('studio')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Le Studio
+                </button>
               </li>
               <li>
-                <a href="#devis" className="hover:text-white transition-colors">Délais &amp; Devis</a>
+                <button 
+                  onClick={() => handleFooterNav('devis')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Délais &amp; Devis
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => handleFooterNav('contact')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Contact Direct
+                </button>
               </li>
             </ul>
           </div>
@@ -317,7 +352,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
             &copy; {new Date().getFullYear()} PRYMAX STUDIO. Tous droits réservés.
           </div>
           <div className="text-zinc-500 text-[11px]">
-            Douala &amp; Yaoundé, Cameroun
+            Douala, Cameroun
           </div>
         </div>
 

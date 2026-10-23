@@ -61,8 +61,8 @@
   background: #3F3F46;
 }
 
-/* Continuous glowing color flow animation for navbar border */
-@keyframes border-flow {
+/* Continuous glowing 3-color flow animation for navbar border (Gold -> Blue -> White) */
+@keyframes border-flow-rotate {
   0% {
     transform: rotate(0deg);
   }
@@ -71,7 +71,67 @@
   }
 }
 
-.animate-border-flow {
-  animation: border-flow 5s linear infinite;
+@keyframes border-color-cycle {
+  0%, 100% {
+    filter: hue-rotate(0deg);
+    opacity: 0.95;
+  }
+  33% {
+    filter: hue-rotate(180deg) saturate(1.4);
+    opacity: 0.95;
+  }
+  66% {
+    filter: saturate(0) brightness(1.7);
+    opacity: 0.95;
+  }
+}
+
+/* 3-Cycle Navbar Beam: Gold -> Blue -> White */
+@keyframes navbar-beam-cycle {
+  0%, 30% {
+    /* Gold phase */
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(229, 181, 79, 0.2) 40deg, #E5B54F 80deg, #FFF0B3 100deg, rgba(229, 181, 79, 0.6) 130deg, transparent 180deg, transparent 360deg);
+  }
+  33%, 63% {
+    /* Blue phase */
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(59, 130, 246, 0.2) 40deg, #3B82F6 80deg, #93C5FD 100deg, rgba(59, 130, 246, 0.6) 130deg, transparent 180deg, transparent 360deg);
+  }
+  66%, 97% {
+    /* White phase */
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 255, 255, 0.2) 40deg, #FFFFFF 80deg, #E4E4E7 100deg, rgba(255, 255, 255, 0.6) 130deg, transparent 180deg, transparent 360deg);
+  }
+}
+
+.animate-navbar-beam {
+  animation: border-flow-rotate 4s linear infinite, navbar-beam-cycle 12s ease-in-out infinite;
+}
+
+/* Running Light Gold Border Pattern for Service & Company Cards */
+@keyframes gold-border-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-gold-border-flow {
+  animation: gold-border-spin 6s linear infinite;
+}
+
+/* Subtle Shimmer Underline for Hero Button */
+@keyframes underline-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-underline-shimmer {
+  background-size: 200% 100%;
+  animation: underline-shimmer 2.5s ease-in-out infinite;
 }
 
