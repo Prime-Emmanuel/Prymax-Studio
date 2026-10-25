@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "name": "PRYMAX STUDIO",
+  "url": "https://www.prymaxstudio.com",
+  "description": "Studio digital spécialisé en création de sites web pour entreprises, branding et identité visuelle, boutiques e-commerce, design textile 3D et référencement SEO.",
+  "language": "fr",
+  "contact": {
+    "email": "prymaxstudio@gmail.com",
+    "phone": "+237681078004",
+    "url": "https://www.prymaxstudio.com/contact"
+  },
+  "resources": {
+    "llms_txt": "https://www.prymaxstudio.com/llms.txt",
+    "sitemap": "https://www.prymaxstudio.com/sitemap.xml"
+  },
+  "services": [
+    {
+      "id": "srv-web",
+      "name": "Création de Sites Web pour Entreprises",
+      "url": "https://www.prymaxstudio.com/services"
+    },
+    {
+      "id": "srv-branding",
+      "name": "Branding & Identité Visuelle de Marque",
+      "url": "https://www.prymaxstudio.com/services"
+    },
+    {
+      "id": "srv-ecom",
+      "name": "E-Commerce & Boutiques en Ligne",
+      "url": "https://www.prymaxstudio.com/services"
+    },
+    {
+      "id": "srv-textile",
+      "name": "Design Graphique & Mockups Textiles 3D",
+      "url": "https://www.prymaxstudio.com/services"
+    },
+    {
+      "id": "srv-seo",
+      "name": "Référencement & Visibilité Google (SEO)",
+      "url": "https://www.prymaxstudio.com/services"
+    }
+  ]
+}

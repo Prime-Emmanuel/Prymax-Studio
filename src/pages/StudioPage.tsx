@@ -1,6 +1,6 @@
 import React from 'react';
 import { Target, Zap, HeartHandshake, ShieldCheck, CheckCircle2, Award, Clock, Sparkles, MessageCircle, ArrowUpRight } from 'lucide-react';
-import iconPrymax from '../assets/branding/icon_prymax.png';
+import iconPrymax from '../assets/branding/icon_prymax.webp';
 
 interface StudioPageProps {
   onOpenContact: () => void;
@@ -40,7 +40,7 @@ export const StudioPage: React.FC<StudioPageProps> = ({ onOpenContact, onNavigat
       <div className="rounded-3xl bg-gradient-to-br from-[#111319] via-[#0D0E13] to-[#141620] border border-white/15 p-6 sm:p-12 mb-16 shadow-2xl relative overflow-hidden">
         <div className="max-w-3xl space-y-5">
           <div className="flex items-center gap-3">
-            <img src={iconPrymax} alt="PRYMAX Logo" className="w-8 h-8 rounded-lg object-contain" />
+            <img src={iconPrymax} alt="PRYMAX Logo" width={32} height={32} decoding="async" className="w-8 h-8 rounded-lg object-contain" />
             <span className="text-xs font-mono uppercase tracking-widest text-white font-bold">
               ADN &amp; Philosophie PRYMAX STUDIO
             </span>

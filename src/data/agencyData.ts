@@ -1,10 +1,19 @@
 import { ServiceItem, ClientPartner, PricingModule } from '../types';
-import brandingMockup from '../assets/images/branding_identity_mockup_1792588771026.jpg';
-import enterpriseHero from '../assets/images/digital_enterprise_hero_1792588771383.jpg';
-import apparelMockup from '../assets/images/apparel_graphic_tshirt_1792588752439.jpg';
-import ecommerceMockup from '../assets/images/ecommerce_shop_mockup_1792768581525.jpg';
-import seoMockup from '../assets/images/seo_analytics_mockup_1792768595308.jpg';
-import iconPrymax from '../assets/branding/icon_prymax.png';
+import brandingMockup from '../assets/images/branding_identity_mockup.webp';
+import enterpriseHero from '../assets/images/digital_enterprise_hero.webp';
+import apparelMockup from '../assets/images/apparel_graphic_tshirt.webp';
+import ecommerceMockup from '../assets/images/ecommerce_shop_mockup.webp';
+import seoMockup from '../assets/images/seo_analytics_mockup.webp';
+import iconPrymax from '../assets/branding/icon_prymax.webp';
+
+import logoTpi from '../assets/partners/logo-tpi.webp';
+import tpiReception from '../assets/partners/tpi-reception.webp';
+import logoKp from '../assets/partners/logo-kp.webp';
+import logoSouth from '../assets/partners/logo-south.webp';
+import logoPasy from '../assets/partners/logo-pasy.webp';
+import logoDen from '../assets/partners/logo-den.webp';
+import imageDen from '../assets/partners/image-den.webp';
+import logoApo from '../assets/partners/logo-apo.webp';
 
 export const PRYMAX_PLACEHOLDER_LOGO = iconPrymax;
 
@@ -112,8 +121,8 @@ export const CLIENT_PARTNERS: ClientPartner[] = [
     sector: 'Ingénierie & Infrastructures',
     serviceProvided: 'Identité Visuelle, Présentation Corporate & Présence Digitale',
     highlight: 'Accompagnement d\'un groupe d\'ingénierie civile d\'envergure moderne et technique.',
-    logo: 'https://i.ibb.co/BHPNWGMM/logo-tpi.jpg',
-    image: 'https://i.ibb.co/chbhpJsn/R-ception-moderne-TP1-Engineering-Group.png',
+    logo: logoTpi,
+    image: tpiReception,
     tag: 'Ingénierie BTP'
   },
   {
@@ -122,7 +131,7 @@ export const CLIENT_PARTNERS: ClientPartner[] = [
     sector: 'Hôtellerie, Tourisme & Séjour Balnéaire',
     serviceProvided: 'Conception Web & Expérience Visuelle',
     highlight: 'Plateforme d\'hébergement et villégiature côtière de standing à Kribi.',
-    logo: 'https://i.ibb.co/Cpq7d0T6/logo-kp.png',
+    logo: logoKp,
     website: 'https://kribiparadise.com',
     status: 'En ligne',
     tag: 'Tourisme & Luxe'
@@ -133,7 +142,7 @@ export const CLIENT_PARTNERS: ClientPartner[] = [
     sector: 'Immobilier & Résidences de Prestige',
     serviceProvided: 'Développement Web Immobilier & Catalogue de Biens',
     highlight: 'Vitrine digitale pour investissements immobiliers et locations haut de gamme.',
-    logo: 'https://i.ibb.co/Kxwtmysx/logo-south.png',
+    logo: logoSouth,
     website: 'https://southestatescmr.vercel.app/',
     status: 'En ligne',
     tag: 'Immobilier'
@@ -144,7 +153,7 @@ export const CLIENT_PARTNERS: ClientPartner[] = [
     sector: 'Smartphones & High-Tech Mobile',
     serviceProvided: 'Boutique E-Commerce & Catalogue Produits Connectés',
     highlight: 'Boutique digitale dédiée aux smartphones dernière génération et accessoires.',
-    logo: 'https://i.ibb.co/dswkW45g/logo-pasy.png',
+    logo: logoPasy,
     website: 'https://pasyphones.store',
     status: 'En ligne',
     tag: 'E-Commerce Tech'
@@ -155,8 +164,8 @@ export const CLIENT_PARTNERS: ClientPartner[] = [
     sector: 'Automobile, Detailing & Mécanique de Précision',
     serviceProvided: 'Site Web Professionnel & Image de Marque Premium',
     highlight: 'Plateforme digitale pour centre d\'entretien automobile d\'élite et esthétique carrosserie.',
-    logo: 'https://i.ibb.co/RpF37gBb/logo-den.png',
-    image: 'https://i.ibb.co/BVdcwXW5/image-den.png',
+    logo: logoDen,
+    image: imageDen,
     website: 'https://den-autocare.com',
     status: 'En ligne',
     tag: 'Auto & Detailing'
@@ -167,7 +176,7 @@ export const CLIENT_PARTNERS: ClientPartner[] = [
     sector: 'Communication Stratégique & Relations Publiques',
     serviceProvided: 'Architecture Web & Plateforme Panafricaine',
     highlight: 'Conception et refonte d\'une interface moderne pour groupe de communication international.',
-    logo: 'https://i.ibb.co/1GGvpb6P/logo-apo.png',
+    logo: logoApo,
     website: 'in development',
     status: 'En cours de développement',
     tag: 'Médias & RP'

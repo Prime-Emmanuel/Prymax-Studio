@@ -33,13 +33,13 @@ export const StudioSection: React.FC = () => {
               <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6">
                 <Target className="w-6 h-6 text-white" />
               </div>
-              <div className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-1.5">
+              <div className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1.5">
                 Pilier 01
               </div>
               <h3 className="text-xl font-bold text-white mb-3">
                 Clarté &amp; Simplicité
               </h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">
+              <p className="text-sm text-zinc-300 leading-relaxed">
                 Pas de jargon prétentieux. Nous traduisons vos besoins en solutions concrètes : des sites limpides, des logos faciles à décliner et des processus simples.
               </p>
             </div>
@@ -54,13 +54,13 @@ export const StudioSection: React.FC = () => {
               <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6">
                 <Zap className="w-6 h-6 text-white" />
               </div>
-              <div className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-1.5">
+              <div className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1.5">
                 Pilier 02
               </div>
               <h3 className="text-xl font-bold text-white mb-3">
                 Performance &amp; Mobile-First
               </h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">
+              <p className="text-sm text-zinc-300 leading-relaxed">
                 Plus de 80% de vos clients vous découvrent sur smartphone. Chaque interface est calibrée pour charger en moins d'une seconde et réagir au doigt et à l'œil.
               </p>
             </div>
@@ -75,13 +75,13 @@ export const StudioSection: React.FC = () => {
               <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6">
                 <HeartHandshake className="w-6 h-6 text-white" />
               </div>
-              <div className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-1.5">
+              <div className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1.5">
                 Pilier 03
               </div>
               <h3 className="text-xl font-bold text-white mb-3">
                 Engagement &amp; Suivi
               </h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">
+              <p className="text-sm text-zinc-300 leading-relaxed">
                 Nous ne disparaissons pas après la livraison. Vous bénéficiez d'une assistance réactive, de formations simples et d'un accompagnement sur la durée.
               </p>
             </div>
@@ -99,10 +99,10 @@ export const StudioSection: React.FC = () => {
             <span className="text-[11px] font-mono uppercase tracking-wider text-white block mb-2">
               Notre Promesse
             </span>
-            <h4 className="text-xl sm:text-2xl font-bold text-white mb-2">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               Vous êtes 100% propriétaire de vos créations et de votre code.
-            </h4>
-            <p className="text-xs sm:text-sm text-zinc-400">
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-300">
               Aucun abonnement captif, aucun frais caché. Tous les fichiers sources, logos vectoriels et accès administrateurs vous sont remis à la livraison.
             </p>
           </div>

@@ -4,31 +4,62 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
     <title>PRYMAX STUDIO — Création de Sites Web pour Entreprises &amp; Branding</title>
-    <meta name="description" content="PRYMAX STUDIO conçoit des sites web d'exception pour entreprises, logos professionnels et identités de marque haut de gamme." />
-    
+    <meta name="description" content="PRYMAX STUDIO conçoit des sites web d'exception pour entreprises, logos professionnels, boutiques e-commerce et identités de marque haut de gamme." />
+    <meta name="theme-color" content="#08090D" />
+    <link rel="canonical" href="https://www.prymaxstudio.com/" />
+
     <!-- Favicon & Tab Bar Logo Icon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/branding/icon_prymax.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/branding/icon_prymax.png" />
     <link rel="shortcut icon" type="image/png" href="/assets/branding/icon_prymax.png" />
     <link rel="apple-touch-icon" href="/assets/branding/icon_prymax.png" />
 
+    <!-- Preload Priority Hero LCP Image (Responsive WebP) -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="/assets/branding/hero_planche_marque.webp"
+      imagesrcset="/assets/branding/hero_planche_marque_sm.webp 480w, /assets/branding/hero_planche_marque.webp 880w"
+      imagesizes="(max-width: 640px) 340px, 440px"
+      fetchpriority="high"
+    />
+
     <!-- OpenGraph Metadata -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="PRYMAX STUDIO — Sites Web, Logos &amp; Vêtements Personnalisés" />
-    <meta property="og:description" content="Développez votre entreprise avec PRYMAX STUDIO : sites web professionnels, identité visuelle, et confection de t-shirts et pulls personnalisés." />
+    <meta property="og:url" content="https://www.prymaxstudio.com/" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content="PRYMAX STUDIO — Création de Sites Web pour Entreprises &amp; Branding" />
+    <meta property="og:description" content="Développez votre entreprise avec PRYMAX STUDIO : sites web professionnels, identité visuelle, e-commerce et design textile 3D." />
     <meta property="og:site_name" content="PRYMAX STUDIO" />
-    <meta property="og:image" content="/assets/branding/logo_transparent.png" />
+    <meta property="og:image" content="https://www.prymaxstudio.com/assets/branding/logo_transparent.png" />
     
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="PRYMAX STUDIO — Sites Web, Logos &amp; Vêtements Personnalisés" />
-    <meta name="twitter:description" content="Développez votre entreprise avec PRYMAX STUDIO : sites web professionnels, identité visuelle, et confection de t-shirts et pulls personnalisés." />
-    <meta name="twitter:image" content="/assets/branding/logo_transparent.png" />
+    <meta name="twitter:title" content="PRYMAX STUDIO — Création de Sites Web pour Entreprises &amp; Branding" />
+    <meta name="twitter:description" content="Développez votre entreprise avec PRYMAX STUDIO : sites web professionnels, identité visuelle, e-commerce et design textile 3D." />
+    <meta name="twitter:image" content="https://www.prymaxstudio.com/assets/branding/logo_transparent.png" />
     
-    <!-- Google Fonts for Clean & Modern Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Non-Blocking Google Fonts with Preconnect & Swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -36,16 +67,21 @@
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "name": "PRYMAX STUDIO",
-      "image": "/assets/branding/logo_transparent.png",
-      "description": "Agence de développement web, design de logo, et confection de vêtements streetwear personnalisés.",
+      "url": "https://www.prymaxstudio.com",
+      "image": "https://www.prymaxstudio.com/assets/branding/logo_transparent.png",
+      "logo": "https://www.prymaxstudio.com/assets/branding/icon_prymax.png",
+      "description": "Studio digital spécialisé en création de sites web pour entreprises, design de logo, identité visuelle, boutiques e-commerce et design textile 3D.",
+      "email": "prymaxstudio@gmail.com",
+      "telephone": "+237681078004",
       "priceRange": "$$",
       "currenciesAccepted": "XOF, XAF, EUR, USD",
       "openingHours": "Mo-Sa 08:00-19:00",
       "knowsAbout": [
-        "Création de Sites Web",
-        "Design de Logos",
-        "Conception de T-shirts et Pulls",
-        "Solutions Digitales"
+        "Création de Sites Web pour Entreprises",
+        "Design de Logos et Identité Visuelle",
+        "Boutiques E-Commerce",
+        "Design Textile et Mockups 3D",
+        "Référencement Google SEO"
       ],
       "areaServed": "Global"
     }

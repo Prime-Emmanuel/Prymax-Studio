@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import iconPrymax from '../assets/branding/icon_prymax.png';
+import iconPrymax from '../assets/branding/icon_prymax.webp';
 import { 
   Menu, 
   X, 
@@ -176,6 +176,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               <img 
                 src={iconPrymax} 
                 alt="Logo PRYMAX STUDIO" 
+                width={32}
+                height={32}
+                decoding="async"
                 className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded-md shadow-sm group-hover/logo:scale-105 transition-transform"
               />
               <span className="font-display font-extrabold text-sm sm:text-base tracking-wider text-white">
@@ -358,7 +361,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             {/* Barre d'en-tête du menu mobile avec bouton (X) stylé */}
             <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-white/10">
               <div className="flex items-center gap-2.5">
-                <img src={iconPrymax} alt="Logo" className="w-6 h-6 object-contain rounded-md" />
+                <img src={iconPrymax} alt="Logo" width={24} height={24} decoding="async" className="w-6 h-6 object-contain rounded-md" />
                 <span className="font-display font-extrabold text-sm tracking-wider text-white">
                   PRYMAX <span className="text-zinc-400 font-light">STUDIO</span>
                 </span>

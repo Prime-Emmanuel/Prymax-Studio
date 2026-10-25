@@ -121,14 +121,17 @@
 }
 
 .animate-beam-gold {
+  will-change: transform, opacity;
   animation: border-flow-rotate 4.5s linear infinite, crossfade-gold 12s ease-in-out infinite;
 }
 
 .animate-beam-blue {
+  will-change: transform, opacity;
   animation: border-flow-rotate 4.5s linear infinite, crossfade-blue 12s ease-in-out infinite;
 }
 
 .animate-beam-white {
+  will-change: transform, opacity;
   animation: border-flow-rotate 4.5s linear infinite, crossfade-white 12s ease-in-out infinite;
 }
 
@@ -143,21 +146,34 @@
 }
 
 .animate-gold-border-flow {
+  will-change: transform;
   animation: gold-border-spin 6s linear infinite;
 }
 
-/* Subtle Shimmer Underline for Hero Button */
+/* Subtle Shimmer Underline for Hero Button (GPU-composited transform instead of background-position) */
 @keyframes underline-shimmer {
-  0% {
-    background-position: -200% 0;
+  0%, 100% {
+    opacity: 0.55;
+    transform: scaleX(0.88);
   }
-  100% {
-    background-position: 200% 0;
+  50% {
+    opacity: 1;
+    transform: scaleX(1.04);
   }
 }
 
 .animate-underline-shimmer {
-  background-size: 200% 100%;
+  will-change: transform, opacity;
   animation: underline-shimmer 2.5s ease-in-out infinite;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, ArrowRight, MessageCircle, Check, Mail, X, Loader2 } from 'lucide-react';
-import iconPrymax from '../assets/branding/icon_prymax.png';
+import iconPrymax from '../assets/branding/icon_prymax.webp';
 import { sendDemandEmail, detectActiveWebsiteLanguage, SupportedEmailLanguage } from '../utils/emailService';
 import { useToast } from '../context/ToastContext';
 
@@ -112,13 +112,13 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
             
             {/* Colonne Gauche : Texte & Bouton Pill Noir */}
             <div className="lg:col-span-7 space-y-4">
-              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-600">
                 Collaboration &amp; Croissance
               </span>
 
-              <h3 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 leading-tight">
+              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 leading-tight">
                 Prêt à digitaliser votre activité avec PRYMAX&nbsp;STUDIO ?
-              </h3>
+              </h2>
 
               <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed max-w-xl">
                 Obtenez un site web ultra-rapide, une identité visuelle marquante et une visibilité locale renforcée. Échangeons dès aujourd'hui sur votre projet.
@@ -157,6 +157,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
                 <img 
                   src={iconPrymax} 
                   alt="PRYMAX Logo" 
+                  width={28}
+                  height={28}
+                  loading="lazy"
+                  decoding="async"
                   className="w-7 h-7 object-contain"
                 />
               </div>
@@ -196,6 +200,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               <img 
                 src={iconPrymax} 
                 alt="PRYMAX STUDIO" 
+                width={32}
+                height={32}
+                loading="lazy"
+                decoding="async"
                 className="w-8 h-8 object-contain rounded-md"
               />
               <span className="font-display text-xl font-extrabold tracking-wider text-white">
@@ -203,27 +211,27 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               </span>
             </div>
 
-            <p className="text-xs text-zinc-400 max-w-sm leading-relaxed">
+            <p className="text-xs text-zinc-300 max-w-sm leading-relaxed">
               Studio digital de référence spécialisé en design web haute performance, branding d'exception et visibilité numérique.
             </p>
 
-            <div className="text-xs text-zinc-400 space-y-2 pt-1">
+            <div className="text-xs text-zinc-300 space-y-2 pt-1">
               <div className="flex items-center gap-2">
-                <span className="text-zinc-500">Email :</span>
+                <span className="text-zinc-400">Email :</span>
                 <a 
                   href="mailto:prymaxstudio@gmail.com" 
-                  className="text-zinc-200 hover:text-white hover:underline transition-colors"
+                  className="text-zinc-200 hover:text-white hover:underline transition-colors py-1"
                 >
                   prymaxstudio@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-zinc-500">Contact :</span>
+                <span className="text-zinc-400">Contact :</span>
                 <a 
                   href="https://wa.me/237681078004?text=Bonjour%20PRYMAX%20STUDIO%2C%20je%20souhaite%20un%20devis." 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5 font-medium"
+                  className="text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5 font-medium py-1"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                   <span>WhatsApp</span>
@@ -237,11 +245,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
             <div className="text-xs font-semibold uppercase tracking-wider text-white mb-4">
               Studio
             </div>
-            <ul className="space-y-2.5 text-xs text-zinc-400">
+            <ul className="space-y-1.5 text-xs text-zinc-300">
               <li>
                 <button 
                   onClick={() => handleFooterNav('services')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  className="hover:text-white transition-colors cursor-pointer text-left py-1.5 inline-block"
                 >
                   Nos Services
                 </button>
@@ -249,7 +257,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               <li>
                 <button 
                   onClick={() => handleFooterNav('projets')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  className="hover:text-white transition-colors cursor-pointer text-left py-1.5 inline-block"
                 >
                   Projets &amp; Travaux
                 </button>
@@ -257,7 +265,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               <li>
                 <button 
                   onClick={() => handleFooterNav('studio')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  className="hover:text-white transition-colors cursor-pointer text-left py-1.5 inline-block"
                 >
                   Le Studio
                 </button>
@@ -265,7 +273,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               <li>
                 <button 
                   onClick={() => handleFooterNav('devis')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  className="hover:text-white transition-colors cursor-pointer text-left py-1.5 inline-block"
                 >
                   Délais &amp; Devis
                 </button>
@@ -273,7 +281,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               <li>
                 <button 
                   onClick={() => handleFooterNav('contact')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  className="hover:text-white transition-colors cursor-pointer text-left py-1.5 inline-block"
                 >
                   Contact Direct
                 </button>
@@ -286,16 +294,16 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
             <div className="text-xs font-semibold uppercase tracking-wider text-white mb-4">
               Réseaux Officiels
             </div>
-            <ul className="space-y-2.5 text-xs text-zinc-400">
+            <ul className="space-y-1.5 text-xs text-zinc-300">
               <li>
                 <a 
                   href="https://tiktok.com/@prymaxstudio" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors inline-flex items-center gap-1.5"
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5 py-1.5"
                 >
                   <span>TikTok</span>
-                  <span className="text-zinc-600">↗</span>
+                  <span className="text-zinc-400" aria-hidden="true">↗</span>
                 </a>
               </li>
               <li>
@@ -303,10 +311,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
                   href="https://instagram.com/prymaxstudio" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors inline-flex items-center gap-1.5"
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5 py-1.5"
                 >
                   <span>Instagram</span>
-                  <span className="text-zinc-600">↗</span>
+                  <span className="text-zinc-400" aria-hidden="true">↗</span>
                 </a>
               </li>
               <li>
@@ -314,10 +322,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
                   href="https://wa.me/237681078004" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors inline-flex items-center gap-1.5"
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5 py-1.5"
                 >
                   <span>WhatsApp</span>
-                  <span className="text-zinc-600">↗</span>
+                  <span className="text-zinc-400" aria-hidden="true">↗</span>
                 </a>
               </li>
               <li>
@@ -325,10 +333,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
                   href="https://facebook.com/prymaxstudio" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors inline-flex items-center gap-1.5"
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5 py-1.5"
                 >
                   <span>Facebook</span>
-                  <span className="text-zinc-600">↗</span>
+                  <span className="text-zinc-400" aria-hidden="true">↗</span>
                 </a>
               </li>
             </ul>
@@ -339,24 +347,29 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
             <div className="text-xs font-semibold uppercase tracking-wider text-white">
               Restez informé
             </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
+            <p className="text-xs text-zinc-300 leading-relaxed">
               Recevez nos analyses stratégiques et les coulisses de nos réalisations studio.
             </p>
 
             <form onSubmit={handleNewsletterSubmit} className="relative mt-2">
+              <label htmlFor="footer-newsletter-email" className="sr-only">
+                Votre adresse email pour la newsletter
+              </label>
               <input
+                id="footer-newsletter-email"
                 type="email"
                 required
+                autoComplete="email"
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
                 placeholder="Entrez votre adresse email..."
                 disabled={isSubmitting}
-                className="w-full min-h-[46px] bg-zinc-900 border border-white/10 rounded-full pl-4 pr-12 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white disabled:opacity-50"
+                className="w-full min-h-[48px] bg-zinc-900 border border-white/10 rounded-full pl-4 pr-14 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-white disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="absolute right-1.5 top-1.5 bottom-1.5 w-8 h-8 rounded-full bg-white hover:bg-zinc-200 text-zinc-950 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-60"
+                className="absolute right-1.5 top-1.5 bottom-1.5 w-9 h-9 rounded-full bg-white hover:bg-zinc-200 text-zinc-950 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-60"
                 aria-label="S'inscrire à la newsletter et recevoir l'email automatique"
               >
                 {isSubmitting ? (
@@ -396,11 +409,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
         </div>
 
         {/* Barre de copyright */}
-        <div className="pt-6 pb-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+        <div className="pt-6 pb-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
           <div>
             &copy; {new Date().getFullYear()} PRYMAX STUDIO. Tous droits réservés.
           </div>
-          <div className="text-zinc-500 text-[11px]">
+          <div className="text-zinc-400 text-[11px]">
             Conception Digitale &amp; Web Haute Performance
           </div>
         </div>

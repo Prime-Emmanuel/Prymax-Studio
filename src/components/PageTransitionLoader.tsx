@@ -1,6 +1,6 @@
 import React from 'react';
 import { WifiOff, Sparkles } from 'lucide-react';
-import iconPrymax from '../assets/branding/icon_prymax.png';
+import iconPrymax from '../assets/branding/icon_prymax.webp';
 
 interface PageTransitionLoaderProps {
   isActive: boolean;
@@ -38,6 +38,9 @@ export const PageTransitionLoader: React.FC<PageTransitionLoaderProps> = ({
             <img
               src={iconPrymax}
               alt="PRYMAX STUDIO"
+              width={24}
+              height={24}
+              decoding="async"
               className="w-6 h-6 object-contain rounded-sm"
             />
           </div>

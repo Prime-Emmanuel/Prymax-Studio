@@ -15,7 +15,6 @@ import {
   MapPin
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import heroPlancheMarque from '../assets/branding/hero_planche_marque.png';
 
 interface ClientPartnersProps {
   onOpenContact: () => void;
@@ -165,6 +164,10 @@ export const ClientPartners: React.FC<ClientPartnersProps> = ({ onOpenContact, o
                             <img
                               src={partner.image}
                               alt={partner.name}
+                              width={400}
+                              height={300}
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                             />
                           ) : (
@@ -173,6 +176,10 @@ export const ClientPartners: React.FC<ClientPartnersProps> = ({ onOpenContact, o
                                 <img 
                                   src={PRYMAX_PLACEHOLDER_LOGO} 
                                   alt="PRYMAX STUDIO Placeholder" 
+                                  width={40}
+                                  height={40}
+                                  loading="lazy"
+                                  decoding="async"
                                   className="w-10 h-10 object-contain drop-shadow"
                                 />
                               </div>
@@ -203,8 +210,11 @@ export const ClientPartners: React.FC<ClientPartnersProps> = ({ onOpenContact, o
                                 <img 
                                   src={partner.logo} 
                                   alt={`Logo ${partner.name}`}
-                                  className="w-full h-full object-contain"
+                                  width={48}
+                                  height={48}
                                   loading="lazy"
+                                  decoding="async"
+                                  className="w-full h-full object-contain"
                                 />
                               </div>
 
@@ -222,8 +232,8 @@ export const ClientPartners: React.FC<ClientPartnersProps> = ({ onOpenContact, o
                               {partner.highlight}
                             </p>
 
-                            <div className="text-xs text-zinc-400 bg-white/[0.03] p-3 rounded-xl border border-white/5 mb-5">
-                              <span className="text-zinc-500 font-mono text-[10px] uppercase block mb-0.5">Mission Réalisée :</span>
+                            <div className="text-xs text-zinc-300 bg-white/[0.03] p-3 rounded-xl border border-white/5 mb-5">
+                              <span className="text-zinc-400 font-mono text-[10px] uppercase block mb-0.5">Mission Réalisée :</span>
                               <span className="text-zinc-200">{partner.serviceProvided}</span>
                             </div>
                           </div>
@@ -284,19 +294,24 @@ export const ClientPartners: React.FC<ClientPartnersProps> = ({ onOpenContact, o
                 </button>
               </div>
 
-              {/* Indicateurs de progression */}
-              <div className="flex items-center gap-1.5">
+              {/* Indicateurs de progression avec zone tactile confortable */}
+              <div className="flex items-center gap-0.5">
                 {CLIENT_PARTNERS.map((_, idx) => (
                   <button
                     key={idx}
+                    type="button"
                     onClick={() => setActiveIndex(idx)}
-                    className={`h-2 rounded-full transition-all cursor-pointer ${
-                      idx === activeIndex
-                        ? 'w-7 bg-[#E5B54F]'
-                        : 'w-2 bg-white/20 hover:bg-white/40'
-                    }`}
+                    className="p-2.5 flex items-center justify-center cursor-pointer group"
                     aria-label={`Aller à l'entreprise ${idx + 1}`}
-                  />
+                  >
+                    <span
+                      className={`h-2 rounded-full transition-all block ${
+                        idx === activeIndex
+                          ? 'w-7 bg-[#E5B54F]'
+                          : 'w-2 bg-white/25 group-hover:bg-white/50'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
 
@@ -329,6 +344,10 @@ export const ClientPartners: React.FC<ClientPartnersProps> = ({ onOpenContact, o
                         <img 
                           src={partner.image} 
                           alt={partner.name}
+                          width={400}
+                          height={250}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                         />
                       ) : (
@@ -336,6 +355,10 @@ export const ClientPartners: React.FC<ClientPartnersProps> = ({ onOpenContact, o
                           <img 
                             src={PRYMAX_PLACEHOLDER_LOGO} 
                             alt="PRYMAX Logo" 
+                            width={40}
+                            height={40}
+                            loading="lazy"
+                            decoding="async"
                             className="w-10 h-10 object-contain drop-shadow mb-1" 
                           />
                           <span className="text-[10px] font-mono text-zinc-400">PRYMAX STUDIO</span>
@@ -346,10 +369,10 @@ export const ClientPartners: React.FC<ClientPartnersProps> = ({ onOpenContact, o
                     {/* Logo & Nom */}
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 rounded-xl bg-white p-1 border border-white/20 shrink-0 overflow-hidden flex items-center justify-center">
-                        <img src={partner.logo} alt={partner.name} className="w-full h-full object-contain" />
+                        <img src={partner.logo} alt={partner.name} width={40} height={40} loading="lazy" decoding="async" className="w-full h-full object-contain" />
                       </div>
                       <div className="min-w-0">
-                        <h4 className="text-base font-bold text-white truncate">{partner.name}</h4>
+                        <h3 className="text-base font-bold text-white truncate">{partner.name}</h3>
                         <div className="text-[11px] text-zinc-400 truncate">{partner.sector}</div>
                       </div>
                     </div>

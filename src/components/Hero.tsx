@@ -1,31 +1,31 @@
 import React from 'react';
-import { motion } from 'motion/react';
-import { ArrowUpRight, Star, Sparkles, Code, Palette, MapPin } from 'lucide-react';
-import heroPlancheMarque from '../assets/branding/hero_planche_marque.png';
-import enterpriseHeroImg from '../assets/images/digital_enterprise_hero_1792588771383.jpg';
+import { ArrowUpRight, Star, Sparkles, Code, Palette } from 'lucide-react';
 
 interface HeroProps {
   onOpenContact: () => void;
   onNavigate?: (route: string) => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
+export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
   return (
     <section className="relative pt-28 pb-14 sm:pt-32 sm:pb-16 md:pt-40 md:pb-24 overflow-hidden bg-[#08090D] text-white">
       {/* =========================================================================
-          ARRIÈRE-PLAN HERO MOBILE STYLÉ (Image de fond professionnelle avec dégradé sombre)
+          ARRIÈRE-PLAN AMBIANT MOBILE & DESKTOP (Zéro octet réseau, rendu instantané)
          ========================================================================= */}
-      <div className="sm:hidden absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-30">
-        <img 
-          src={enterpriseHeroImg} 
-          alt="PRYMAX STUDIO Création de sites web" 
-          className="w-full h-full object-cover object-center filter saturate-125"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#08090D]/80 via-[#08090D]/90 to-[#08090D]" />
-      </div>
+      <div
+        className="sm:hidden absolute inset-0 z-0 pointer-events-none overflow-hidden"
+        style={{
+          background:
+            'radial-gradient(ellipse 90% 60% at 50% 0%, rgba(229, 181, 79, 0.14) 0%, rgba(59, 130, 246, 0.06) 45%, rgba(8, 9, 13, 0.98) 85%)',
+        }}
+        aria-hidden="true"
+      />
 
       {/* Halo subtil monochrome & doré sur desktop */}
-      <div className="hidden sm:block absolute top-0 right-1/4 w-[600px] h-[500px] bg-gradient-to-br from-white/[0.04] to-[#E5B54F]/[0.03] blur-[140px] rounded-full pointer-events-none" />
+      <div
+        className="hidden sm:block absolute top-0 right-1/4 w-[600px] h-[500px] bg-gradient-to-br from-white/[0.04] to-[#E5B54F]/[0.03] blur-[140px] rounded-full pointer-events-none"
+        aria-hidden="true"
+      />
 
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
@@ -33,12 +33,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
           {/* =========================================================================
               COLONNE GAUCHE : TITRE ENTREPRISES, TEXTE, CTA AVEC UNDERLINE ANIMÉ & STATS
              ========================================================================= */}
-          <motion.div 
-            initial={{ opacity: 0, x: -35 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 flex flex-col justify-center"
-          >
+          <div className="lg:col-span-7 flex flex-col justify-center">
             
             {/* Badge Avis & Expertise */}
             <div className="self-start inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] backdrop-blur-md border border-white/10 text-xs text-zinc-300 mb-6 shadow-sm">
@@ -46,7 +41,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
                 <Star className="w-2.5 h-2.5 fill-current" />
               </div>
               <span className="font-bold text-white">4.9 / 5</span>
-              <span className="text-zinc-500">·</span>
+              <span className="text-zinc-400" aria-hidden="true">·</span>
               <span className="text-zinc-200">Design Web &amp; Solutions Digitales d'Élite</span>
             </div>
 
@@ -91,7 +86,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
                   <ArrowUpRight className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </button>
 
-                {/* Animation subtile de soulignement sous le bouton */}
+                {/* Animation subtile de soulignement sous le bouton (GPU composited) */}
                 <div 
                   className="w-4/5 h-[2.5px] mt-2 rounded-full animate-underline-shimmer pointer-events-none"
                   style={{
@@ -106,62 +101,54 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
                ========================================================================= */}
             <div className="pt-6 border-t border-white/[0.08] grid grid-cols-3 gap-3 sm:gap-8 max-w-lg">
               {/* Stat 1 : Satisfaction Client */}
-              <motion.div 
-                whileHover={{ y: -2 }}
-                className="p-2 sm:p-3 rounded-2xl bg-white/[0.02] border border-white/5"
-              >
+              <div className="p-2 sm:p-3 rounded-2xl bg-white/[0.02] border border-white/5 hover:-translate-y-0.5 transition-transform">
                 <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white font-mono tabular-nums tracking-tight">
                   98<span className="text-xs sm:text-sm font-bold text-[#E5B54F] ml-0.5">%</span>
                 </div>
                 <div className="text-[11px] sm:text-xs text-zinc-300 mt-1 font-medium">
                   Satisfaction Client
                 </div>
-              </motion.div>
+              </div>
 
               {/* Stat 2 : Expérience */}
-              <motion.div 
-                whileHover={{ y: -2 }}
-                className="p-2 sm:p-3 rounded-2xl bg-white/[0.02] border border-white/5"
-              >
+              <div className="p-2 sm:p-3 rounded-2xl bg-white/[0.02] border border-white/5 hover:-translate-y-0.5 transition-transform">
                 <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white font-mono tabular-nums tracking-tight">
                   5<span className="text-xs sm:text-sm font-bold text-[#E5B54F] ml-0.5">+ Ans</span>
                 </div>
                 <div className="text-[11px] sm:text-xs text-zinc-300 mt-1 font-medium">
                   Expérience
                 </div>
-              </motion.div>
+              </div>
 
               {/* Stat 3 : Projets Déployés */}
-              <motion.div 
-                whileHover={{ y: -2 }}
-                className="p-2 sm:p-3 rounded-2xl bg-white/[0.02] border border-white/5"
-              >
+              <div className="p-2 sm:p-3 rounded-2xl bg-white/[0.02] border border-white/5 hover:-translate-y-0.5 transition-transform">
                 <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white font-mono tabular-nums tracking-tight">
                   10<span className="text-xs sm:text-sm font-bold text-[#E5B54F] ml-0.5">+</span>
                 </div>
                 <div className="text-[11px] sm:text-xs text-zinc-300 mt-1 font-medium">
                   Projets Déployés
                 </div>
-              </motion.div>
+              </div>
             </div>
 
-          </motion.div>
+          </div>
 
           {/* =========================================================================
-              COLONNE DROITE : PLANCHE DE MARQUE DG RÉELLE
+              COLONNE DROITE : PLANCHE DE MARQUE DG RÉELLE (Élément LCP prioritaire)
              ========================================================================= */}
-          <motion.div 
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 relative flex flex-col items-center justify-center"
-          >
+          <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
             
-            {/* Conteneur principal avec l'image authentique */}
+            {/* Conteneur principal avec l'image authentique WebP responsive */}
             <div className="relative w-full max-w-[340px] sm:max-w-[440px] aspect-[4/5] rounded-[24px] sm:rounded-[36px] overflow-hidden border border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-[#480004] flex items-center justify-center p-2.5 sm:p-3.5 group">
               
               <img
-                src={heroPlancheMarque}
+                src="/assets/branding/hero_planche_marque.webp"
+                srcSet="/assets/branding/hero_planche_marque_sm.webp 480w, /assets/branding/hero_planche_marque.webp 880w"
+                sizes="(max-width: 640px) 340px, 440px"
+                width={440}
+                height={550}
+                fetchPriority="high"
+                decoding="async"
                 alt="Planche de marque DG créée par PRYMAX STUDIO"
                 className="w-full h-full object-contain object-center drop-shadow-xl group-hover:scale-105 transition-transform duration-700"
               />
@@ -173,10 +160,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onNavigate }) => {
               </div>
             </div>
 
-          </motion.div>
+          </div>
 
         </div>
       </div>
     </section>
   );
 };
+

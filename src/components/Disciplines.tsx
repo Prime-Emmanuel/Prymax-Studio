@@ -131,8 +131,11 @@ export const Disciplines: React.FC<DisciplinesProps> = ({
                         <img
                           src={service.image}
                           alt={service.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          width={460}
+                          height={288}
                           loading="lazy"
+                          decoding="async"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
                         
@@ -200,19 +203,24 @@ export const Disciplines: React.FC<DisciplinesProps> = ({
           })}
         </div>
 
-        {/* Indicateurs de progression (Points placés bien en bas et visibles) */}
-        <div className="mt-4 flex items-center justify-center gap-2">
+        {/* Indicateurs de progression (Points placés bien en bas avec zone tactile >= 44px) */}
+        <div className="mt-4 flex items-center justify-center gap-1">
           {SERVICES.map((_, idx) => (
             <button
               key={idx}
+              type="button"
               onClick={() => scrollToCard(idx)}
-              className={`h-2 rounded-full transition-all cursor-pointer ${
-                idx === currentIndex
-                  ? 'w-8 bg-[#E5B54F]'
-                  : 'w-2 bg-white/20 hover:bg-white/40'
-              }`}
+              className="p-3 flex items-center justify-center cursor-pointer group"
               aria-label={`Aller au service ${idx + 1}`}
-            />
+            >
+              <span
+                className={`h-2 rounded-full transition-all block ${
+                  idx === currentIndex
+                    ? 'w-8 bg-[#E5B54F]'
+                    : 'w-2 bg-white/25 group-hover:bg-white/50'
+                }`}
+              />
+            </button>
           ))}
         </div>
 

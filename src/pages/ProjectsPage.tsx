@@ -1,7 +1,7 @@
 import React from 'react';
 import { CLIENT_PARTNERS, PRYMAX_PLACEHOLDER_LOGO } from '../data/agencyData';
 import { ExternalLink, ShieldCheck, CheckCircle2, Sparkles, ArrowUpRight, Globe, Layers } from 'lucide-react';
-import heroPlancheMarque from '../assets/branding/hero_planche_marque.png';
+import heroPlancheMarque from '../assets/branding/hero_planche_marque.webp';
 
 interface ProjectsPageProps {
   onOpenContact: () => void;
@@ -82,6 +82,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onOpenContact, onNav
               <img 
                 src={heroPlancheMarque} 
                 alt="Planche de marque DG par PRYMAX STUDIO" 
+                width={640}
+                height={400}
+                decoding="async"
                 className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
               />
             </div>

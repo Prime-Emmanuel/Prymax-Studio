@@ -51,7 +51,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
             <Clock className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-white mb-1">Délais Rigoureux</h4>
+            <h3 className="text-sm font-bold text-white mb-1">Délais Rigoureux</h3>
             <p className="text-xs text-zinc-400 leading-relaxed">
               De 24h pour un logo à 1-4 jours pour un site web vitrine professionnel. Planning fixé dès le départ.
             </p>
@@ -63,7 +63,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-white mb-1">Garantie &amp; Assistance</h4>
+            <h3 className="text-sm font-bold text-white mb-1">Garantie &amp; Assistance</h3>
             <p className="text-xs text-zinc-400 leading-relaxed">
               Correction des anomalies, accompagnement à la prise en main et cession des droits des livrables.
             </p>
@@ -75,7 +75,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
             <FileText className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-white mb-1">Paiements Flexibles</h4>
+            <h3 className="text-sm font-bold text-white mb-1">Paiements Flexibles</h3>
             <p className="text-xs text-zinc-400 leading-relaxed">
               Acompte de démarrage et solde à la livraison. Règlements acceptés par Orange Money, MTN MoMo ou Virement.
             </p>

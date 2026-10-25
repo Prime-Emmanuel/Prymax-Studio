@@ -625,32 +625,40 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = () => {
                   <input
                     type="text"
                     required
+                    aria-label="Votre nom complet"
+                    autoComplete="name"
                     value={clientName}
                     onChange={e => setClientName(e.target.value)}
                     placeholder="Votre nom complet *"
-                    className="w-full min-h-[46px] bg-[#12151C] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
+                    className="w-full min-h-[46px] bg-[#12151C] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-white"
                   />
                   <input
                     type="email"
                     required
+                    aria-label="Votre adresse email"
+                    autoComplete="email"
                     value={clientEmail}
                     onChange={e => setClientEmail(e.target.value)}
                     placeholder="Votre adresse email *"
-                    className="w-full min-h-[46px] bg-[#12151C] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
+                    className="w-full min-h-[46px] bg-[#12151C] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-white"
                   />
                   <input
                     type="tel"
+                    aria-label="Votre numéro de téléphone (optionnel)"
+                    autoComplete="tel"
                     value={clientPhone}
                     onChange={e => setClientPhone(e.target.value)}
                     placeholder="Téléphone (optionnel)"
-                    className="w-full min-h-[46px] bg-[#12151C] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
+                    className="w-full min-h-[46px] bg-[#12151C] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-white"
                   />
                   <input
                     type="text"
+                    aria-label="Nom de votre entreprise ou marque"
+                    autoComplete="organization"
                     value={clientCompany}
                     onChange={e => setClientCompany(e.target.value)}
                     placeholder="Entreprise / Marque"
-                    className="w-full min-h-[46px] bg-[#12151C] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
+                    className="w-full min-h-[46px] bg-[#12151C] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-white"
                   />
                 </div>
 
