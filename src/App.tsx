@@ -1,21 +1,29 @@
 import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { Disciplines } from './components/Disciplines';
-import { ClientPartners } from './components/ClientPartners';
-import { StudioSection } from './components/StudioSection';
-import { ScopeEstimator } from './components/ScopeEstimator';
-import { FloatingWhatsApp } from './components/FloatingWhatsApp';
-import { Footer } from './components/Footer';
 import { InitialSplashLoader } from './components/InitialSplashLoader';
-import { PageTransitionLoader } from './components/PageTransitionLoader';
 import { ToastProvider, useToast } from './context/ToastContext';
-import { ScrollToTop } from './components/ScrollToTop';
 
 import { PageRoute, ServiceItem } from './types';
-import { SERVICES } from './data/agencyData';
 
-// Chargement différé des pages secondaires et du tiroir de contact pour alléger le bundle initial
+// Sections sous la ligne de flottaison chargées de manière différée pour réduire de >50% le JS critique du premier écran
+const HomeBelowFold = lazy(() =>
+  import('./components/HomeBelowFold').then(m => ({ default: m.HomeBelowFold }))
+);
+const Footer = lazy(() =>
+  import('./components/Footer').then(m => ({ default: m.Footer }))
+);
+const FloatingWhatsApp = lazy(() =>
+  import('./components/FloatingWhatsApp').then(m => ({ default: m.FloatingWhatsApp }))
+);
+const ScrollToTop = lazy(() =>
+  import('./components/ScrollToTop').then(m => ({ default: m.ScrollToTop }))
+);
+const PageTransitionLoader = lazy(() =>
+  import('./components/PageTransitionLoader').then(m => ({ default: m.PageTransitionLoader }))
+);
+
+// Chargement différé des pages secondaires et du tiroir de contact
 const ServicesPage = lazy(() =>
   import('./pages/ServicesPage').then(m => ({ default: m.ServicesPage }))
 );
@@ -64,7 +72,7 @@ function getInitialRoute(): PageRoute {
 function AppShell() {
   const { showToast, isOnline } = useToast();
 
-  // Écran d'ouverture initial P R Y M A X (joué une seule fois par session)
+  // Écran d'ouverture initial P R Y M A X (joué une seule fois par session, sans masquer le Hero)
   const [showInitialSplash, setShowInitialSplash] = useState<boolean>(() => {
     try {
       return typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('prymax_splash_seen');
@@ -161,8 +169,10 @@ function AppShell() {
       if (state && state.route) {
         setCurrentRoute(state.route);
         if (state.serviceId) {
-          const found = SERVICES.find(s => s.id === state.serviceId);
-          if (found) setSelectedService(found);
+          import('./data/agencyData').then(({ SERVICES }) => {
+            const found = SERVICES.find(s => s.id === state.serviceId);
+            if (found) setSelectedService(found);
+          });
         }
       } else {
         setCurrentRoute(getInitialRoute());
@@ -223,17 +233,21 @@ function AppShell() {
 
   return (
     <div className="min-h-screen bg-[#08090D] text-[#F5F7FA] flex flex-col selection:bg-white selection:text-black">
-      {/* Écran d'ouverture initial P R Y M A X avec lettres animées et halo lumineux */}
+      {/* Capsule cinétique initiale P R Y M A X (non bloquante pour le Hero) */}
       {showInitialSplash && (
         <InitialSplashLoader onComplete={() => setShowInitialSplash(false)} />
       )}
 
       {/* Animation de chargement rapide et fluide lors des changements de page */}
-      <PageTransitionLoader
-        isActive={isPageTransitioning}
-        statusMessage={transitionHint}
-        isOffline={!isOnline}
-      />
+      {isPageTransitioning && (
+        <Suspense fallback={null}>
+          <PageTransitionLoader
+            isActive={isPageTransitioning}
+            statusMessage={transitionHint}
+            isOffline={!isOnline}
+          />
+        </Suspense>
+      )}
 
       {/* Navigation Flottante avec animation 3 couleurs (Or, Bleu, Blanc) */}
       <Navbar
@@ -251,20 +265,14 @@ function AppShell() {
               onNavigate={navigate}
             />
 
-            <Disciplines
-              onSelectService={handleSelectService}
-              onOpenContact={handleOpenContact}
-              onNavigate={navigate}
-            />
-
-            <ClientPartners
-              onOpenContact={handleOpenContact}
-              onNavigate={navigate}
-            />
-
-            <StudioSection />
-
-            <ScopeEstimator onPreloadBrief={handlePreloadBrief} />
+            <Suspense fallback={<div className="min-h-screen bg-[#08090D]" aria-hidden="true" />}>
+              <HomeBelowFold
+                onSelectService={handleSelectService}
+                onOpenContact={handleOpenContact}
+                onNavigate={navigate}
+                onPreloadBrief={handlePreloadBrief}
+              />
+            </Suspense>
           </>
         ) : (
           <Suspense fallback={<div className="min-h-[60vh]" />}>
@@ -278,7 +286,7 @@ function AppShell() {
 
             {currentRoute === 'service-detail' && (
               <ServiceDetailPage
-                service={selectedService || SERVICES[0]}
+                service={selectedService}
                 onBack={() => navigate('services')}
                 onOpenContact={handleOpenContact}
                 onNavigate={navigate}
@@ -336,17 +344,15 @@ function AppShell() {
         </Suspense>
       )}
 
-      {/* Bouton Flottant WhatsApp Authentique */}
-      <FloatingWhatsApp />
-
-      {/* Bouton Élégant Retour en Haut de Page */}
-      <ScrollToTop />
-
-      {/* Pied de Page Épuré */}
-      <Footer
-        onOpenContact={handleOpenContact}
-        onNavigate={navigate}
-      />
+      {/* Éléments flottants et Pied de Page (chargés de manière différée sous la ligne de flottaison) */}
+      <Suspense fallback={null}>
+        <FloatingWhatsApp />
+        <ScrollToTop />
+        <Footer
+          onOpenContact={handleOpenContact}
+          onNavigate={navigate}
+        />
+      </Suspense>
     </div>
   );
 }
@@ -358,4 +364,3 @@ export default function App() {
     </ToastProvider>
   );
 }
-

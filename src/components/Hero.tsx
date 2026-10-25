@@ -143,8 +143,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
               
               <img
                 src="/assets/branding/hero_planche_marque.webp"
-                srcSet="/assets/branding/hero_planche_marque_sm.webp 480w, /assets/branding/hero_planche_marque.webp 880w"
-                sizes="(max-width: 640px) 340px, 440px"
+                srcSet="/assets/branding/hero_planche_marque_sm.webp 600w, /assets/branding/hero_planche_marque.webp 880w"
+                sizes="(max-width: 640px) 320px, 412px"
                 width={440}
                 height={550}
                 fetchPriority="high"

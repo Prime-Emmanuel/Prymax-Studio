@@ -1,20 +1,22 @@
 import React from 'react';
 import { ServiceItem } from '../types';
+import { SERVICES } from '../data/agencyData';
 import { ArrowLeft, CheckCircle2, ShieldCheck, ArrowUpRight, MessageCircle, Clock, Zap, Star } from 'lucide-react';
 
 interface ServiceDetailPageProps {
-  service: ServiceItem;
+  service?: ServiceItem | null;
   onBack: () => void;
   onOpenContact: () => void;
   onNavigate: (route: string) => void;
 }
 
 export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
-  service,
+  service: serviceProp,
   onBack,
   onOpenContact,
   onNavigate
 }) => {
+  const service = serviceProp || SERVICES[0];
   const whatsappUrl = `https://wa.me/237681078004?text=${encodeURIComponent(
     `Bonjour PRYMAX STUDIO, je souhaite me renseigner et obtenir un devis pour votre service : ${service.title}`
   )}`;

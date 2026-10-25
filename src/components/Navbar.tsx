@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import iconPrymax from '../assets/branding/icon_prymax.webp';
+const iconPrymax = '/assets/branding/icon_prymax.webp';
 import { 
   Menu, 
   X, 
