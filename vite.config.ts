@@ -26,7 +26,7 @@ function resendApiPlugin(env: Record<string, string>): Plugin {
             const payload = rawBody ? JSON.parse(rawBody) : {};
             const refId = `PX-${Math.floor(100000 + Math.random() * 900000)}`;
             const apiKey = env.RESEND_API_KEY || process.env.RESEND_API_KEY;
-            const fromEmail = env.RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'PRYMAX STUDIO <onboarding@resend.dev>';
+            const fromEmail = env.RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'PRYMAX STUDIO <contact@prymaxstudio.com>';
             const studioEmail = env.STUDIO_NOTIFICATION_EMAIL || process.env.STUDIO_NOTIFICATION_EMAIL || 'prymaxstudio@gmail.com';
 
             if (apiKey && apiKey.trim() !== '' && !apiKey.includes('votre_cle_api')) {

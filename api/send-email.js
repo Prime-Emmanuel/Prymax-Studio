@@ -2,7 +2,7 @@
 // Compatible nativement avec Vercel sans dépendance externe lourde
 
 const STUDIO_EMAIL = process.env.STUDIO_NOTIFICATION_EMAIL || 'prymaxstudio@gmail.com';
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'PRYMAX STUDIO <onboarding@resend.dev>';
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'PRYMAX STUDIO <contact@prymaxstudio.com>';
 
 function buildStudioHtml(payload, refId) {
   const {
