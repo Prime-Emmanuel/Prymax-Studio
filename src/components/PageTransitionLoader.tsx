@@ -1,5 +1,6 @@
 import React from 'react';
 import { WifiOff, Sparkles } from 'lucide-react';
+import iconPrymax from '../assets/branding/icon_prymax.png';
 
 interface PageTransitionLoaderProps {
   isActive: boolean;
@@ -30,13 +31,15 @@ export const PageTransitionLoader: React.FC<PageTransitionLoaderProps> = ({
       {/* Voile subtil de transition */}
       <div className="fixed inset-0 bg-[#050608]/65 backdrop-blur-sm flex items-center justify-center transition-opacity duration-200">
         <div className="px-6 py-4 rounded-2xl bg-[#0D0F14]/95 border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col items-center gap-3 text-center max-w-xs mx-4">
-          {/* Anneau lumineux animé */}
-          <div className="relative w-10 h-10 flex items-center justify-center">
+          {/* Anneau lumineux animé avec logo PRYMAX */}
+          <div className="relative w-11 h-11 flex items-center justify-center">
             <div className="absolute inset-0 rounded-full border-2 border-white/10" />
             <div className="absolute inset-0 rounded-full border-2 border-t-white border-r-[#E5B54F] border-b-transparent border-l-transparent animate-spin" />
-            <span className="font-display text-xs font-extrabold tracking-wider text-white">
-              PX
-            </span>
+            <img
+              src={iconPrymax}
+              alt="PRYMAX STUDIO"
+              className="w-6 h-6 object-contain rounded-sm"
+            />
           </div>
 
           <div className="space-y-1">
