@@ -19,8 +19,8 @@ export interface EmailDemandResult {
   referenceId: string;
   type?: string;
   language?: SupportedEmailLanguage;
-  storage?: string;
-  persisted?: boolean;
+  alreadySubscribed?: boolean;
+  message?: string;
   error?: string;
 }
 
@@ -107,26 +107,7 @@ export async function sendDemandEmail(
     );
   }
 
-  if (payload.type === 'newsletter') {
-    // Prévention des doublons côté navigateur avant appel serveur
-    try {
-      const stored: string[] = JSON.parse(localStorage.getItem('prymax_subscribers') || '[]');
-      if (stored.map(s => s.toLowerCase()).includes(normalizedEmail)) {
-        throw new Error(
-          language === 'en'
-            ? 'This email address is already subscribed to the PRYMAX STUDIO newsletter.'
-            : 'Cette adresse email est déjà inscrite à la newsletter PRYMAX STUDIO.'
-        );
-      }
-    } catch (e) {
-      if (
-        e instanceof Error &&
-        (e.message.includes('déjà inscrite') || e.message.includes('already subscribed'))
-      ) {
-        throw e;
-      }
-    }
-  } else {
+  if (payload.type !== 'newsletter') {
     if (!payload.name || payload.name.trim().length < 2) {
       throw new Error(
         language === 'en'
@@ -184,18 +165,7 @@ export async function sendDemandEmail(
 
     const refId = data.referenceId;
 
-    // Enregistrement local uniquement après succès confirmé par le serveur
-    if (payload.type === 'newsletter') {
-      try {
-        const stored: string[] = JSON.parse(localStorage.getItem('prymax_subscribers') || '[]');
-        if (!stored.map(s => s.toLowerCase()).includes(normalizedEmail)) {
-          stored.push(normalizedEmail);
-          localStorage.setItem('prymax_subscribers', JSON.stringify(stored));
-        }
-      } catch {
-        // Ignorer si localStorage est restreint
-      }
-    } else {
+    if (payload.type !== 'newsletter') {
       try {
         const history = JSON.parse(localStorage.getItem('prymax_demands_history') || '[]');
         history.unshift({
@@ -215,8 +185,8 @@ export async function sendDemandEmail(
       referenceId: refId,
       type: data.type,
       language: data.language || language,
-      storage: data.storage,
-      persisted: data.persisted,
+      alreadySubscribed: Boolean(data.alreadySubscribed),
+      message: data.message,
     };
   } catch (err) {
     clearTimeout(slowTimer1);

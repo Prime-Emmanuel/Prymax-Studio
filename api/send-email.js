@@ -1,63 +1,7 @@
 // Vercel Serverless Function & Backend Handler — Système d'Emails PRYMAX STUDIO via Resend
-import fs from 'fs';
-import path from 'path';
-
 const DEFAULT_STUDIO_EMAIL = 'prymaxstudio@gmail.com';
 const DEFAULT_SENDER = 'PRYMAX STUDIO <hello@prymaxstudio.com>';
 const VERIFIED_LOGO_URL = 'https://www.prymaxstudio.com/assets/branding/logo_transparent.png';
-
-// Stockage en mémoire (pour l'instance en cours) + fichier local (en développement)
-const memorySubscribers = new Set();
-
-function getLocalSubscribersFilePath() {
-  return path.resolve(process.cwd(), 'data', 'newsletter-subscribers.json');
-}
-
-function readLocalSubscribers() {
-  try {
-    const filePath = getLocalSubscribersFilePath();
-    if (fs.existsSync(filePath)) {
-      const raw = fs.readFileSync(filePath, 'utf-8');
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        return parsed
-          .map(item => (typeof item === 'string' ? item.toLowerCase() : item.email?.toLowerCase()))
-          .filter(Boolean);
-      }
-    }
-  } catch {
-    // Environnement en lecture seule (ex: Vercel Serverless sans disque persistant)
-  }
-  return [];
-}
-
-function saveLocalSubscriber(email) {
-  const normalized = email.trim().toLowerCase();
-  memorySubscribers.add(normalized);
-  try {
-    const filePath = getLocalSubscribersFilePath();
-    const dir = path.dirname(filePath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    const existing = readLocalSubscribers();
-    if (!existing.includes(normalized)) {
-      existing.push(normalized);
-      fs.writeFileSync(
-        filePath,
-        JSON.stringify(
-          existing.map(e => ({ email: e, subscribedAt: new Date().toISOString() })),
-          null,
-          2
-        ),
-        'utf-8'
-      );
-    }
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 function isValidEmail(email) {
   if (!email || typeof email !== 'string') return false;
@@ -513,8 +457,22 @@ function buildStudioNotificationHtml(payload, refId, lang = 'fr') {
 </html>`;
 }
 
-async function sendResendEmail(apiKey, emailPayload, attempt = 1) {
-  const response = await fetch('https://api.resend.com/emails', {
+/**
+ * Requête HTTP vers l'API Resend avec gestion automatique du rate-limit (429).
+ */
+async function callResendApi(url, options, attempt = 1) {
+  const response = await fetch(url, options);
+
+  if (response.status === 429 && attempt < 4) {
+    await new Promise(resolve => setTimeout(resolve, 750 * attempt));
+    return callResendApi(url, options, attempt + 1);
+  }
+
+  return response;
+}
+
+async function sendResendEmail(apiKey, emailPayload, lang = 'fr') {
+  const response = await callResendApi('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -523,14 +481,13 @@ async function sendResendEmail(apiKey, emailPayload, attempt = 1) {
     body: JSON.stringify(emailPayload),
   });
 
-  if (response.status === 429 && attempt < 3) {
-    await new Promise(resolve => setTimeout(resolve, 750 * attempt));
-    return sendResendEmail(apiKey, emailPayload, attempt + 1);
-  }
-
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const err = new Error(data?.message || data?.error || `Erreur Resend (${response.status})`);
+    const err = new Error(
+      lang === 'en'
+        ? 'Unable to send confirmation email right now. Please try again shortly.'
+        : "Impossible d'envoyer l'email de confirmation pour le moment. Veuillez réessayer dans quelques instants."
+    );
     err.statusCode = response.status >= 400 && response.status < 600 ? response.status : 502;
     throw err;
   }
@@ -538,83 +495,112 @@ async function sendResendEmail(apiKey, emailPayload, attempt = 1) {
 }
 
 /**
- * Gestion des abonnés Newsletter via Resend Audiences (si RESEND_AUDIENCE_ID est défini)
- * + vérification locale en développement.
+ * Enregistrement persistant de l'abonné dans Resend via l'API Contacts officielle (https://api.resend.com/contacts).
+ * - Vérifie d'abord si le contact existe déjà (GET /contacts/:email) afin d'éviter tout doublon d'email de bienvenue.
+ * - Crée le contact durablement (POST /contacts) s'il n'existe pas encore, ou le réactive s'il était désinscrit.
+ * - Associe optionnellement le contact à un segment si RESEND_SEGMENT_ID ou RESEND_AUDIENCE_ID est défini.
+ * - Échoue explicitement si l'enregistrement Resend échoue (aucun faux succès).
  */
-async function checkAndSaveNewsletterSubscriber(apiKey, audienceId, rawEmail, lang = 'fr') {
+async function registerContactInResend(apiKey, segmentId, rawEmail, lang = 'fr') {
   const normalizedEmail = rawEmail.trim().toLowerCase();
-  const duplicateMsg =
+  const encodedEmail = encodeURIComponent(normalizedEmail);
+
+  const genericStorageErrorMsg =
     lang === 'en'
-      ? 'This email address is already subscribed to the PRYMAX STUDIO newsletter.'
-      : 'Cette adresse email est déjà inscrite à la newsletter PRYMAX STUDIO.';
+      ? 'Unable to complete your newsletter subscription at the moment. Please try again later.'
+      : "Impossible d'enregistrer votre inscription à la newsletter pour le moment. Veuillez réessayer ultérieurement.";
 
-  // 1. Vérification doublon en mémoire ou fichier local (dev)
-  const localList = readLocalSubscribers();
-  if (memorySubscribers.has(normalizedEmail) || localList.includes(normalizedEmail)) {
-    const dupError = new Error(duplicateMsg);
-    dupError.statusCode = 409;
-    throw dupError;
-  }
+  // 1. Vérifier si le contact existe déjà dans Resend Contacts
+  const getResponse = await callResendApi(`https://api.resend.com/contacts/${encodedEmail}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+  });
 
-  // 2. Si RESEND_AUDIENCE_ID est configuré, vérifier et enregistrer dans Resend Audiences
-  if (audienceId && audienceId.trim() !== '') {
-    const cleanAudienceId = audienceId.trim();
+  if (getResponse.status === 200) {
+    const existingContact = await getResponse.json().catch(() => ({}));
 
-    const listRes = await fetch(`https://api.resend.com/audiences/${cleanAudienceId}/contacts`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (listRes.ok) {
-      const listData = await listRes.json().catch(() => ({}));
-      const contacts = Array.isArray(listData?.data) ? listData.data : [];
-      const alreadyExists = contacts.some(
-        c => typeof c.email === 'string' && c.email.trim().toLowerCase() === normalizedEmail
-      );
-      if (alreadyExists) {
-        memorySubscribers.add(normalizedEmail);
-        const dupError = new Error(duplicateMsg);
-        dupError.statusCode = 409;
-        throw dupError;
-      }
+    // Si le contact existe déjà et est actif (non désinscrit), on ne renvoie pas d'email en double
+    if (existingContact && existingContact.unsubscribed === false) {
+      return {
+        alreadySubscribed: true,
+        contactId: existingContact.id,
+      };
     }
 
-    const createRes = await fetch(`https://api.resend.com/audiences/${cleanAudienceId}/contacts`, {
-      method: 'POST',
+    // Si le contact existait mais était marqué "unsubscribed: true", on le réactive proprement
+    const patchResponse = await callResendApi(`https://api.resend.com/contacts/${encodedEmail}`, {
+      method: 'PATCH',
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: normalizedEmail,
         unsubscribed: false,
       }),
     });
 
-    if (!createRes.ok) {
-      const errData = await createRes.json().catch(() => ({}));
-      const storageErr = new Error(
-        errData?.message ||
-          (lang === 'en'
-            ? 'Unable to save subscriber to Resend Audience.'
-            : "Impossible d'enregistrer l'abonné dans la liste Resend Audience.")
-      );
-      storageErr.statusCode = 502;
-      throw storageErr;
+    if (!patchResponse.ok) {
+      const err = new Error(genericStorageErrorMsg);
+      err.statusCode = 502;
+      throw err;
     }
 
-    saveLocalSubscriber(normalizedEmail);
-    return { persistentStorage: 'resend_audience', persisted: true };
+    const updatedContact = await patchResponse.json().catch(() => ({}));
+    return {
+      alreadySubscribed: false,
+      contactId: updatedContact.id || existingContact.id,
+    };
   }
 
-  // 3. Sauvegarde locale (fichier JSON sur serveur local + mémoire)
-  const savedToFile = saveLocalSubscriber(normalizedEmail);
+  // Si le statut n'est ni 200 (trouvé) ni 404 (non trouvé), l'API Contacts a renvoyé une erreur (ex: clé restreinte ou panne)
+  if (getResponse.status !== 404) {
+    const err = new Error(genericStorageErrorMsg);
+    err.statusCode = 502;
+    throw err;
+  }
+
+  // 2. Créer le contact durablement dans Resend Contacts (POST /contacts)
+  const contactPayload = {
+    email: normalizedEmail,
+    unsubscribed: false,
+  };
+
+  if (segmentId) {
+    contactPayload.segments = [{ id: segmentId }];
+  }
+
+  const createResponse = await callResendApi('https://api.resend.com/contacts', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(contactPayload),
+  });
+
+  const createdData = await createResponse.json().catch(() => ({}));
+
+  if (!createResponse.ok || !createdData?.id) {
+    // Gestion propre si le contact a été créé simultanément entre le GET et le POST
+    const errMsg = String(createdData?.message || '').toLowerCase();
+    if (createResponse.status === 409 || errMsg.includes('already exists')) {
+      return {
+        alreadySubscribed: true,
+        contactId: createdData?.id || null,
+      };
+    }
+
+    const err = new Error(genericStorageErrorMsg);
+    err.statusCode = 502;
+    throw err;
+  }
+
   return {
-    persistentStorage: savedToFile ? 'local_file' : 'ephemeral_memory_only',
-    persisted: false,
+    alreadySubscribed: false,
+    contactId: createdData.id,
   };
 }
 
@@ -630,7 +616,9 @@ export async function processEmailRequest(payload, envConfig = {}) {
     process.env.RESEND_FROM_EMAIL ||
     DEFAULT_SENDER
   ).trim();
-  const audienceId = (
+  const segmentId = (
+    envConfig.RESEND_SEGMENT_ID ||
+    process.env.RESEND_SEGMENT_ID ||
     envConfig.RESEND_AUDIENCE_ID ||
     process.env.RESEND_AUDIENCE_ID ||
     ''
@@ -642,18 +630,18 @@ export async function processEmailRequest(payload, envConfig = {}) {
   if (!apiKey || apiKey === 're_votre_cle_api_resend') {
     const err = new Error(
       language === 'en'
-        ? 'The email service is not active yet: server variable RESEND_API_KEY is missing.'
-        : "Le service d'envoi d'emails n'est pas encore actif : la variable serveur RESEND_API_KEY est manquante."
+        ? 'The email service is temporarily unavailable. Please try again later.'
+        : 'Le service de messagerie est momentanément indisponible. Veuillez réessayer ultérieurement.'
     );
     err.statusCode = 500;
     throw err;
   }
 
   const type = payload?.type || 'contact-devis';
-  const clientEmail = (payload?.email || '').trim();
+  const clientEmail = (payload?.email || '').trim().toLowerCase();
   const refId = `PX-${Math.floor(100000 + Math.random() * 900000)}`;
 
-  // Validation stricte de l'adresse email client pour les 3 flux
+  // Validation stricte de l'adresse email client côté serveur pour les 3 flux
   if (!isValidEmail(clientEmail)) {
     const err = new Error(
       language === 'en'
@@ -668,50 +656,72 @@ export async function processEmailRequest(payload, envConfig = {}) {
   // FLUX 1 : NEWSLETTER DU FOOTER ("Restez informé")
   // ==========================================================================
   if (type === 'newsletter') {
-    const storageStatus = await checkAndSaveNewsletterSubscriber(
+    const contactResult = await registerContactInResend(
       apiKey,
-      audienceId,
+      segmentId,
       clientEmail,
       language
     );
 
+    // Si le contact existe déjà dans Resend : aucun envoi d'email en double ni erreur générique
+    if (contactResult.alreadySubscribed) {
+      return {
+        ok: true,
+        alreadySubscribed: true,
+        referenceId: refId,
+        type: 'newsletter',
+        language,
+        message:
+          language === 'en'
+            ? 'This email address is already subscribed to the PRYMAX STUDIO newsletter.'
+            : 'Cette adresse email est déjà inscrite à la newsletter PRYMAX STUDIO.',
+      };
+    }
+
     const newsletterEmail = buildNewsletterConfirmationEmail(language);
 
     // 1. Envoi de l'email de bienvenue au visiteur dans sa langue (FR ou EN)
-    await sendResendEmail(apiKey, {
-      from: 'PRYMAX STUDIO <hello@prymaxstudio.com>',
-      to: [clientEmail],
-      reply_to: 'prymaxstudio@gmail.com',
-      subject: newsletterEmail.subject,
-      html: newsletterEmail.html,
-      text: newsletterEmail.text,
-    });
+    await sendResendEmail(
+      apiKey,
+      {
+        from: 'PRYMAX STUDIO <hello@prymaxstudio.com>',
+        to: [clientEmail],
+        reply_to: 'prymaxstudio@gmail.com',
+        subject: newsletterEmail.subject,
+        html: newsletterEmail.html,
+        text: newsletterEmail.text,
+      },
+      language
+    );
 
     // 2. Notification interne à prymaxstudio@gmail.com
-    await sendResendEmail(apiKey, {
-      from: fromEmail,
-      to: [studioEmail],
-      reply_to: clientEmail,
-      subject: `[NEWSLETTER] Nouvel abonné (${language.toUpperCase()}) : ${clientEmail}`,
-      html: buildStudioNotificationHtml(
-        {
-          type: 'newsletter',
-          name: getCleanClientName(payload?.name) || clientEmail,
-          email: clientEmail,
-          message: `Nouvelle inscription à la newsletter "Restez informé" (langue email : ${language.toUpperCase()}, stockage : ${storageStatus.persistentStorage}).`,
-        },
-        refId,
-        language
-      ),
-    });
+    await sendResendEmail(
+      apiKey,
+      {
+        from: fromEmail,
+        to: [studioEmail],
+        reply_to: clientEmail,
+        subject: `[NEWSLETTER] Nouvel abonné (${language.toUpperCase()}) : ${clientEmail}`,
+        html: buildStudioNotificationHtml(
+          {
+            type: 'newsletter',
+            name: getCleanClientName(payload?.name) || clientEmail,
+            email: clientEmail,
+            message: `Nouvelle inscription enregistrée dans Resend Contacts (langue email : ${language.toUpperCase()}).`,
+          },
+          refId,
+          language
+        ),
+      },
+      language
+    );
 
     return {
       ok: true,
+      alreadySubscribed: false,
       referenceId: refId,
       type: 'newsletter',
       language,
-      storage: storageStatus.persistentStorage,
-      persisted: storageStatus.persisted,
     };
   }
 
@@ -731,24 +741,32 @@ export async function processEmailRequest(payload, envConfig = {}) {
   // ==========================================================================
   if (type === 'configurator') {
     // 1. Envoi des détails complets à prymaxstudio@gmail.com
-    await sendResendEmail(apiKey, {
-      from: fromEmail,
-      to: [studioEmail],
-      reply_to: clientEmail,
-      subject: `[CONFIGURATEUR ${refId}] Nouveau projet sur-mesure — ${payload.name}`,
-      html: buildStudioNotificationHtml(payload, refId, language),
-    });
+    await sendResendEmail(
+      apiKey,
+      {
+        from: fromEmail,
+        to: [studioEmail],
+        reply_to: clientEmail,
+        subject: `[CONFIGURATEUR ${refId}] Nouveau projet sur-mesure — ${payload.name}`,
+        html: buildStudioNotificationHtml(payload, refId, language),
+      },
+      language
+    );
 
     // 2. Envoi de l'email de confirmation au client dans sa langue (FR ou EN)
     const configuratorEmail = buildConfiguratorConfirmationEmail(payload, language);
-    await sendResendEmail(apiKey, {
-      from: 'PRYMAX STUDIO <hello@prymaxstudio.com>',
-      to: [clientEmail],
-      reply_to: 'prymaxstudio@gmail.com',
-      subject: configuratorEmail.subject,
-      html: configuratorEmail.html,
-      text: configuratorEmail.text,
-    });
+    await sendResendEmail(
+      apiKey,
+      {
+        from: 'PRYMAX STUDIO <hello@prymaxstudio.com>',
+        to: [clientEmail],
+        reply_to: 'prymaxstudio@gmail.com',
+        subject: configuratorEmail.subject,
+        html: configuratorEmail.html,
+        text: configuratorEmail.text,
+      },
+      language
+    );
 
     return {
       ok: true,
@@ -762,24 +780,32 @@ export async function processEmailRequest(payload, envConfig = {}) {
   // FLUX 3 : FORMULAIRE CONTACT & DEVIS ("PRYMAX STUDIO · Contact & Devis")
   // ==========================================================================
   // 1. Envoi des détails de la demande à prymaxstudio@gmail.com
-  await sendResendEmail(apiKey, {
-    from: fromEmail,
-    to: [studioEmail],
-    reply_to: clientEmail,
-    subject: `[CONTACT & DEVIS ${refId}] Nouvelle demande — ${payload.name}`,
-    html: buildStudioNotificationHtml(payload, refId, language),
-  });
+  await sendResendEmail(
+    apiKey,
+    {
+      from: fromEmail,
+      to: [studioEmail],
+      reply_to: clientEmail,
+      subject: `[CONTACT & DEVIS ${refId}] Nouvelle demande — ${payload.name}`,
+      html: buildStudioNotificationHtml(payload, refId, language),
+    },
+    language
+  );
 
   // 2. Envoi de l'email de confirmation au client dans sa langue (FR ou EN)
   const contactQuoteEmail = buildContactQuoteConfirmationEmail(payload, language);
-  await sendResendEmail(apiKey, {
-    from: 'PRYMAX STUDIO <hello@prymaxstudio.com>',
-    to: [clientEmail],
-    reply_to: 'prymaxstudio@gmail.com',
-    subject: contactQuoteEmail.subject,
-    html: contactQuoteEmail.html,
-    text: contactQuoteEmail.text,
-  });
+  await sendResendEmail(
+    apiKey,
+    {
+      from: 'PRYMAX STUDIO <hello@prymaxstudio.com>',
+      to: [clientEmail],
+      reply_to: 'prymaxstudio@gmail.com',
+      subject: contactQuoteEmail.subject,
+      html: contactQuoteEmail.html,
+      text: contactQuoteEmail.text,
+    },
+    language
+  );
 
   return {
     ok: true,

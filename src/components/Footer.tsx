@@ -34,7 +34,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
     setSubscribed(false);
 
     try {
-      await sendDemandEmail(
+      const result = await sendDemandEmail(
         {
           type: 'newsletter',
           email: targetEmail,
@@ -52,10 +52,24 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
         }
       );
 
+      setNewsletterEmail('');
+
+      if (result.alreadySubscribed) {
+        showToast({
+          title: activeLanguage === 'en' ? 'Already subscribed' : 'Vous êtes déjà inscrit',
+          message:
+            result.message ||
+            (activeLanguage === 'en'
+              ? 'This email address is already subscribed to the PRYMAX STUDIO newsletter.'
+              : 'Cette adresse email est déjà inscrite à la newsletter PRYMAX STUDIO.'),
+          type: 'info',
+        });
+        return;
+      }
+
       setLastRegisteredEmail(targetEmail.toLowerCase());
       setLastEmailLang(activeLanguage);
       setSubscribed(true);
-      setNewsletterEmail('');
       showToast({
         title:
           activeLanguage === 'en'
