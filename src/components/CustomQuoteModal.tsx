@@ -14,7 +14,7 @@ import {
   Wallet,
   FileCheck,
 } from 'lucide-react';
-import { sendDemandEmail } from '../utils/emailService';
+import { sendDemandEmail, detectActiveWebsiteLanguage } from '../utils/emailService';
 import { useToast } from '../context/ToastContext';
 
 interface CustomQuoteModalProps {
@@ -124,11 +124,13 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({
     e.preventDefault();
     setSlowHint(null);
     setIsSubmitting(true);
+    const activeLanguage = detectActiveWebsiteLanguage();
 
     try {
       const result = await sendDemandEmail(
         {
-          type: 'devis',
+          type: 'configurator',
+          language: activeLanguage,
           name: clientName,
           email,
           phone,

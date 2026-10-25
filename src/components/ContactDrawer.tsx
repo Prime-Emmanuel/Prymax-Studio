@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, CheckCircle2, ShieldCheck, Send, Loader2, Check } from 'lucide-react';
-import { sendDemandEmail } from '../utils/emailService';
+import { sendDemandEmail, detectActiveWebsiteLanguage } from '../utils/emailService';
 import { useToast } from '../context/ToastContext';
 
 interface ContactDrawerProps {
@@ -89,11 +89,13 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
     setErrorMsg('');
     setSlowHint(null);
     setIsSubmitting(true);
+    const activeLanguage = detectActiveWebsiteLanguage();
 
     try {
       const result = await sendDemandEmail(
         {
-          type: 'devis',
+          type: 'contact-devis',
+          language: activeLanguage,
           name: fullName,
           email,
           phone,

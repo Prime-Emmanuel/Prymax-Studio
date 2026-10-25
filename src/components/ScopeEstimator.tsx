@@ -28,7 +28,7 @@ import {
   DEADLINE_CARDS,
   BUDGET_CARDS,
 } from './CustomQuoteModal';
-import { sendDemandEmail } from '../utils/emailService';
+import { sendDemandEmail, detectActiveWebsiteLanguage } from '../utils/emailService';
 import { useToast } from '../context/ToastContext';
 
 interface ScopeEstimatorProps {
@@ -91,11 +91,13 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = () => {
     e.preventDefault();
     setSlowHint(null);
     setIsSubmitting(true);
+    const activeLanguage = detectActiveWebsiteLanguage();
 
     try {
       const result = await sendDemandEmail(
         {
-          type: 'devis',
+          type: 'configurator',
+          language: activeLanguage,
           name: clientName,
           email: clientEmail,
           phone: clientPhone,

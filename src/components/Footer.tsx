@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, ArrowRight, MessageCircle, Check, Mail, X, Loader2 } from 'lucide-react';
 import iconPrymax from '../assets/branding/icon_prymax.png';
-import { sendDemandEmail } from '../utils/emailService';
+import { sendDemandEmail, detectActiveWebsiteLanguage, SupportedEmailLanguage } from '../utils/emailService';
 import { useToast } from '../context/ToastContext';
 
 interface FooterProps {
@@ -15,6 +15,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
   const [subscribed, setSubscribed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastRegisteredEmail, setLastRegisteredEmail] = useState('');
+  const [lastEmailLang, setLastEmailLang] = useState<SupportedEmailLanguage>('fr');
   const [showEmailModal, setShowEmailModal] = useState(false);
 
   const handleFooterNav = (route: string) => {
@@ -28,20 +29,21 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
     const targetEmail = newsletterEmail.trim();
     if (!targetEmail) return;
 
+    const activeLanguage = detectActiveWebsiteLanguage();
     setIsSubmitting(true);
-    setLastRegisteredEmail(targetEmail);
+    setSubscribed(false);
 
     try {
       await sendDemandEmail(
         {
           type: 'newsletter',
           email: targetEmail,
-          name: targetEmail.split('@')[0],
+          language: activeLanguage,
         },
         {
           onSlowRequest: hint => {
             showToast({
-              title: 'Inscription en cours',
+              title: activeLanguage === 'en' ? 'Subscribing...' : 'Inscription en cours',
               message: hint,
               type: 'info',
               duration: 2800,
@@ -50,28 +52,31 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
         }
       );
 
-      try {
-        const stored = JSON.parse(localStorage.getItem('prymax_subscribers') || '[]');
-        if (!stored.includes(targetEmail)) {
-          stored.push(targetEmail);
-          localStorage.setItem('prymax_subscribers', JSON.stringify(stored));
-        }
-      } catch {
-        // Ignorer si localStorage est restreint
-      }
-
+      setLastRegisteredEmail(targetEmail.toLowerCase());
+      setLastEmailLang(activeLanguage);
       setSubscribed(true);
       setNewsletterEmail('');
       showToast({
-        title: 'Inscription confirmée avec succès',
-        message: `Un email de bienvenue a été envoyé à ${targetEmail}.`,
+        title:
+          activeLanguage === 'en'
+            ? "Welcome to PRYMAX STUDIO | You're subscribed"
+            : 'Bienvenue chez PRYMAX STUDIO | Vous êtes inscrit',
+        message:
+          activeLanguage === 'en'
+            ? `A confirmation email has been sent to ${targetEmail.toLowerCase()}.`
+            : `Un email de confirmation a été envoyé à ${targetEmail.toLowerCase()}.`,
         type: 'success',
       });
       setTimeout(() => setSubscribed(false), 12000);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Adresse email invalide.';
+      const msg =
+        err instanceof Error
+          ? err.message
+          : activeLanguage === 'en'
+            ? 'Unable to complete your subscription.'
+            : 'Impossible de finaliser votre inscription.';
       showToast({
-        title: 'Erreur d’inscription',
+        title: activeLanguage === 'en' ? 'Subscription incomplete' : 'Inscription non complétée',
         message: msg,
         type: 'error',
       });
@@ -355,10 +360,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               <div className="mt-3 p-3.5 rounded-2xl bg-zinc-900/90 border border-white/15 space-y-1.5 animate-in fade-in">
                 <div className="flex items-center gap-2 text-xs font-semibold text-white">
                   <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Email de confirmation envoyé !</span>
+                  <span>Inscription confirmée !</span>
                 </div>
                 <p className="text-[11px] text-zinc-300 leading-snug">
-                  Un email d'accueil automatique a été envoyé à <span className="font-semibold text-white">{lastRegisteredEmail}</span> depuis <span className="text-white font-medium">prymaxstudio@gmail.com</span>.
+                  Un email de confirmation a été envoyé à <span className="font-semibold text-white">{lastRegisteredEmail}</span> par <span className="text-white font-medium">PRYMAX STUDIO &lt;hello@prymaxstudio.com&gt;</span>.
                 </p>
                 <div className="pt-1">
                   <button
@@ -402,7 +407,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
       </div>
 
       {/* =========================================================================
-          MODALE : APERÇU DE L'EMAIL AUTOMATIQUE ENVOYÉ (prymaxstudio@gmail.com)
+          MODALE : APERÇU DE L'EMAIL AUTOMATIQUE ENVOYÉ (hello@prymaxstudio.com)
          ========================================================================= */}
       {showEmailModal && (
         <div 
@@ -419,8 +424,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-white">Email de Confirmation Automatique</div>
-                  <div className="text-[11px] text-zinc-400">Expéditeur vérifié : prymaxstudio@gmail.com</div>
+                  <div className="text-xs font-semibold text-white">
+                    {lastEmailLang === 'en' ? 'Automatic Confirmation Email' : 'Email de Confirmation Automatique'}
+                  </div>
+                  <div className="text-[11px] text-zinc-400">PRYMAX STUDIO &lt;hello@prymaxstudio.com&gt;</div>
                 </div>
               </div>
               <button 
@@ -432,40 +439,67 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
               </button>
             </div>
 
-            {/* Corps de l'email */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-zinc-950 border border-white/5 space-y-3.5 text-xs text-zinc-300">
-              <div className="text-[11px] font-mono text-zinc-400 border-b border-white/5 pb-2 space-y-1">
-                <div><span className="text-zinc-500">De :</span> PRYMAX STUDIO &lt;prymaxstudio@gmail.com&gt;</div>
-                <div><span className="text-zinc-500">À :</span> {lastRegisteredEmail || 'client@email.com'}</div>
-                <div><span className="text-zinc-500">Objet :</span> Bienvenue chez PRYMAX STUDIO — Votre accompagnement digital</div>
+            {/* En-têtes de l'email */}
+            <div className="text-[11px] font-mono text-zinc-400 px-1 space-y-1">
+              <div><span className="text-zinc-500">{lastEmailLang === 'en' ? 'From:' : 'De :'}</span> PRYMAX STUDIO &lt;hello@prymaxstudio.com&gt;</div>
+              <div><span className="text-zinc-500">{lastEmailLang === 'en' ? 'Reply-To:' : 'Répondre à :'}</span> prymaxstudio@gmail.com</div>
+              <div><span className="text-zinc-500">{lastEmailLang === 'en' ? 'To:' : 'À :'}</span> {lastRegisteredEmail || 'client@email.com'}</div>
+              <div>
+                <span className="text-zinc-500">{lastEmailLang === 'en' ? 'Subject:' : 'Objet :'}</span>{' '}
+                {lastEmailLang === 'en'
+                  ? "Welcome to PRYMAX STUDIO | You're subscribed"
+                  : 'Bienvenue chez PRYMAX STUDIO | Vous êtes inscrit'}
+              </div>
+            </div>
+
+            {/* Corps de l'email minimaliste fond blanc */}
+            <div className="p-6 rounded-2xl bg-white text-[#111111] border border-zinc-200 space-y-4 text-xs leading-relaxed">
+              <div>
+                <img
+                  src="https://www.prymaxstudio.com/assets/branding/logo_transparent.png"
+                  alt="PRYMAX STUDIO"
+                  className="w-[104px] h-auto block"
+                />
+                <div className="w-9 h-[2px] bg-[#B99A5B] mt-4" />
               </div>
 
-              <div className="font-semibold text-white text-sm">
-                Bonjour et bienvenue dans l'univers de PRYMAX STUDIO,
-              </div>
+              {lastEmailLang === 'en' ? (
+                <div className="space-y-3 text-[#1A1A1A]">
+                  <p className="font-medium text-[#111111]">Hello,</p>
+                  <p>Welcome to PRYMAX STUDIO, and thank you for subscribing.</p>
+                  <p>
+                    You&apos;ll receive our latest news, strategic insights, digital inspiration, and behind-the-scenes updates from our studio.
+                  </p>
+                  <p>
+                    Our goal is to share useful ideas and perspectives to help you strengthen your brand and digital presence.
+                  </p>
+                  <p className="pt-2 text-[#111111]">
+                    See you soon,
+                    <br />
+                    <strong className="font-semibold">The PRYMAX STUDIO Team</strong>
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3 text-[#1A1A1A]">
+                  <p className="font-medium text-[#111111]">Bonjour,</p>
+                  <p>Bienvenue chez PRYMAX STUDIO et merci de votre inscription.</p>
+                  <p>
+                    Vous recevrez nos actualités, nos analyses stratégiques, nos inspirations digitales et les coulisses de nos réalisations.
+                  </p>
+                  <p>
+                    Nous souhaitons vous partager des idées pertinentes et des perspectives utiles pour faire évoluer votre marque et renforcer votre présence digitale.
+                  </p>
+                  <p className="pt-2 text-[#111111]">
+                    À très bientôt,
+                    <br />
+                    <strong className="font-semibold">L&apos;équipe PRYMAX STUDIO</strong>
+                  </p>
+                </div>
+              )}
 
-              <p className="leading-relaxed text-zinc-300">
-                Votre adresse a bien été enregistrée. Nous vous remercions pour l'intérêt que vous portez à nos services.
-              </p>
-
-              <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-[11px] text-zinc-200 leading-relaxed">
-                🚀 <strong>Vous avez un projet de site web, logo ou refonte ?</strong> Notre direction technique est disponible pour échanger directement et vous transmettre un devis sous 24h.
-              </div>
-
-              <div className="pt-2 flex flex-wrap gap-2.5">
-                <a
-                  href="https://wa.me/237681078004?text=Bonjour%20PRYMAX%20STUDIO%2C%20je%20viens%20de%20m'inscrire%20et%20je%20souhaite%20un%20devis."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold inline-flex items-center gap-1.5 transition-colors"
-                >
-                  <MessageCircle className="w-3.5 h-3.5 fill-white" />
-                  <span>Répondre sur WhatsApp</span>
-                </a>
-              </div>
-
-              <div className="pt-3 border-t border-white/5 text-[10px] text-zinc-500">
-                PRYMAX STUDIO · Direction Technique &amp; Relation Client · prymaxstudio@gmail.com
+              <div className="pt-3 border-t border-zinc-200 text-[11px] text-zinc-500">
+                <div className="font-semibold text-[#111111]">PRYMAX STUDIO</div>
+                <div>prymaxstudio.com · prymaxstudio@gmail.com</div>
               </div>
             </div>
 
@@ -474,7 +508,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
                 onClick={() => setShowEmailModal(false)}
                 className="px-5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-medium transition-colors cursor-pointer"
               >
-                Fermer
+                {lastEmailLang === 'en' ? 'Close' : 'Fermer'}
               </button>
             </div>
           </div>

@@ -12,7 +12,7 @@ import {
   Loader2,
   Check,
 } from 'lucide-react';
-import { sendDemandEmail } from '../utils/emailService';
+import { sendDemandEmail, detectActiveWebsiteLanguage } from '../utils/emailService';
 import { useToast } from '../context/ToastContext';
 
 interface ContactPageProps {
@@ -50,11 +50,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
     e.preventDefault();
     setSlowHint(null);
     setIsSubmitting(true);
+    const activeLanguage = detectActiveWebsiteLanguage();
 
     try {
       const result = await sendDemandEmail(
         {
-          type: 'contact',
+          type: 'contact-devis',
+          language: activeLanguage,
           name: fullName,
           email,
           phone,
