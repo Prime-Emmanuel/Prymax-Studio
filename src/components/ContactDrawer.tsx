@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, ShieldCheck, Send, MessageCircle, Phone } from 'lucide-react';
+import { X, CheckCircle2, ShieldCheck, Send, Loader2, Check } from 'lucide-react';
+import { sendDemandEmail } from '../utils/emailService';
+import { useToast } from '../context/ToastContext';
 
 interface ContactDrawerProps {
   isOpen: boolean;
@@ -9,53 +11,61 @@ interface ContactDrawerProps {
   preloadedTier?: string;
 }
 
+const BUDGET_CARDS = [
+  'Moins de 150 000 FCFA',
+  '150 000 – 350 000 FCFA',
+  '350 000 – 700 000 FCFA',
+  'Plus de 700 000 FCFA',
+];
+
 export const ContactDrawer: React.FC<ContactDrawerProps> = ({
   isOpen,
   onClose,
   preloadedModules = [],
   preloadedTotalFcfa,
-  preloadedTier
 }) => {
+  const { showToast } = useToast();
+
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
-  const [budgetRangeFcfa, setBudgetRangeFcfa] = useState('200 000 – 500 000 FCFA');
+  const [budgetRangeFcfa, setBudgetRangeFcfa] = useState('150 000 – 350 000 FCFA');
   const [brief, setBrief] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [slowHint, setSlowHint] = useState<string | null>(null);
+  const [submittedRef, setSubmittedRef] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
 
   const servicesList = [
     'Création de Logo & Identité Visuelle',
-    'Création de Site Web (Adapté Mobile)',
-    'Boutique en Ligne (E-Commerce)',
-    'Conception de T-shirts & Vêtements Personnalisés',
-    'Référencement Google & Solutions Digitales'
+    'Création de Site Web Entreprise',
+    'Boutique en Ligne E-Commerce',
+    'Design Graphique & Mockups Textiles',
+    'Référencement Google & SEO',
   ];
 
-  // Synchronisation avec les données du simulateur
   useEffect(() => {
     if (preloadedModules.length > 0) {
       const mapped = preloadedModules.map(m => {
         if (m === 'mod-logo') return 'Création de Logo & Identité Visuelle';
-        if (m === 'mod-web') return 'Création de Site Web (Adapté Mobile)';
-        if (m === 'mod-ecom') return 'Boutique en Ligne (E-Commerce)';
-        if (m === 'mod-apparel') return 'Conception de T-shirts & Vêtements Personnalisés';
-        if (m === 'mod-seo') return 'Référencement Google & Solutions Digitales';
+        if (m === 'mod-web') return 'Création de Site Web Entreprise';
+        if (m === 'mod-ecom') return 'Boutique en Ligne E-Commerce';
+        if (m === 'mod-apparel') return 'Design Graphique & Mockups Textiles';
+        if (m === 'mod-seo') return 'Référencement Google & SEO';
         return m;
       });
       setSelectedServices(mapped);
     }
     if (preloadedTotalFcfa) {
-      if (preloadedTotalFcfa < 300000) setBudgetRangeFcfa('Moins de 300 000 FCFA');
-      else if (preloadedTotalFcfa < 700000) setBudgetRangeFcfa('300 000 – 700 000 FCFA');
-      else if (preloadedTotalFcfa < 1200000) setBudgetRangeFcfa('700 000 – 1 200 000 FCFA');
-      else setBudgetRangeFcfa('Plus de 1 200 000 FCFA');
+      if (preloadedTotalFcfa < 150000) setBudgetRangeFcfa('Moins de 150 000 FCFA');
+      else if (preloadedTotalFcfa < 350000) setBudgetRangeFcfa('150 000 – 350 000 FCFA');
+      else if (preloadedTotalFcfa < 700000) setBudgetRangeFcfa('350 000 – 700 000 FCFA');
+      else setBudgetRangeFcfa('Plus de 700 000 FCFA');
     }
   }, [preloadedModules, preloadedTotalFcfa]);
 
-  // Gestion de la touche Echap pour fermer le tiroir
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -69,39 +79,81 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
   if (!isOpen) return null;
 
   const toggleService = (item: string) => {
-    setSelectedServices(prev => 
+    setSelectedServices(prev =>
       prev.includes(item) ? prev.filter(d => d !== item) : [...prev, item]
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fullName.trim() || (!phone.trim() && !email.trim())) {
-      setErrorMsg('Veuillez indiquer au moins votre nom et un numéro de téléphone ou email.');
-      return;
-    }
     setErrorMsg('');
-    setSubmitted(true);
+    setSlowHint(null);
+    setIsSubmitting(true);
+
+    try {
+      const result = await sendDemandEmail(
+        {
+          type: 'devis',
+          name: fullName,
+          email,
+          phone,
+          company,
+          services: selectedServices,
+          budget: budgetRangeFcfa,
+          message: brief,
+        },
+        {
+          onSlowRequest: hint => {
+            setSlowHint(hint);
+            showToast({
+              title: 'Traitement en cours',
+              message: hint,
+              type: 'info',
+              duration: 3000,
+            });
+          },
+        }
+      );
+
+      setSubmittedRef(result.referenceId);
+      showToast({
+        title: 'Demande envoyée avec succès',
+        message: `Référence ${result.referenceId} — Notre équipe a bien reçu votre dossier.`,
+        type: 'success',
+      });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Une erreur est survenue.';
+      setErrorMsg(msg);
+      showToast({
+        title: 'Vérifiez votre saisie',
+        message: msg,
+        type: 'error',
+      });
+    } finally {
+      setIsSubmitting(false);
+      setSlowHint(null);
+    }
   };
 
   const handleReset = () => {
-    setSubmitted(false);
+    setSubmittedRef(null);
     setFullName('');
     setPhone('');
     setEmail('');
     setCompany('');
     setBrief('');
+    setErrorMsg('');
     onClose();
   };
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex justify-end animate-in fade-in duration-200"
       onClick={onClose}
     >
-      <div 
+      <div
         className="w-full max-w-xl bg-[#0E1015] border-l border-white/10 h-full overflow-y-auto p-5 sm:p-8 flex flex-col justify-between text-white shadow-2xl relative"
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         <div>
           {/* En-tête */}
@@ -113,21 +165,21 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
             </div>
             <button
               onClick={onClose}
-              className="min-w-[40px] min-h-[40px] flex items-center justify-center p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+              className="min-w-[40px] min-h-[40px] flex items-center justify-center p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Fermer"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {!submitted ? (
+          {!submittedRef ? (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-1.5">
                   Parlons de votre projet
                 </h3>
                 <p className="text-xs text-zinc-300 leading-relaxed">
-                  Remplissez ce formulaire très simple. Nous vous répondons rapidement avec une proposition claire adaptée à votre budget.
+                  Sélectionnez vos besoins et indiquez vos coordonnées. Vous recevrez une confirmation par email ainsi qu'une proposition adaptée.
                 </p>
               </div>
 
@@ -137,7 +189,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                 </div>
               )}
 
-              {/* Nom & Téléphone */}
+              {/* Nom & Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                   <label className="block text-xs font-semibold text-zinc-300 mb-1">
@@ -147,38 +199,38 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                     type="text"
                     required
                     value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="ex: Marc Koffi"
+                    onChange={e => setFullName(e.target.value)}
+                    placeholder="Votre nom"
                     className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B54F]"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                    Téléphone / WhatsApp *
+                    Adresse Email *
                   </label>
                   <input
-                    type="tel"
+                    type="email"
                     required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="ex: +225 07 00 00 00"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="contact@entreprise.com"
                     className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B54F]"
                   />
                 </div>
               </div>
 
-              {/* Email & Entreprise */}
+              {/* Téléphone & Entreprise */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                   <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                    Adresse Email (optionnel)
+                    Téléphone
                   </label>
                   <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="contact@entreprise.com"
+                    type="tel"
+                    value={phone}
+                    onChange={e => setPhone(e.target.value)}
+                    placeholder="+237 6XX XX XX XX"
                     className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B54F]"
                   />
                 </div>
@@ -190,108 +242,137 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                   <input
                     type="text"
                     value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    placeholder="ex: Kroma Shop, Cabinet Alpha..."
+                    onChange={e => setCompany(e.target.value)}
+                    placeholder="Votre entreprise"
                     className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B54F]"
                   />
                 </div>
               </div>
 
-              {/* Services demandés */}
+              {/* Services demandés en cartes sélectionnables */}
               <div>
                 <label className="block text-xs font-semibold text-zinc-300 mb-2">
-                  Quels services vous intéressent ?
+                  Quels services vous intéressent ? (Optionnel)
                 </label>
-                <div className="space-y-1.5">
+                <div className="grid grid-cols-1 gap-1.5">
                   {servicesList.map((service, idx) => {
                     const isChecked = selectedServices.includes(service);
                     return (
-                      <div
+                      <button
+                        type="button"
                         key={idx}
                         onClick={() => toggleService(service)}
-                        className={`p-2.5 sm:p-3 rounded-lg border text-xs cursor-pointer flex items-center justify-between transition-colors min-h-[42px] ${
+                        className={`p-3 rounded-xl border text-xs cursor-pointer flex items-center justify-between transition-all min-h-[42px] text-left ${
                           isChecked
-                            ? 'bg-zinc-800 border-white text-white font-medium'
+                            ? 'bg-white/[0.09] border-white text-white font-semibold'
                             : 'bg-zinc-900/60 border-white/5 text-zinc-400 hover:border-white/20'
                         }`}
                       >
                         <span>{service}</span>
-                        <div className={`w-4 h-4 rounded flex items-center justify-center border text-[10px] ${
-                          isChecked ? 'bg-white border-white text-zinc-950 font-bold' : 'border-zinc-700'
-                        }`}>
-                          {isChecked && '✓'}
+                        <div
+                          className={`w-4 h-4 rounded flex items-center justify-center border text-[10px] ${
+                            isChecked
+                              ? 'bg-white border-white text-zinc-950 font-bold'
+                              : 'border-zinc-700'
+                          }`}
+                        >
+                          {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
                         </div>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Budget en FCFA */}
+              {/* Budget en petites cartes */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                  Budget indicatif (en FCFA)
+                <label className="block text-xs font-semibold text-zinc-300 mb-2">
+                  Budget indicatif (FCFA)
                 </label>
-                <select
-                  value={budgetRangeFcfa}
-                  onChange={(e) => setBudgetRangeFcfa(e.target.value)}
-                  className="w-full min-h-[44px] bg-zinc-900 border border-white/10 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-white"
-                >
-                  <option value="Moins de 150 000 FCFA">Moins de 150 000 FCFA (Logo ou projet d'amorçage)</option>
-                  <option value="150 000 – 350 000 FCFA">150 000 – 350 000 FCFA</option>
-                  <option value="350 000 – 700 000 FCFA">350 000 – 700 000 FCFA (Site Web Complet / Application)</option>
-                  <option value="700 000 – 1 500 000 FCFA">700 000 – 1 500 000 FCFA (E-commerce &amp; Pack Complet)</option>
-                  <option value="Plus de 1 500 000 FCFA">Plus de 1 500 000 FCFA (Projet d'Envergure)</option>
-                </select>
+                <div className="grid grid-cols-2 gap-2">
+                  {BUDGET_CARDS.map(b => {
+                    const active = budgetRangeFcfa === b;
+                    return (
+                      <button
+                        type="button"
+                        key={b}
+                        onClick={() => setBudgetRangeFcfa(b)}
+                        className={`p-2.5 rounded-xl border text-[11px] font-medium transition-all cursor-pointer text-left flex items-center justify-between gap-1.5 ${
+                          active
+                            ? 'bg-white/[0.09] border-[#E5B54F] text-white font-bold'
+                            : 'bg-zinc-900/60 border-white/5 text-zinc-400 hover:border-white/20'
+                        }`}
+                      >
+                        <span className="truncate">{b}</span>
+                        {active && <Check className="w-3 h-3 text-[#E5B54F] shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Détails du projet */}
               <div>
                 <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                  Décrivez brièvement votre besoin
+                  Précision complémentaire (optionnel)
                 </label>
                 <textarea
-                  rows={3}
+                  rows={2}
                   value={brief}
-                  onChange={(e) => setBrief(e.target.value)}
-                  placeholder="ex: Je souhaite concevoir un site web moderne pour mon entreprise avec une identité visuelle marquante..."
+                  onChange={e => setBrief(e.target.value)}
+                  placeholder="Objectif particulier ou lien de référence..."
                   className="w-full bg-zinc-900 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white"
                 />
               </div>
 
+              {slowHint && (
+                <div className="text-xs text-[#E5B54F] font-medium animate-pulse">
+                  {slowHint}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full min-h-[48px] py-3.5 bg-white hover:bg-zinc-200 active:bg-zinc-300 text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(255,255,255,0.2)] cursor-pointer"
+                disabled={isSubmitting}
+                className="w-full min-h-[48px] py-3.5 bg-white hover:bg-zinc-200 active:bg-zinc-300 text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(255,255,255,0.2)] cursor-pointer disabled:opacity-60"
               >
-                <Send className="w-4 h-4" />
-                <span>Envoyer ma Demande de Devis</span>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Envoi en cours...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <span>Demander un devis</span>
+                  </>
+                )}
               </button>
             </form>
           ) : (
-            /* Confirmation */
             <div className="py-12 flex flex-col items-center text-center">
               <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mb-5">
                 <CheckCircle2 className="w-7 h-7 text-emerald-400" />
               </div>
 
-              <div className="text-xs font-mono uppercase text-white mb-1.5 font-bold">
+              <div className="text-xs font-mono uppercase text-[#E5B54F] mb-1.5 font-bold">
                 DEMANDE ENVOYÉE AVEC SUCCÈS
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">
                 Merci {fullName} !
               </h3>
               <p className="text-xs sm:text-sm text-zinc-300 max-w-md mb-6 leading-relaxed">
-                Votre demande a bien été transmise à l'équipe PRYMAX STUDIO. Nous vous recontacterons très rapidement sur WhatsApp ou par téléphone.
+                Votre demande a bien été transmise par email à l'équipe PRYMAX STUDIO. Un accusé de réception a été envoyé à <span className="text-white font-semibold">{email}</span>.
               </p>
 
               <div className="w-full max-w-md p-4 bg-zinc-900 rounded-xl border border-white/5 text-left mb-6 space-y-2 text-xs">
                 <div className="flex justify-between text-zinc-400">
                   <span>Numéro de Référence :</span>
-                  <span className="font-mono text-white font-bold">PX-{Math.floor(100000 + Math.random() * 900000)}</span>
+                  <span className="font-mono text-white font-bold">{submittedRef}</span>
                 </div>
                 <div className="flex justify-between text-zinc-400">
-                  <span>Téléphone :</span>
-                  <span className="text-white">{phone}</span>
+                  <span>Email :</span>
+                  <span className="text-white">{email}</span>
                 </div>
                 <div className="flex justify-between text-zinc-400">
                   <span>Budget estimé :</span>
@@ -314,7 +395,6 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
           <ShieldCheck className="w-4 h-4 text-white shrink-0" />
           <span>Vos informations restent 100% confidentielles. Pas de spam.</span>
         </div>
-
       </div>
     </div>
   );

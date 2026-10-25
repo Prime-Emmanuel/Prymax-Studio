@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Disciplines } from './components/Disciplines';
@@ -8,6 +8,9 @@ import { ScopeEstimator } from './components/ScopeEstimator';
 import { ContactDrawer } from './components/ContactDrawer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { Footer } from './components/Footer';
+import { InitialSplashLoader } from './components/InitialSplashLoader';
+import { PageTransitionLoader } from './components/PageTransitionLoader';
+import { ToastProvider, useToast } from './context/ToastContext';
 
 // Pages dédiées
 import { ServicesPage } from './pages/ServicesPage';
@@ -22,13 +25,74 @@ import { ScrollToTop } from './components/ScrollToTop';
 import { PageRoute, ServiceItem } from './types';
 import { SERVICES } from './data/agencyData';
 
-export default function App() {
+function AppShell() {
+  const { showToast, isOnline } = useToast();
+
+  // Écran d'ouverture initial P R Y M A X
+  const [showInitialSplash, setShowInitialSplash] = useState(true);
+
+  // Transition fluide entre les pages
+  const [isPageTransitioning, setIsPageTransitioning] = useState(false);
+  const [transitionHint, setTransitionHint] = useState<string | null>(null);
+  const transitionTimersRef = useRef<Array<ReturnType<typeof setTimeout>>>([]);
+
   const [currentRoute, setCurrentRoute] = useState<PageRoute>('home');
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [preloadedModules, setPreloadedModules] = useState<string[]>([]);
   const [preloadedTotalFcfa, setPreloadedTotalFcfa] = useState<number | undefined>(undefined);
   const [preloadedTier, setPreloadedTier] = useState<string | undefined>(undefined);
+
+  const clearTransitionTimers = () => {
+    transitionTimersRef.current.forEach(clearTimeout);
+    transitionTimersRef.current = [];
+  };
+
+  const triggerSmoothTransition = (applyRoute: () => void) => {
+    clearTransitionTimers();
+
+    if (!navigator.onLine) {
+      setTransitionHint('Connexion Internet instable — ouverture depuis le cache local...');
+      showToast({
+        title: 'Connexion Internet instable',
+        message: 'Certaines images haute définition peuvent mettre une seconde de plus à charger.',
+        type: 'warning',
+        duration: 3800,
+      });
+    } else {
+      setTransitionHint(null);
+    }
+
+    setIsPageTransitioning(true);
+
+    // Si le réseau ou le rendu prend un peu plus de temps, afficher un message rassurant
+    const slowTimer1 = setTimeout(() => {
+      setTransitionHint('Presque prêt, encore une seconde...');
+    }, 320);
+
+    const slowTimer2 = setTimeout(() => {
+      setTransitionHint('Finalisation de l’affichage...');
+    }, 850);
+
+    // Mesure du temps réel de rendu de la nouvelle vue via requestAnimationFrame
+    const applyTimer = setTimeout(() => {
+      applyRoute();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const finishTimer = setTimeout(() => {
+            clearTransitionTimers();
+            setIsPageTransitioning(false);
+            setTransitionHint(null);
+          }, 220);
+          transitionTimersRef.current.push(finishTimer);
+        });
+      });
+    }, 160);
+
+    transitionTimersRef.current.push(slowTimer1, slowTimer2, applyTimer);
+  };
 
   // Synchronisation avec l'historique du navigateur
   useEffect(() => {
@@ -42,7 +106,7 @@ export default function App() {
         }
       } else {
         const path = window.location.pathname.replace('/', '') as PageRoute;
-        if (['services', 'projets', 'studio', 'devis', 'contact'].includes(path)) {
+        if (['services', 'projets', 'studio', 'devis', 'contact', 'portail'].includes(path)) {
           setCurrentRoute(path);
         } else {
           setCurrentRoute('home');
@@ -51,36 +115,44 @@ export default function App() {
     };
 
     window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      clearTransitionTimers();
+    };
   }, []);
 
   const navigate = (route: string) => {
     const targetRoute = route as PageRoute;
-    setCurrentRoute(targetRoute);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    try {
-      const url = targetRoute === 'home' ? '/' : `/${targetRoute}`;
-      window.history.pushState({ route: targetRoute }, '', url);
-    } catch {
-      // Ignore si environnement sandboxed
+    if (targetRoute === currentRoute) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
     }
+
+    triggerSmoothTransition(() => {
+      setCurrentRoute(targetRoute);
+      try {
+        const url = targetRoute === 'home' ? '/' : `/${targetRoute}`;
+        window.history.pushState({ route: targetRoute }, '', url);
+      } catch {
+        // Ignorer si environnement sandboxed
+      }
+    });
   };
 
   const handleSelectService = (service: ServiceItem) => {
-    setSelectedService(service);
-    setCurrentRoute('service-detail');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    try {
-      window.history.pushState(
-        { route: 'service-detail', serviceId: service.id }, 
-        '', 
-        `/services/${service.id}`
-      );
-    } catch {
-      // Ignore
-    }
+    triggerSmoothTransition(() => {
+      setSelectedService(service);
+      setCurrentRoute('service-detail');
+      try {
+        window.history.pushState(
+          { route: 'service-detail', serviceId: service.id },
+          '',
+          `/services/${service.id}`
+        );
+      } catch {
+        // Ignorer
+      }
+    });
   };
 
   const handleOpenContact = () => {
@@ -96,46 +168,53 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#08090D] text-[#F5F7FA] flex flex-col selection:bg-white selection:text-black">
-      {/* Navigation Flottante avec animation 3 couleurs (Or, Bleu, Blanc) et menu mobile avec bouton (X) */}
-      <Navbar 
+      {/* Écran d'ouverture initial P R Y M A X avec lettres animées et halo lumineux */}
+      {showInitialSplash && (
+        <InitialSplashLoader onComplete={() => setShowInitialSplash(false)} />
+      )}
+
+      {/* Animation de chargement rapide et fluide lors des changements de page */}
+      <PageTransitionLoader
+        isActive={isPageTransitioning}
+        statusMessage={transitionHint}
+        isOffline={!isOnline}
+      />
+
+      {/* Navigation Flottante avec animation 3 couleurs (Or, Bleu, Blanc) */}
+      <Navbar
         currentRoute={currentRoute}
         onNavigate={navigate}
-        onOpenContact={handleOpenContact} 
+        onOpenContact={handleOpenContact}
       />
 
       {/* Contenu Switcher de Pages Dédiées */}
       <main className="flex-1">
         {currentRoute === 'home' && (
           <>
-            {/* Hero avec titre axé Création de Sites Web Entreprises & Arrière-plan mobile stylé */}
-            <Hero 
-              onOpenContact={handleOpenContact} 
+            <Hero
+              onOpenContact={handleOpenContact}
               onNavigate={navigate}
             />
 
-            {/* Section Services avec cartes stylées en cascade 3D, liseré doré lumineux running, et bouton Inquire */}
-            <Disciplines 
+            <Disciplines
               onSelectService={handleSelectService}
               onOpenContact={handleOpenContact}
               onNavigate={navigate}
             />
 
-            {/* Section Entreprises avec les 6 entreprises demandées, logos officiels et liens web */}
-            <ClientPartners 
+            <ClientPartners
               onOpenContact={handleOpenContact}
               onNavigate={navigate}
             />
 
-            {/* Présentation du Studio et Méthode Freelance */}
             <StudioSection />
 
-            {/* Transparence Totale : Tarifs FCFA & Devis */}
             <ScopeEstimator onPreloadBrief={handlePreloadBrief} />
           </>
         )}
 
         {currentRoute === 'services' && (
-          <ServicesPage 
+          <ServicesPage
             onSelectService={handleSelectService}
             onOpenContact={handleOpenContact}
             onNavigate={navigate}
@@ -143,7 +222,7 @@ export default function App() {
         )}
 
         {currentRoute === 'service-detail' && (
-          <ServiceDetailPage 
+          <ServiceDetailPage
             service={selectedService || SERVICES[0]}
             onBack={() => navigate('services')}
             onOpenContact={handleOpenContact}
@@ -152,21 +231,21 @@ export default function App() {
         )}
 
         {currentRoute === 'projets' && (
-          <ProjectsPage 
+          <ProjectsPage
             onOpenContact={handleOpenContact}
             onNavigate={navigate}
           />
         )}
 
         {currentRoute === 'studio' && (
-          <StudioPage 
+          <StudioPage
             onOpenContact={handleOpenContact}
             onNavigate={navigate}
           />
         )}
 
         {currentRoute === 'devis' && (
-          <PricingPage 
+          <PricingPage
             onPreloadBrief={handlePreloadBrief}
             onOpenContact={handleOpenContact}
             onNavigate={navigate}
@@ -174,13 +253,13 @@ export default function App() {
         )}
 
         {currentRoute === 'contact' && (
-          <ContactPage 
+          <ContactPage
             onNavigate={navigate}
           />
         )}
 
         {currentRoute === 'portail' && (
-          <ClientPortalPage 
+          <ClientPortalPage
             onNavigate={navigate}
             onOpenContact={handleOpenContact}
           />
@@ -203,10 +282,18 @@ export default function App() {
       <ScrollToTop />
 
       {/* Pied de Page Épuré */}
-      <Footer 
-        onOpenContact={handleOpenContact} 
+      <Footer
+        onOpenContact={handleOpenContact}
         onNavigate={navigate}
       />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ToastProvider>
+      <AppShell />
+    </ToastProvider>
   );
 }

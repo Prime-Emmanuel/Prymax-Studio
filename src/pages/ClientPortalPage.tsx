@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Shield, KeyRound, FileCheck, ArrowRight, Download, CheckCircle2, Clock, Sparkles } from 'lucide-react';
+import { Shield, KeyRound, ArrowRight, Download, CheckCircle2, Clock } from 'lucide-react';
+import { useToast } from '../context/ToastContext';
 
 interface ClientPortalPageProps {
   onNavigate: (route: string) => void;
@@ -7,6 +8,7 @@ interface ClientPortalPageProps {
 }
 
 export const ClientPortalPage: React.FC<ClientPortalPageProps> = ({ onNavigate, onOpenContact }) => {
+  const { showToast } = useToast();
   const [accessCode, setAccessCode] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -16,8 +18,19 @@ export const ClientPortalPage: React.FC<ClientPortalPageProps> = ({ onNavigate, 
     if (accessCode.trim().length >= 4) {
       setIsAuthenticated(true);
       setErrorMsg('');
+      showToast({
+        title: 'Connexion réussie',
+        message: 'Bienvenue sur votre espace projet PRYMAX STUDIO.',
+        type: 'success',
+      });
     } else {
-      setErrorMsg('Veuillez saisir votre code d\'accès client à 6 caractères fourni par PRYMAX STUDIO.');
+      const msg = "Veuillez saisir votre code d'accès client (au moins 4 caractères) fourni par PRYMAX STUDIO.";
+      setErrorMsg(msg);
+      showToast({
+        title: 'Code d’accès invalide',
+        message: msg,
+        type: 'error',
+      });
     }
   };
 
@@ -138,7 +151,13 @@ export const ClientPortalPage: React.FC<ClientPortalPageProps> = ({ onNavigate, 
               <div className="text-xl font-bold text-white">Logos HD Prêts</div>
               <p className="text-xs text-zinc-400">Déclinaisons vectorielles (SVG, PNG fond transparent, PDF Print).</p>
               <button
-                onClick={() => alert('Téléchargement du pack zippé de livrables en cours...')}
+                onClick={() =>
+                  showToast({
+                    title: 'Préparation des livrables HD',
+                    message: 'Le téléchargement sécurisé de votre archive ZIP démarre.',
+                    type: 'info',
+                  })
+                }
                 className="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors"
               >
                 <Download className="w-3.5 h-3.5" />

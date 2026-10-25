@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, ArrowRight, MessageCircle, Check, Mail, X, Loader2 } from 'lucide-react';
 import iconPrymax from '../assets/branding/icon_prymax.png';
+import { sendDemandEmail } from '../utils/emailService';
+import { useToast } from '../context/ToastContext';
 
 interface FooterProps {
   onOpenContact: () => void;
@@ -8,6 +10,7 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => {
+  const { showToast } = useToast();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,7 +23,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
     }
   };
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const targetEmail = newsletterEmail.trim();
     if (!targetEmail) return;
@@ -28,23 +31,53 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
     setIsSubmitting(true);
     setLastRegisteredEmail(targetEmail);
 
-    // Enregistrement local sécurisé
     try {
-      const stored = JSON.parse(localStorage.getItem('prymax_subscribers') || '[]');
-      if (!stored.includes(targetEmail)) {
-        stored.push(targetEmail);
-        localStorage.setItem('prymax_subscribers', JSON.stringify(stored));
-      }
-    } catch {
-      // Ignorer si localStorage est restreint
-    }
+      await sendDemandEmail(
+        {
+          type: 'newsletter',
+          email: targetEmail,
+          name: targetEmail.split('@')[0],
+        },
+        {
+          onSlowRequest: hint => {
+            showToast({
+              title: 'Inscription en cours',
+              message: hint,
+              type: 'info',
+              duration: 2800,
+            });
+          },
+        }
+      );
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+      try {
+        const stored = JSON.parse(localStorage.getItem('prymax_subscribers') || '[]');
+        if (!stored.includes(targetEmail)) {
+          stored.push(targetEmail);
+          localStorage.setItem('prymax_subscribers', JSON.stringify(stored));
+        }
+      } catch {
+        // Ignorer si localStorage est restreint
+      }
+
       setSubscribed(true);
       setNewsletterEmail('');
+      showToast({
+        title: 'Inscription confirmée avec succès',
+        message: `Un email de bienvenue a été envoyé à ${targetEmail}.`,
+        type: 'success',
+      });
       setTimeout(() => setSubscribed(false), 12000);
-    }, 400);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Adresse email invalide.';
+      showToast({
+        title: 'Erreur d’inscription',
+        message: msg,
+        type: 'error',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
