@@ -3,28 +3,64 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 import type {Plugin} from 'vite';
-import {processEmailRequest} from './api/send-email.js';
+import {processEmailRequest, isAllowedOrigin} from './api/send-email.js';
 
 function resendApiPlugin(env: Record<string, string>): Plugin {
   return {
     name: 'prymax-resend-api',
     configureServer(server) {
       server.middlewares.use('/api/send-email', async (req, res) => {
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('Cache-Control', 'no-store');
+
         if (req.method !== 'POST') {
           res.statusCode = 405;
+          res.setHeader('Allow', 'POST');
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ ok: false, error: 'Méthode non autorisée' }));
           return;
         }
 
+        if (!isAllowedOrigin(req)) {
+          res.statusCode = 403;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ ok: false, error: 'Origine de requête non autorisée.' }));
+          return;
+        }
+
+        const MAX_BYTES = 32 * 1024;
         let rawBody = '';
+        let byteCount = 0;
+        let aborted = false;
+
         req.on('data', chunk => {
+          if (aborted) return;
+          byteCount += chunk.length;
+          if (byteCount > MAX_BYTES) {
+            aborted = true;
+            res.statusCode = 413;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ ok: false, error: 'Volume de données trop volumineux.' }));
+            req.destroy();
+            return;
+          }
           rawBody += chunk;
         });
 
         req.on('end', async () => {
+          if (aborted) return;
           try {
-            const payload = rawBody ? JSON.parse(rawBody) : {};
+            let payload = {};
+            if (rawBody) {
+              try {
+                payload = JSON.parse(rawBody);
+              } catch {
+                res.statusCode = 400;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ ok: false, error: 'Format JSON invalide.' }));
+                return;
+              }
+            }
             const result = await processEmailRequest(payload, env);
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');

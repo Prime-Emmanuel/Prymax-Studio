@@ -1,6 +1,48 @@
 {
   "headers": [
     {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' https://cloud.umami.is https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.prymaxstudio.com https://prymaxstudio.com; font-src 'self' data:; connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.umami.is https://*.umami.dev https://va.vercel-scripts.com https://vitals.vercel-insights.com; manifest-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, max-age=0"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
       "headers": [
         {
@@ -15,6 +57,45 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/x-icon"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(favicon\\.png|favicon-16x16\\.png|favicon-32x32\\.png|favicon-48x48\\.png|apple-touch-icon\\.png)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/site.webmanifest",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
         }
       ]
     },
@@ -73,7 +154,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!api/|assets/|branding/|\\.well-known/|robots\\.txt|sitemap\\.xml|llms\\.txt|ai-catalog\\.json|favicon\\.ico|favicon\\.png).*)",
+      "source": "/((?!api/|assets/|branding/|\\.well-known/|robots\\.txt|sitemap\\.xml|llms\\.txt|ai-catalog\\.json|site\\.webmanifest|favicon\\.ico|favicon\\.png|favicon-16x16\\.png|favicon-32x32\\.png|favicon-48x48\\.png|apple-touch-icon\\.png).*)",
       "destination": "/index.html"
     }
   ]

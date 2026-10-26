@@ -12,6 +12,8 @@ export interface EmailDemandPayload {
   budget?: string;
   deadline?: string;
   message?: string;
+  /** Anti-bot honeypot field — must remain empty for legitimate visitors */
+  website_url?: string;
 }
 
 export interface EmailDemandResult {
@@ -99,7 +101,7 @@ export async function sendDemandEmail(
   const normalizedEmail = (payload.email || '').trim().toLowerCase();
 
   // Validation stricte de l'adresse email pour les 3 formulaires
-  if (!normalizedEmail || !EMAIL_REGEX.test(normalizedEmail)) {
+  if (!normalizedEmail || normalizedEmail.length > 254 || !EMAIL_REGEX.test(normalizedEmail)) {
     throw new Error(
       language === 'en'
         ? 'Please enter a valid email address (e.g. name@company.com).'
@@ -165,16 +167,26 @@ export async function sendDemandEmail(
 
     const refId = data.referenceId;
 
+    // Confidentialité & sécurité : ne jamais stocker de données personnelles (nom, email, téléphone,
+    // entreprise, message) en clair dans localStorage. Seuls la référence et le type sont conservés.
     if (payload.type !== 'newsletter') {
       try {
-        const history = JSON.parse(localStorage.getItem('prymax_demands_history') || '[]');
-        history.unshift({
+        const rawHistory = JSON.parse(localStorage.getItem('prymax_demands_history') || '[]');
+        const safeExisting = Array.isArray(rawHistory)
+          ? rawHistory.slice(0, 19).map((entry: Record<string, unknown>) => ({
+              referenceId: typeof entry?.referenceId === 'string' ? entry.referenceId : '',
+              createdAt: typeof entry?.createdAt === 'string' ? entry.createdAt : '',
+              type: typeof entry?.type === 'string' ? entry.type : 'contact-devis',
+              language: entry?.language === 'en' ? 'en' : 'fr',
+            }))
+          : [];
+        safeExisting.unshift({
           referenceId: refId,
           createdAt: new Date().toISOString(),
-          ...payload,
+          type: payload.type,
           language,
         });
-        localStorage.setItem('prymax_demands_history', JSON.stringify(history.slice(0, 20)));
+        localStorage.setItem('prymax_demands_history', JSON.stringify(safeExisting));
       } catch {
         // Ignorer si localStorage est restreint
       }

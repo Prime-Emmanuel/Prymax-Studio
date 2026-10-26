@@ -1,0 +1,27 @@
+{
+  "name": "PRYMAX STUDIO — Création de Sites Web & Branding",
+  "short_name": "PRYMAX STUDIO",
+  "description": "Studio digital spécialisé en création de sites web pour entreprises, design de logo, identité visuelle, boutiques e-commerce et design textile 3D.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08090D",
+  "theme_color": "#08090D",
+  "icons": [
+    {
+      "src": "/favicon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

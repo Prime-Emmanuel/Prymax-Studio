@@ -3,11 +3,123 @@ const DEFAULT_STUDIO_EMAIL = 'prymaxstudio@gmail.com';
 const DEFAULT_SENDER = 'PRYMAX STUDIO <hello@prymaxstudio.com>';
 const VERIFIED_LOGO_URL = 'https://www.prymaxstudio.com/assets/branding/logo_transparent.png';
 
+const MAX_BODY_BYTES = 32 * 1024; // 32 KB maximum payload size
+const ALLOWED_REQUEST_TYPES = new Set([
+  'newsletter',
+  'configurator',
+  'contact-devis',
+  'devis',
+  'contact',
+]);
+
 function isValidEmail(email) {
   if (!email || typeof email !== 'string') return false;
   const trimmed = email.trim();
-  if (trimmed.length > 254) return false;
+  if (trimmed.length < 5 || trimmed.length > 254) return false;
+  if (/[\r\n\x00-\x1F\x7F]/.test(trimmed)) return false;
   return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(trimmed);
+}
+
+/**
+ * Strips CR/LF and ASCII control characters to prevent email header/subject injection
+ * and enforces a strict maximum character length.
+ */
+export function sanitizeSingleLine(value, maxLength = 160) {
+  if (value === null || value === undefined) return '';
+  return String(value)
+    .replace(/[\r\n\x00-\x1F\x7F]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, maxLength);
+}
+
+/**
+ * Strips dangerous control characters while preserving normal line breaks,
+ * and caps message body length.
+ */
+export function sanitizeMultiLine(value, maxLength = 4000) {
+  if (value === null || value === undefined) return '';
+  return String(value)
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/g, '')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function sanitizeServicesList(services) {
+  if (!Array.isArray(services)) return [];
+  return services
+    .slice(0, 20)
+    .map(item => sanitizeSingleLine(item, 120))
+    .filter(Boolean);
+}
+
+function sanitizeOptionsMap(options) {
+  if (!options || typeof options !== 'object' || Array.isArray(options)) {
+    return {};
+  }
+  const clean = {};
+  const entries = Object.entries(options).slice(0, 20);
+  for (const [rawKey, rawVal] of entries) {
+    const key = sanitizeSingleLine(rawKey, 80);
+    if (!key) continue;
+    if (Array.isArray(rawVal)) {
+      clean[key] = rawVal
+        .slice(0, 20)
+        .map(v => sanitizeSingleLine(v, 140))
+        .filter(Boolean);
+    } else if (rawVal !== null && rawVal !== undefined) {
+      clean[key] = sanitizeSingleLine(rawVal, 300);
+    }
+  }
+  return clean;
+}
+
+/**
+ * Supplementary browser-origin check to block cross-site browser POST requests.
+ * NOTE: This is NOT an authentication mechanism or a substitute for persistent
+ * server-side rate limiting (e.g., Vercel WAF or Upstash Redis), as non-browser
+ * HTTP clients may omit or forge the Origin header.
+ */
+export function isAllowedOrigin(req) {
+  const origin = req?.headers?.origin;
+  if (!origin) {
+    return true;
+  }
+  try {
+    const originUrl = new URL(origin);
+    const originHost = originUrl.hostname.toLowerCase();
+    const reqHostHeader = (
+      req?.headers?.['x-forwarded-host'] ||
+      req?.headers?.host ||
+      ''
+    )
+      .split(',')[0]
+      .trim()
+      .toLowerCase()
+      .replace(/:\d+$/, '');
+
+    if (reqHostHeader && originHost === reqHostHeader) {
+      return true;
+    }
+
+    if (
+      originHost === 'prymaxstudio.com' ||
+      originHost === 'www.prymaxstudio.com' ||
+      originHost.endsWith('.prymaxstudio.com') ||
+      originHost.endsWith('.vercel.app') ||
+      originHost.endsWith('.run.app') ||
+      originHost === 'localhost' ||
+      originHost === '127.0.0.1'
+    ) {
+      return true;
+    }
+
+    return false;
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -39,7 +151,7 @@ function escapeHtml(str) {
 
 function getCleanClientName(rawName) {
   if (!rawName || typeof rawName !== 'string') return '';
-  const trimmed = rawName.trim();
+  const trimmed = sanitizeSingleLine(rawName, 120);
   if (!trimmed) return '';
   const genericPlaceholders = ['visiteur', 'visitor', 'client', 'madame, monsieur', 'non renseigné'];
   if (genericPlaceholders.includes(trimmed.toLowerCase())) return '';
@@ -78,7 +190,7 @@ function renderMinimalistClientEmail({ lang, subject, paragraphs, signOffLine1, 
           <!-- Logo en haut à gauche + fin filet doré #B99A5B -->
           <tr>
             <td align="left" style="padding:24px 16px 24px 16px;">
-              <a href="https://prymaxstudio.com" target="_blank" style="display:inline-block;text-decoration:none;">
+              <a href="https://prymaxstudio.com" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none;">
                 <img
                   src="${VERIFIED_LOGO_URL}"
                   alt="PRYMAX STUDIO"
@@ -107,6 +219,7 @@ function renderMinimalistClientEmail({ lang, subject, paragraphs, signOffLine1, 
                     <a
                       href="https://prymaxstudio.com"
                       target="_blank"
+                      rel="noopener noreferrer"
                       style="display:inline-block;padding:11px 22px;font-size:12px;font-weight:600;letter-spacing:0.5px;color:#FFFFFF;text-decoration:none;border-radius:6px;"
                     >
                       ${escapeHtml(ctaLabel)}
@@ -124,7 +237,7 @@ function renderMinimalistClientEmail({ lang, subject, paragraphs, signOffLine1, 
                 PRYMAX STUDIO
               </div>
               <div>
-                <a href="https://prymaxstudio.com" target="_blank" style="color:#1A1A1A;text-decoration:none;">prymaxstudio.com</a>
+                <a href="https://prymaxstudio.com" target="_blank" rel="noopener noreferrer" style="color:#1A1A1A;text-decoration:none;">prymaxstudio.com</a>
                 <span style="color:#B99A5B;padding:0 6px;">&middot;</span>
                 <a href="mailto:prymaxstudio@gmail.com" style="color:#1A1A1A;text-decoration:none;">prymaxstudio@gmail.com</a>
               </div>
@@ -605,7 +718,50 @@ async function registerContactInResend(apiKey, segmentId, rawEmail, lang = 'fr')
 }
 
 export async function processEmailRequest(payload, envConfig = {}) {
-  const apiKey = (envConfig.RESEND_API_KEY || process.env.RESEND_API_KEY || '').trim();
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    const err = new Error('Requête invalide.');
+    err.statusCode = 400;
+    throw err;
+  }
+
+  // Validation et normalisation de la langue ('fr' par défaut)
+  const language = normalizeLanguage(payload.language);
+  const refId = `PX-${Math.floor(100000 + Math.random() * 900000)}`;
+
+  // Validation stricte du type de flux
+  const rawType = typeof payload.type === 'string' ? payload.type.trim().toLowerCase() : 'contact-devis';
+  if (!ALLOWED_REQUEST_TYPES.has(rawType)) {
+    const err = new Error(
+      language === 'en'
+        ? 'Invalid submission type.'
+        : 'Type de demande non pris en charge.'
+    );
+    err.statusCode = 400;
+    throw err;
+  }
+  const type = rawType === 'devis' || rawType === 'contact' ? 'contact-devis' : rawType;
+
+  // Protection anti-bot (Honeypot) : si un robot remplit le champ caché, on retourne un succès silencieux
+  // sans consommer le quota Resend ni envoyer d'emails indésirables.
+  const honeypotValue = sanitizeSingleLine(
+    payload.website_url || payload._gotcha || payload.honeypot || '',
+    200
+  );
+  if (honeypotValue.length > 0) {
+    return {
+      ok: true,
+      alreadySubscribed: false,
+      referenceId: refId,
+      type,
+      language,
+    };
+  }
+
+  const rawApiKey =
+    envConfig.RESEND_API_KEY !== undefined
+      ? envConfig.RESEND_API_KEY
+      : process.env.RESEND_API_KEY || '';
+  const apiKey = String(rawApiKey).trim();
   const studioEmail = (
     envConfig.STUDIO_NOTIFICATION_EMAIL ||
     process.env.STUDIO_NOTIFICATION_EMAIL ||
@@ -624,9 +780,6 @@ export async function processEmailRequest(payload, envConfig = {}) {
     ''
   ).trim();
 
-  // Validation et normalisation de la langue ('fr' par défaut)
-  const language = normalizeLanguage(payload?.language);
-
   if (!apiKey || apiKey === 're_votre_cle_api_resend') {
     const err = new Error(
       language === 'en'
@@ -637,9 +790,7 @@ export async function processEmailRequest(payload, envConfig = {}) {
     throw err;
   }
 
-  const type = payload?.type || 'contact-devis';
-  const clientEmail = (payload?.email || '').trim().toLowerCase();
-  const refId = `PX-${Math.floor(100000 + Math.random() * 900000)}`;
+  const clientEmail = sanitizeSingleLine(payload.email, 254).toLowerCase();
 
   // Validation stricte de l'adresse email client côté serveur pour les 3 flux
   if (!isValidEmail(clientEmail)) {
@@ -651,6 +802,21 @@ export async function processEmailRequest(payload, envConfig = {}) {
     err.statusCode = 400;
     throw err;
   }
+
+  // Nettoyage et bornage stricts de tous les champs texte
+  const sanitizedPayload = {
+    type,
+    language,
+    name: sanitizeSingleLine(payload.name, 120),
+    email: clientEmail,
+    phone: sanitizeSingleLine(payload.phone, 40),
+    company: sanitizeSingleLine(payload.company, 120),
+    budget: sanitizeSingleLine(payload.budget, 100),
+    deadline: sanitizeSingleLine(payload.deadline, 100),
+    services: sanitizeServicesList(payload.services),
+    options: sanitizeOptionsMap(payload.options),
+    message: sanitizeMultiLine(payload.message, 4000),
+  };
 
   // ==========================================================================
   // FLUX 1 : NEWSLETTER DU FOOTER ("Restez informé")
@@ -705,7 +871,7 @@ export async function processEmailRequest(payload, envConfig = {}) {
         html: buildStudioNotificationHtml(
           {
             type: 'newsletter',
-            name: getCleanClientName(payload?.name) || clientEmail,
+            name: getCleanClientName(sanitizedPayload.name) || clientEmail,
             email: clientEmail,
             message: `Nouvelle inscription enregistrée dans Resend Contacts (langue email : ${language.toUpperCase()}).`,
           },
@@ -726,7 +892,7 @@ export async function processEmailRequest(payload, envConfig = {}) {
   }
 
   // Validation du nom pour les formulaires projet / contact
-  if (!payload?.name || String(payload.name).trim().length < 2) {
+  if (!sanitizedPayload.name || sanitizedPayload.name.length < 2) {
     const err = new Error(
       language === 'en'
         ? 'Please provide your full name or company name.'
@@ -747,14 +913,14 @@ export async function processEmailRequest(payload, envConfig = {}) {
         from: fromEmail,
         to: [studioEmail],
         reply_to: clientEmail,
-        subject: `[CONFIGURATEUR ${refId}] Nouveau projet sur-mesure — ${payload.name}`,
-        html: buildStudioNotificationHtml(payload, refId, language),
+        subject: `[CONFIGURATEUR ${refId}] Nouveau projet sur-mesure — ${sanitizedPayload.name}`,
+        html: buildStudioNotificationHtml(sanitizedPayload, refId, language),
       },
       language
     );
 
     // 2. Envoi de l'email de confirmation au client dans sa langue (FR ou EN)
-    const configuratorEmail = buildConfiguratorConfirmationEmail(payload, language);
+    const configuratorEmail = buildConfiguratorConfirmationEmail(sanitizedPayload, language);
     await sendResendEmail(
       apiKey,
       {
@@ -786,14 +952,14 @@ export async function processEmailRequest(payload, envConfig = {}) {
       from: fromEmail,
       to: [studioEmail],
       reply_to: clientEmail,
-      subject: `[CONTACT & DEVIS ${refId}] Nouvelle demande — ${payload.name}`,
-      html: buildStudioNotificationHtml(payload, refId, language),
+      subject: `[CONTACT & DEVIS ${refId}] Nouvelle demande — ${sanitizedPayload.name}`,
+      html: buildStudioNotificationHtml(sanitizedPayload, refId, language),
     },
     language
   );
 
   // 2. Envoi de l'email de confirmation au client dans sa langue (FR ou EN)
-  const contactQuoteEmail = buildContactQuoteConfirmationEmail(payload, language);
+  const contactQuoteEmail = buildContactQuoteConfirmationEmail(sanitizedPayload, language);
   await sendResendEmail(
     apiKey,
     {
@@ -816,12 +982,42 @@ export async function processEmailRequest(payload, envConfig = {}) {
 }
 
 export default async function handler(req, res) {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Cache-Control', 'no-store');
+
   if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
     return res.status(405).json({ ok: false, error: 'Méthode non autorisée' });
   }
 
+  if (!isAllowedOrigin(req)) {
+    return res.status(403).json({ ok: false, error: 'Origine de requête non autorisée.' });
+  }
+
+  const contentLength = Number(req.headers?.['content-length'] || 0);
+  if (contentLength > MAX_BODY_BYTES) {
+    return res.status(413).json({ ok: false, error: 'Volume de données trop volumineux.' });
+  }
+
   try {
-    const payload = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
+    let payload = {};
+    if (typeof req.body === 'string') {
+      if (Buffer.byteLength(req.body, 'utf8') > MAX_BODY_BYTES) {
+        return res.status(413).json({ ok: false, error: 'Volume de données trop volumineux.' });
+      }
+      try {
+        payload = JSON.parse(req.body);
+      } catch {
+        return res.status(400).json({ ok: false, error: 'Format JSON invalide.' });
+      }
+    } else if (req.body && typeof req.body === 'object') {
+      const serialized = JSON.stringify(req.body);
+      if (Buffer.byteLength(serialized, 'utf8') > MAX_BODY_BYTES) {
+        return res.status(413).json({ ok: false, error: 'Volume de données trop volumineux.' });
+      }
+      payload = req.body;
+    }
+
     const result = await processEmailRequest(payload);
     return res.status(200).json(result);
   } catch (error) {

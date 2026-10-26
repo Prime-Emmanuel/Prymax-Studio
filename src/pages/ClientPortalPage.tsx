@@ -15,19 +15,20 @@ export const ClientPortalPage: React.FC<ClientPortalPageProps> = ({ onNavigate, 
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (accessCode.trim().length >= 4) {
+    const cleaned = accessCode.trim().toUpperCase();
+    if (cleaned === 'DEMO' || cleaned === 'PX-CLIENT-2026' || cleaned.length >= 4) {
       setIsAuthenticated(true);
       setErrorMsg('');
       showToast({
-        title: 'Connexion réussie',
-        message: 'Bienvenue sur votre espace projet PRYMAX STUDIO.',
-        type: 'success',
+        title: 'Aperçu démonstration activé',
+        message: 'Vous consultez une démonstration interactive du tableau de bord projet PRYMAX STUDIO.',
+        type: 'info',
       });
     } else {
-      const msg = "Veuillez saisir votre code d'accès client (au moins 4 caractères) fourni par PRYMAX STUDIO.";
+      const msg = "Saisissez le code « DEMO » pour prévisualiser le fonctionnement du tableau de bord projet.";
       setErrorMsg(msg);
       showToast({
-        title: 'Code d’accès invalide',
+        title: 'Code de démonstration requis',
         message: msg,
         type: 'error',
       });
@@ -58,24 +59,25 @@ export const ClientPortalPage: React.FC<ClientPortalPageProps> = ({ onNavigate, 
             Espace Privé &amp; Suivi de Projet
           </h1>
           <p className="text-xs sm:text-sm text-zinc-400 mb-8 max-w-md mx-auto leading-relaxed">
-            Consultez l'avancement de votre site web, téléchargez vos livrables vectoriels et vos accès en toute sécurité.
+            Prévisualisez l'interface de suivi dédiée à nos clients pour consulter l'avancement d'un projet web et récupérer les livrables.
           </p>
 
           <form onSubmit={handleLogin} className="bg-[#0E1015] border border-white/10 rounded-3xl p-6 sm:p-8 text-left space-y-4 shadow-2xl">
             <div>
               <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                Code d'accès Projet
+                Code d'accès (Aperçu Démonstration)
               </label>
               <input
                 type="text"
                 required
+                maxLength={32}
                 value={accessCode}
                 onChange={(e) => setAccessCode(e.target.value)}
-                placeholder="Exemple : PX-884920"
+                placeholder="Exemple : DEMO ou PX-CLIENT-2026"
                 className="w-full bg-zinc-900 border border-white/15 rounded-xl px-4 py-3.5 text-xs text-white placeholder-zinc-500 font-mono tracking-wider focus:outline-none focus:border-[#E5B54F]"
               />
               <span className="text-[11px] text-zinc-500 mt-1 block">
-                Indiquez le code fourni lors de la validation de votre devis (ou entrez « DEMO »).
+                Entrez « DEMO » pour explorer l'interface de suivi projet (aucune donnée client réelle n'est exposée sur cet aperçu public).
               </span>
             </div>
 
@@ -89,13 +91,13 @@ export const ClientPortalPage: React.FC<ClientPortalPageProps> = ({ onNavigate, 
               type="submit"
               className="w-full py-3.5 bg-white hover:bg-zinc-200 text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
             >
-              <span>Accéder à mon espace</span>
+              <span>Prévisualiser l'espace projet</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
           <div className="mt-8 text-xs text-zinc-400">
-            <span>Vous n'avez pas encore de code ? </span>
+            <span>Vous souhaitez démarrer un projet réel ? </span>
             <button
               onClick={onOpenContact}
               className="text-[#E5B54F] font-semibold hover:underline cursor-pointer"
@@ -106,17 +108,17 @@ export const ClientPortalPage: React.FC<ClientPortalPageProps> = ({ onNavigate, 
         </div>
       ) : (
         <div className="space-y-8 animate-in fade-in">
-          {/* Tableau de bord client */}
+          {/* Tableau de bord client (Mode Démonstration) */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 sm:p-8 rounded-3xl bg-[#0E1015] border border-white/10">
             <div>
               <span className="text-xs font-mono text-[#E5B54F] uppercase font-bold tracking-wider">
-                ESPACE SÉCURISÉ CLIENT
+                APERÇU DÉMONSTRATION · PORTAIL CLIENT
               </span>
               <h2 className="text-2xl font-bold text-white mt-1">
-                Bienvenue sur votre tableau de bord projet
+                Aperçu du tableau de bord projet
               </h2>
               <p className="text-xs text-zinc-400 mt-1">
-                Projet : <span className="text-white font-mono font-bold">PX-CLIENT-2026</span>
+                Dossier fictif de démonstration : <span className="text-white font-mono font-bold">PX-CLIENT-2026</span>
               </p>
             </div>
 
@@ -124,7 +126,7 @@ export const ClientPortalPage: React.FC<ClientPortalPageProps> = ({ onNavigate, 
               onClick={() => setIsAuthenticated(false)}
               className="self-start sm:self-center px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-zinc-300 border border-white/10 transition-colors cursor-pointer"
             >
-              Déconnexion
+              Quitter l'aperçu
             </button>
           </div>
 

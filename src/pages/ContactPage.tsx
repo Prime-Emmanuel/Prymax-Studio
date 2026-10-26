@@ -34,6 +34,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [honeypot, setHoneypot] = useState('');
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,6 +63,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
           phone,
           services: selectedTypes,
           message,
+          website_url: honeypot,
         },
         {
           onSlowRequest: hint => {
@@ -216,6 +218,20 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 Sélectionnez le type de projet et vos coordonnées pour recevoir une étude de faisabilité et un tarif clair par email.
               </p>
 
+              {/* Champ anti-robot invisible (Honeypot) */}
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="contact-website-url">Site web (ne pas remplir)</label>
+                <input
+                  id="contact-website-url"
+                  type="text"
+                  name="website_url"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={e => setHoneypot(e.target.value)}
+                />
+              </div>
+
               <div>
                 <label className="block text-xs font-semibold text-zinc-300 mb-1">
                   Nom complet ou Nom de l'Entreprise <span className="text-amber-400">*</span>
@@ -223,6 +239,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 <input
                   type="text"
                   required
+                  maxLength={120}
                   value={fullName}
                   onChange={e => setFullName(e.target.value)}
                   placeholder="ex: Patrick Mbia / TPI Engineering"
@@ -238,6 +255,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   <input
                     type="email"
                     required
+                    maxLength={254}
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="ex: contact@entreprise.com"
@@ -251,6 +269,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   </label>
                   <input
                     type="tel"
+                    maxLength={40}
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                     placeholder="ex: +237 6XX XXX XXX"

@@ -30,6 +30,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
+  const [honeypot, setHoneypot] = useState('');
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [budgetRangeFcfa, setBudgetRangeFcfa] = useState('150 000 – 350 000 FCFA');
   const [brief, setBrief] = useState('');
@@ -103,6 +104,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
           services: selectedServices,
           budget: budgetRangeFcfa,
           message: brief,
+          website_url: honeypot,
         },
         {
           onSlowRequest: hint => {
@@ -191,6 +193,20 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                 </div>
               )}
 
+              {/* Champ anti-robot invisible (Honeypot) */}
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="drawer-website-url">Site web (ne pas remplir)</label>
+                <input
+                  id="drawer-website-url"
+                  type="text"
+                  name="website_url"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={e => setHoneypot(e.target.value)}
+                />
+              </div>
+
               {/* Nom & Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
@@ -200,6 +216,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                   <input
                     type="text"
                     required
+                    maxLength={120}
                     value={fullName}
                     onChange={e => setFullName(e.target.value)}
                     placeholder="Votre nom"
@@ -214,6 +231,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                   <input
                     type="email"
                     required
+                    maxLength={254}
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="contact@entreprise.com"
@@ -230,6 +248,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                   </label>
                   <input
                     type="tel"
+                    maxLength={40}
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                     placeholder="+237 6XX XX XX XX"
@@ -243,6 +262,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
                   </label>
                   <input
                     type="text"
+                    maxLength={120}
                     value={company}
                     onChange={e => setCompany(e.target.value)}
                     placeholder="Votre entreprise"

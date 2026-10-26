@@ -12,6 +12,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => {
   const { showToast } = useToast();
   const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [honeypot, setHoneypot] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastRegisteredEmail, setLastRegisteredEmail] = useState('');
@@ -39,6 +40,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
           type: 'newsletter',
           email: targetEmail,
           language: activeLanguage,
+          website_url: honeypot,
         },
         {
           onSlowRequest: hint => {
@@ -352,6 +354,18 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
             </p>
 
             <form onSubmit={handleNewsletterSubmit} className="relative mt-2">
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="footer-website-url">Ne pas remplir ce champ</label>
+                <input
+                  id="footer-website-url"
+                  type="text"
+                  name="website_url"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
+              </div>
               <label htmlFor="footer-newsletter-email" className="sr-only">
                 Votre adresse email pour la newsletter
               </label>
@@ -359,6 +373,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onNavigate }) => 
                 id="footer-newsletter-email"
                 type="email"
                 required
+                maxLength={254}
                 autoComplete="email"
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}

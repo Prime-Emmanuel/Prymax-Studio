@@ -8,11 +8,15 @@
     <meta name="theme-color" content="#08090D" />
     <link rel="canonical" href="https://www.prymaxstudio.com/" />
 
-    <!-- Favicon & Tab Bar Logo Icon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/branding/icon_prymax.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/assets/branding/icon_prymax.png" />
-    <link rel="shortcut icon" type="image/png" href="/assets/branding/icon_prymax.png" />
-    <link rel="apple-touch-icon" href="/assets/branding/icon_prymax.png" />
+    <!-- Favicon, Browser Tab Icon & Google Search Site Icon (16x16, 32x32, 48x48, 180x180, 192x192) -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Preload Priority Hero LCP Image (Exact Responsive Match: 600w mobile / 880w desktop) -->
     <link
@@ -49,31 +53,64 @@
     <meta name="twitter:description" content="Développez votre entreprise avec PRYMAX STUDIO : sites web professionnels, identité visuelle, e-commerce et design textile 3D." />
     <meta name="twitter:image" content="https://www.prymaxstudio.com/assets/branding/logo_transparent.png" />
 
-    <!-- Schema.org Structured Data -->
+    <!-- Schema.org Structured Data (Organization Logo + WebSite + ProfessionalService for Google Search) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "PRYMAX STUDIO",
-      "url": "https://www.prymaxstudio.com",
-      "image": "https://www.prymaxstudio.com/assets/branding/logo_transparent.png",
-      "logo": "https://www.prymaxstudio.com/assets/branding/icon_prymax.png",
-      "description": "Studio digital spécialisé en création de sites web pour entreprises, design de logo, identité visuelle, boutiques e-commerce et design textile 3D.",
-      "email": "prymaxstudio@gmail.com",
-      "telephone": "+237681078004",
-      "priceRange": "$$",
-      "currenciesAccepted": "XOF, XAF, EUR, USD",
-      "openingHours": "Mo-Sa 08:00-19:00",
-      "knowsAbout": [
-        "Création de Sites Web pour Entreprises",
-        "Design de Logos et Identité Visuelle",
-        "Boutiques E-Commerce",
-        "Design Textile et Mockups 3D",
-        "Référencement Google SEO"
-      ],
-      "areaServed": "Global"
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.prymaxstudio.com/#organization",
+          "name": "PRYMAX STUDIO",
+          "url": "https://www.prymaxstudio.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.prymaxstudio.com/favicon.png",
+            "contentUrl": "https://www.prymaxstudio.com/favicon.png",
+            "width": 192,
+            "height": 192
+          },
+          "image": "https://www.prymaxstudio.com/assets/branding/logo_transparent.png",
+          "email": "prymaxstudio@gmail.com",
+          "telephone": "+237681078004"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.prymaxstudio.com/#website",
+          "url": "https://www.prymaxstudio.com/",
+          "name": "PRYMAX STUDIO",
+          "publisher": {
+            "@id": "https://www.prymaxstudio.com/#organization"
+          }
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://www.prymaxstudio.com/#service",
+          "name": "PRYMAX STUDIO",
+          "url": "https://www.prymaxstudio.com/",
+          "image": "https://www.prymaxstudio.com/assets/branding/logo_transparent.png",
+          "logo": "https://www.prymaxstudio.com/favicon.png",
+          "description": "Studio digital spécialisé en création de sites web pour entreprises, design de logo, identité visuelle, boutiques e-commerce et design textile 3D.",
+          "email": "prymaxstudio@gmail.com",
+          "telephone": "+237681078004",
+          "priceRange": "$$",
+          "currenciesAccepted": "XOF, XAF, EUR, USD",
+          "openingHours": "Mo-Sa 08:00-19:00",
+          "knowsAbout": [
+            "Création de Sites Web pour Entreprises",
+            "Design de Logos et Identité Visuelle",
+            "Boutiques E-Commerce",
+            "Design Textile et Mockups 3D",
+            "Référencement Google SEO"
+          ],
+          "areaServed": "Global"
+        }
+      ]
     }
     </script>
+
+    <!-- Umami Analytics (non-bloquant via defer, sans cookies ni données personnelles) -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="714821da-fb57-43f8-9b51-d5b6bbb5ee43"></script>
   </head>
   <body class="bg-[#08090B] text-[#E4E4E7] antialiased selection:bg-[#E5B54F] selection:text-[#08090B] min-h-screen">
     <div id="root">
@@ -185,12 +222,6 @@
           </section>
         </main>
       </div>
-      <script>
-        if (window.location.pathname !== '/' && window.location.pathname !== '') {
-          var s = document.getElementById('prymax-initial-shell');
-          if (s) s.style.display = 'none';
-        }
-      </script>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

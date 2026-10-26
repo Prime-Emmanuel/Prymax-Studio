@@ -99,6 +99,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({
   const [phone, setPhone] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [extraNote, setExtraNote] = useState('');
+  const [honeypot, setHoneypot] = useState('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [slowHint, setSlowHint] = useState<string | null>(null);
@@ -146,6 +147,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({
             'État des contenus': selectedContent || 'Non précisé',
           },
           message: extraNote,
+          website_url: honeypot,
         },
         {
           onSlowRequest: hint => {
@@ -456,6 +458,20 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({
 
             {/* 8. Coordonnées de réception */}
             <div className="p-4 sm:p-6 bg-[#111319] rounded-2xl border border-white/10 space-y-4">
+              {/* Champ anti-robot invisible (Honeypot) */}
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="quote-website-url">Site web (ne pas remplir)</label>
+                <input
+                  id="quote-website-url"
+                  type="text"
+                  name="website_url"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={e => setHoneypot(e.target.value)}
+                />
+              </div>
+
               <div className="text-xs font-bold uppercase tracking-wider text-white">
                 8. Vos coordonnées pour recevoir votre devis
               </div>
@@ -467,6 +483,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({
                   <input
                     type="text"
                     required
+                    maxLength={120}
                     value={clientName}
                     onChange={e => setClientName(e.target.value)}
                     placeholder="Votre nom"
@@ -480,6 +497,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({
                   <input
                     type="email"
                     required
+                    maxLength={254}
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="contact@entreprise.com"
@@ -492,6 +510,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({
                   </label>
                   <input
                     type="tel"
+                    maxLength={40}
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                     placeholder="+237 6XX XX XX XX"
@@ -504,6 +523,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({
                   </label>
                   <input
                     type="text"
+                    maxLength={120}
                     value={companyName}
                     onChange={e => setCompanyName(e.target.value)}
                     placeholder="Nom de votre structure"
@@ -518,6 +538,7 @@ export const CustomQuoteModal: React.FC<CustomQuoteModalProps> = ({
                 </label>
                 <input
                   type="text"
+                  maxLength={1000}
                   value={extraNote}
                   onChange={e => setExtraNote(e.target.value)}
                   placeholder="Lien d'inspiration ou détail particulier..."

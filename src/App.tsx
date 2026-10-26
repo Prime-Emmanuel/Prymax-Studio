@@ -194,10 +194,12 @@ function AppShell() {
     }
 
     triggerSmoothTransition(() => {
+      const nextTitle = ROUTE_TITLES[targetRoute] || ROUTE_TITLES.home;
+      document.title = nextTitle;
       setCurrentRoute(targetRoute);
       try {
         const url = targetRoute === 'home' ? '/' : `/${targetRoute}`;
-        window.history.pushState({ route: targetRoute }, '', url);
+        window.history.pushState({ route: targetRoute }, nextTitle, url);
       } catch {
         // Ignorer si environnement sandboxed
       }
@@ -206,12 +208,14 @@ function AppShell() {
 
   const handleSelectService = (service: ServiceItem) => {
     triggerSmoothTransition(() => {
+      const nextTitle = `${service.title} | PRYMAX STUDIO`;
+      document.title = nextTitle;
       setSelectedService(service);
       setCurrentRoute('service-detail');
       try {
         window.history.pushState(
           { route: 'service-detail', serviceId: service.id },
-          '',
+          nextTitle,
           `/services/${service.id}`
         );
       } catch {
