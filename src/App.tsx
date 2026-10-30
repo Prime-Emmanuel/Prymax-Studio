@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { InitialSplashLoader } from './components/InitialSplashLoader';
 import { ToastProvider, useToast } from './context/ToastContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 import { PageRoute, ServiceItem } from './types';
 
@@ -363,8 +364,10 @@ function AppShell() {
 
 export default function App() {
   return (
-    <ToastProvider>
-      <AppShell />
-    </ToastProvider>
+    <LanguageProvider>
+      <ToastProvider>
+        <AppShell />
+      </ToastProvider>
+    </LanguageProvider>
   );
 }

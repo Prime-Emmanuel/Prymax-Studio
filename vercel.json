@@ -25,7 +25,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://cloud.umami.is https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.prymaxstudio.com https://prymaxstudio.com; font-src 'self' data:; connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.umami.is https://*.umami.dev https://va.vercel-scripts.com https://vitals.vercel-insights.com; manifest-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is https://va.vercel-scripts.com https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.prymaxstudio.com https://prymaxstudio.com https://www.clarity.ms https://*.clarity.ms https://c.bing.com; font-src 'self' data:; connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.umami.is https://*.umami.dev https://va.vercel-scripts.com https://vitals.vercel-insights.com https://www.clarity.ms https://*.clarity.ms https://c.bing.com; manifest-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
         }
       ]
     },

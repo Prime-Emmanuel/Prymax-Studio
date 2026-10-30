@@ -15,10 +15,12 @@ import {
   Briefcase,
   KeyRound,
   Info,
-  Layers,
-  Home
+  Home,
+  Globe,
+  Check
 } from 'lucide-react';
 import { PageRoute } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface NavbarProps {
   currentRoute: PageRoute;
@@ -32,41 +34,45 @@ interface ServiceDropdownItem {
   icon: React.ElementType;
 }
 
-const SERVICE_ITEMS: ServiceDropdownItem[] = [
-  {
-    title: 'Création de Sites Web Entreprises',
-    description: 'Vitrines ultra-rapides, One-Page et plateformes web sur-mesure.',
-    icon: Layout
-  },
-  {
-    title: 'Branding & Identité Visuelle',
-    description: 'Logos originaux, typographies et chartes graphiques de marque.',
-    icon: Sparkles
-  },
-  {
-    title: 'E-Commerce & Vente en Ligne',
-    description: 'Boutiques sécurisées avec paiement Mobile Money et Carte.',
-    icon: TrendingUp
-  },
-  {
-    title: 'Design Graphique & Mockups 3D',
-    description: 'Rendus photoréalistes pour t-shirts, pulls et papeterie.',
-    icon: Palette
-  },
-  {
-    title: 'SEO & Visibilité Google Maps',
-    description: 'Positionnement local et acquisition de clients qualifiés.',
-    icon: Compass
-  }
-];
-
 export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpenContact }) => {
+  const { language, setLanguage, tNav, languages } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
+  const langButtonRef = useRef<HTMLButtonElement>(null);
+
+  const serviceItems: ServiceDropdownItem[] = [
+    {
+      title: tNav.serviceItems.webTitle,
+      description: tNav.serviceItems.webDesc,
+      icon: Layout
+    },
+    {
+      title: tNav.serviceItems.brandTitle,
+      description: tNav.serviceItems.brandDesc,
+      icon: Sparkles
+    },
+    {
+      title: tNav.serviceItems.ecomTitle,
+      description: tNav.serviceItems.ecomDesc,
+      icon: TrendingUp
+    },
+    {
+      title: tNav.serviceItems.designTitle,
+      description: tNav.serviceItems.designDesc,
+      icon: Palette
+    },
+    {
+      title: tNav.serviceItems.seoTitle,
+      description: tNav.serviceItems.seoDesc,
+      icon: Compass
+    }
+  ];
 
   // Détection du scroll
   useEffect(() => {
@@ -89,11 +95,20 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
       ) {
         setServicesDropdownOpen(false);
       }
+      if (
+        langDropdownRef.current &&
+        !langDropdownRef.current.contains(event.target as Node) &&
+        langButtonRef.current &&
+        !langButtonRef.current.contains(event.target as Node)
+      ) {
+        setLangDropdownOpen(false);
+      }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setServicesDropdownOpen(false);
+        setLangDropdownOpen(false);
         setMobileMenuOpen(false);
       }
     };
@@ -121,9 +136,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
 
   const handleRouteClick = (route: PageRoute) => {
     setServicesDropdownOpen(false);
+    setLangDropdownOpen(false);
     setMobileMenuOpen(false);
     onNavigate(route);
   };
+
+  const currentLangOption = languages.find(l => l.code === language) || languages[0];
 
   return (
     <>
@@ -133,31 +151,34 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
       <header className="fixed top-3 sm:top-5 inset-x-3 sm:inset-x-6 md:inset-x-8 max-w-[1240px] mx-auto z-40 transition-all duration-300">
         
         {/* Conteneur externe avec 3 couches rotatives de couleur en fondu enchaîné continu */}
-        <div className="relative p-[1.5px] rounded-full overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.7)] group">
+        <div className="relative p-[1.5px] rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.7)] group">
           
-          {/* Faisceau 1 : Or (#E5B54F) */}
-          <div 
-            className="absolute -inset-[150%] animate-beam-gold pointer-events-none"
-            style={{
-              background: 'conic-gradient(from 0deg, transparent 0deg, rgba(229,181,79,0.15) 30deg, #E5B54F 75deg, #FFF0B3 95deg, rgba(229,181,79,0.6) 120deg, transparent 180deg, transparent 360deg)'
-            }}
-          />
+          {/* Masque arrondi pour les faisceaux lumineux uniquement afin de ne pas couper les menus déroulants */}
+          <div className="  absolute inset-0 rounded-full overflow-hidden pointer-events-none">
+            {/* Faisceau 1 : Or (#E5B54F) */}
+            <div 
+              className="absolute -inset-[150%] animate-beam-gold pointer-events-none"
+              style={{
+                background: 'conic-gradient(from 0deg, transparent 0deg, rgba(229,181,79,0.15) 30deg, #E5B54F 75deg, #FFF0B3 95deg, rgba(229,181,79,0.6) 120deg, transparent 180deg, transparent 360deg)'
+              }}
+            />
 
-          {/* Faisceau 2 : Bleu (#3B82F6) */}
-          <div 
-            className="absolute -inset-[150%] animate-beam-blue pointer-events-none"
-            style={{
-              background: 'conic-gradient(from 0deg, transparent 0deg, rgba(59,130,246,0.15) 30deg, #3B82F6 75deg, #93C5FD 95deg, rgba(59,130,246,0.6) 120deg, transparent 180deg, transparent 360deg)'
-            }}
-          />
+            {/* Faisceau 2 : Bleu (#3B82F6) */}
+            <div 
+              className="absolute -inset-[150%] animate-beam-blue pointer-events-none"
+              style={{
+                background: 'conic-gradient(from 0deg, transparent 0deg, rgba(59,130,246,0.15) 30deg, #3B82F6 75deg, #93C5FD 95deg, rgba(59,130,246,0.6) 120deg, transparent 180deg, transparent 360deg)'
+              }}
+            />
 
-          {/* Faisceau 3 : Blanc (#FFFFFF) */}
-          <div 
-            className="absolute -inset-[150%] animate-beam-white pointer-events-none"
-            style={{
-              background: 'conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.15) 30deg, #FFFFFF 75deg, #E4E4E7 95deg, rgba(255,255,255,0.6) 120deg, transparent 180deg, transparent 360deg)'
-            }}
-          />
+            {/* Faisceau 3 : Blanc (#FFFFFF) */}
+            <div 
+              className="absolute -inset-[150%] animate-beam-white pointer-events-none"
+              style={{
+                background: 'conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.15) 30deg, #FFFFFF 75deg, #E4E4E7 95deg, rgba(255,255,255,0.6) 120deg, transparent 180deg, transparent 360deg)'
+              }}
+            />
+          </div>
 
           {/* Intérieur de la Navbar */}
           <div 
@@ -188,7 +209,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
 
             {/* Navigation Desktop centrale avec pages dédiées */}
             <nav 
-              className="hidden md:flex items-center gap-6 lg:gap-8 text-xs font-semibold text-zinc-300"
+              className="hidden md:flex items-center gap-5 lg:gap-7 text-xs font-semibold text-zinc-300"
               aria-label="Navigation principale"
             >
               {/* Dropdown Services */}
@@ -196,15 +217,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                 <button
                   ref={dropdownButtonRef}
                   onClick={() => handleRouteClick('services')}
-                  onMouseEnter={() => setServicesDropdownOpen(true)}
-                  className={`flex items-center gap-1.5 py-1.5 transition-colors cursor-pointer ${
+                  onMouseEnter={() => {
+                    setLangDropdownOpen(false);
+                    setServicesDropdownOpen(true);
+                  }}
+                  className={`flex items-center gap-1.5 py-1.5 transition-colors cursor-pointer whitespace-nowrap ${
                     currentRoute === 'services' || currentRoute === 'service-detail'
                       ? 'text-white font-bold'
                       : 'text-zinc-300 hover:text-white'
                   }`}
                   aria-expanded={servicesDropdownOpen}
                 >
-                  <span>Nos Services</span>
+                  <span>{tNav.services}</span>
                   <ChevronDown 
                     className={`w-3.5 h-3.5 transition-transform duration-200 text-zinc-400 ${
                       servicesDropdownOpen ? 'rotate-180 text-white' : ''
@@ -223,7 +247,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                     className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[590px] bg-[#0E1015] border border-white/15 rounded-3xl shadow-2xl p-5 text-white animate-in fade-in slide-in-from-top-2 duration-150 z-50"
                   >
                     <div className="grid grid-cols-2 gap-2 mb-3">
-                      {SERVICE_ITEMS.map((item, idx) => {
+                      {serviceItems.map((item, idx) => {
                         const IconComponent = item.icon;
                         return (
                           <button
@@ -249,13 +273,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
 
                     <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between text-xs px-2">
                       <span className="text-[11px] text-zinc-400">
-                        Du site web pour entreprise au branding d'exception
+                        {tNav.servicesTagline}
                       </span>
                       <button
                         onClick={() => handleRouteClick('services')}
                         className="inline-flex items-center gap-1 text-xs font-semibold text-white hover:text-[#E5B54F] transition-colors cursor-pointer"
                       >
-                        <span>Ouvrir la page des services</span>
+                        <span>{tNav.openServicesPage}</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -266,11 +290,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               {/* Page dédiée Projets & Entreprises */}
               <button 
                 onClick={() => handleRouteClick('projets')}
-                className={`relative py-1.5 transition-colors cursor-pointer ${
+                className={`relative py-1.5 transition-colors cursor-pointer whitespace-nowrap ${
                   currentRoute === 'projets' ? 'text-white font-bold' : 'hover:text-white'
                 }`}
               >
-                <span>Projets et entreprises</span>
+                <span>{tNav.projects}</span>
                 {currentRoute === 'projets' && (
                   <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full shadow-[0_0_8px_white]" />
                 )}
@@ -279,11 +303,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               {/* Page Portail client */}
               <button 
                 onClick={() => handleRouteClick('portail')}
-                className={`relative py-1.5 transition-colors cursor-pointer ${
+                className={`relative py-1.5 transition-colors cursor-pointer whitespace-nowrap ${
                   currentRoute === 'portail' ? 'text-white font-bold' : 'hover:text-white'
                 }`}
               >
-                <span>Portail client</span>
+                <span>{tNav.portal}</span>
                 {currentRoute === 'portail' && (
                   <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full shadow-[0_0_8px_white]" />
                 )}
@@ -292,11 +316,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               {/* Page À propos / Studio */}
               <button 
                 onClick={() => handleRouteClick('studio')}
-                className={`relative py-1.5 transition-colors cursor-pointer ${
+                className={`relative py-1.5 transition-colors cursor-pointer whitespace-nowrap ${
                   currentRoute === 'studio' ? 'text-white font-bold' : 'hover:text-white'
                 }`}
               >
-                <span>À propos</span>
+                <span>{tNav.about}</span>
                 {currentRoute === 'studio' && (
                   <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full shadow-[0_0_8px_white]" />
                 )}
@@ -305,24 +329,97 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               {/* Page dédiée Contact */}
               <button 
                 onClick={() => handleRouteClick('contact')}
-                className={`relative py-1.5 transition-colors cursor-pointer ${
+                className={`relative py-1.5 transition-colors cursor-pointer whitespace-nowrap ${
                   currentRoute === 'contact' ? 'text-white font-bold' : 'hover:text-white'
                 }`}
               >
-                <span>Contact</span>
+                <span>{tNav.contact}</span>
                 {currentRoute === 'contact' && (
                   <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full shadow-[0_0_8px_white]" />
                 )}
               </button>
             </nav>
 
-            {/* Actions : Demander un devis & Bouton Hamburger Mobile */}
-            <div className="flex items-center gap-2.5 shrink-0">
+            {/* Actions : Sélecteur de Langue Stylé, Demander un devis & Bouton Hamburger Mobile */}
+            <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+              {/* Sélecteur de langue élégant (FR, EN, ES, DE, PT, IT) */}
+              <div className="relative">
+                <button
+                  ref={langButtonRef}
+                  type="button"
+                  onClick={() => {
+                    setServicesDropdownOpen(false);
+                    setLangDropdownOpen(prev => !prev);
+                  }}
+                  aria-label={tNav.languageLabel}
+                  aria-expanded={langDropdownOpen}
+                  className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 hover:border-[#E5B54F]/50 text-zinc-200 hover:text-white transition-all duration-200 cursor-pointer group/lang"
+                >
+                  <Globe className="w-3.5 h-3.5 text-[#E5B54F] group-hover/lang:rotate-12 transition-transform duration-200" />
+                  <span className="text-[11px] font-bold tracking-wider uppercase text-white">
+                    {currentLangOption.shortLabel}
+                  </span>
+                  <ChevronDown
+                    className={`w-3 h-3 text-zinc-400 transition-transform duration-200 ${
+                      langDropdownOpen ? 'rotate-180 text-[#E5B54F]' : ''
+                    }`}
+                  />
+                </button>
+
+                {langDropdownOpen && (
+                  <div
+                    ref={langDropdownRef}
+                    role="menu"
+                    aria-label={tNav.languageLabel}
+                    className="absolute right-0 top-full mt-3 w-48 bg-[#0E1015]/98 backdrop-blur-2xl border border-white/15 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] p-1.5 text-white animate-in fade-in slide-in-from-top-2 duration-150 z-50"
+                  >
+                    <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-zinc-400 border-b border-white/[0.08] mb-1">
+                      {tNav.languageLabel}
+                    </div>
+                    <div className="space-y-0.5">
+                      {languages.map(option => {
+                        const isActive = option.code === language;
+                        return (
+                          <button
+                            key={option.code}
+                            type="button"
+                            role="menuitem"
+                            onClick={() => {
+                              setLanguage(option.code);
+                              setLangDropdownOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all cursor-pointer ${
+                              isActive
+                                ? 'bg-[#E5B54F]/15 text-white font-bold border border-[#E5B54F]/30'
+                                : 'text-zinc-300 hover:text-white hover:bg-white/[0.06] border border-transparent'
+                            }`}
+                          >
+                            <span className="flex items-center gap-2.5">
+                              <span
+                                className={`inline-flex items-center justify-center w-6 h-5 rounded-md text-[10px] font-mono font-bold tracking-wider ${
+                                  isActive
+                                    ? 'bg-[#E5B54F] text-zinc-950'
+                                    : 'bg-white/10 text-zinc-300'
+                                }`}
+                              >
+                                {option.shortLabel}
+                              </span>
+                              <span>{option.nativeName}</span>
+                            </span>
+                            {isActive && <Check className="w-3.5 h-3.5 text-[#E5B54F]" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <button
                 onClick={onOpenContact}
-                className="hidden sm:inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 text-xs font-bold text-zinc-950 bg-white hover:bg-zinc-200 active:bg-zinc-300 rounded-full transition-all duration-150 shadow-[0_2px_18px_rgba(255,255,255,0.2)] cursor-pointer"
+                className="hidden sm:inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 text-xs font-bold text-zinc-950 bg-white hover:bg-zinc-200 active:bg-zinc-300 rounded-full transition-all duration-150 shadow-[0_2px_18px_rgba(255,255,255,0.2)] cursor-pointer whitespace-nowrap"
               >
-                <span>Demander un devis</span>
+                <span>{tNav.quoteCta}</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
 
@@ -394,7 +491,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                 }`}>
                   <Home className="w-4 h-4" />
                 </div>
-                <span className="truncate">Accueil</span>
+                <span className="truncate">{tNav.home}</span>
               </button>
 
               {/* 2. Projets et entreprises */}
@@ -412,7 +509,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                 }`}>
                   <Briefcase className="w-4 h-4" />
                 </div>
-                <span className="truncate">Projets et entreprises</span>
+                <span className="truncate">{tNav.projects}</span>
               </button>
 
               {/* 3. Portail client */}
@@ -431,8 +528,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                   <KeyRound className="w-4 h-4 text-[#E5B54F]" />
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="truncate">Portail client</span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#E5B54F]/20 text-[#E5B54F] border border-[#E5B54F]/30">Espace</span>
+                  <span className="truncate">{tNav.portal}</span>
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#E5B54F]/20 text-[#E5B54F] border border-[#E5B54F]/30">{tNav.portalBadge}</span>
                 </div>
               </button>
 
@@ -451,7 +548,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                 }`}>
                   <Info className="w-4 h-4" />
                 </div>
-                <span className="truncate">À propos</span>
+                <span className="truncate">{tNav.about}</span>
               </button>
 
               {/* 5. Contact */}
@@ -469,8 +566,36 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                 }`}>
                   <Phone className="w-4 h-4" />
                 </div>
-                <span className="truncate">Contact</span>
+                <span className="truncate">{tNav.contact}</span>
               </button>
+            </div>
+
+            {/* Sélecteur de langue mobile (6 langues) */}
+            <div className="mt-3 pt-3 border-t border-white/10">
+              <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-400 px-1 mb-2">
+                <Globe className="w-3.5 h-3.5 text-[#E5B54F]" />
+                <span>{tNav.languageLabel}</span>
+              </div>
+              <div className="grid grid-cols-3 gap-1.5">
+                {languages.map(option => {
+                  const isActive = option.code === language;
+                  return (
+                    <button
+                      key={option.code}
+                      type="button"
+                      onClick={() => setLanguage(option.code)}
+                      className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                        isActive
+                          ? 'bg-[#E5B54F] text-zinc-950 font-bold shadow-sm'
+                          : 'bg-white/5 hover:bg-white/10 text-zinc-300 border border-white/10'
+                      }`}
+                    >
+                      <span className="font-mono text-[10px] uppercase">{option.shortLabel}</span>
+                      <span className="truncate text-[11px]">{option.nativeName}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Séparateur */}
@@ -484,7 +609,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               }}
               className="w-full flex items-center justify-between px-4 py-3 rounded-2xl text-zinc-950 bg-white hover:bg-zinc-200 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-left min-h-[46px] shadow-lg"
             >
-              <span>Demander un devis</span>
+              <span>{tNav.quoteCta}</span>
               <ArrowUpRight className="w-4 h-4 text-zinc-950" />
             </button>
 
